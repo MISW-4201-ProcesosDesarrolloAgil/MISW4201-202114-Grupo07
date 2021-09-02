@@ -1,1 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+  background-color: #F9FBFC;
+}
+
+/**Card and table**/
+.card-header,th{
+  background-color: #F2F3F7!important;
+  border-color: #F2F3F7;
+}
+
+.card, .table-light, tbody, td, tfoot, th, thead, tr{
+  border-color: #F2F3F7;
+}
+
+/**Buttons**/
+.btn-primary, .btn-primary:hover, .btn-outline-primary, .btn-check:active+.btn-outline-primary, .btn-check:checked+.btn-outline-primary,
+.btn-outline-primary.active,.btn-primary.disabled, .btn-primary:disabled, .btn-success,.btn-success:hover{
+  background-color: #5a52d1;
+  border-color: #5a52d1;
+}
+.btn:hover{
+  opacity: 0.8;
+}
+.btn{
+  font-weight: 500;
+}
+.btn-secondary, .btn-secondary:hover{
+  background-color: #c6cad3;
+  border-color: #c6cad3;
+}
+.btn-danger,.btn-danger:hover{
+  background-color: #e66967;
+  border-color: #e66967;
+}
+.btn-info,.btn-info:hover{
+  background-color: #ee9d67;
+  border-color: #ee9d67;
+  color: #fff;
+}

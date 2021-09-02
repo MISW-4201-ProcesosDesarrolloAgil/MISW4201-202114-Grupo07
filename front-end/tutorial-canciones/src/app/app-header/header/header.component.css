@@ -1,0 +1,11 @@
+nav{
+  background-color: #F2F3F7!important;
+}
+.navbar-brand img{
+  width: 100px;
+  height: auto;
+}
+.card{
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+}
