@@ -18,11 +18,12 @@ jobs:
     - name: Instalacion de librerias y dependencias
       run: |
         python -m pip install --upgrade pip
-        pip install -r flask/requirements.txt
+        pip install -r flaskr/requirements.txt
     - name: Correr pruebas
       id: correr-pruebas
       run: |
-        python -m unittest -v flask/tests/**
+        cd flaskr/
+        python -m unittest discover tests/
     - name: Validar resultado con errores
       if: ${{ failure() }}
       env:
@@ -39,7 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-
       - name: Merge current branch -> dev
         uses: devmasx/merge-branch@v1.3.1
         with:
