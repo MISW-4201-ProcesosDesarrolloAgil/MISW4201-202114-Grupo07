@@ -2,4 +2,6 @@ import unittest
 
 class Pruebas(unittest.TestCase):
     def test(self):
-        pass
+        a = 'a'
+        b = 'a'
+        self.assertEqual(a, b)
