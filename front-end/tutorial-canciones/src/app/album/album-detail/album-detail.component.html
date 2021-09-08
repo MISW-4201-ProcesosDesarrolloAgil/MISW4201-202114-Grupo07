@@ -13,15 +13,15 @@
     <div class="col-6">
       <div class="card">
         <div class="card-body">
-          <p><span class="fw-bold">Medio: </span> <span class="text-capitalize">{{album?.medio?.llave}}</span></p>
-          <p>{{album?.descripcion}}</p>
+          <p i18n><span class="fw-bold">Medio: </span> <span class="text-capitalize">{{album?.medio?.llave}}</span></p>
+          <p i18n>{{album?.descripcion}}</p>
         </div>
       </div>
     </div>
     <div class="col-6">
       <div class="card">
         <div class="card-body">
-          <p class="fw-bold">Intérpretes:</p>
+          <p i18n class="fw-bold">Intérpretes:</p>
           <ul class="mt-0">
             <li class="my-1" *ngFor="let interprete of album?.interpretes">{{interprete}}</li>
           </ul>
@@ -32,7 +32,7 @@
 
   <div class="row">
     <div class="col-12 mt-3 mb-2 ms-2">
-      <h5>Canciones</h5>
+      <h5 i18n>Canciones</h5>
     </div>
     <div class="col-12">
       <table class="table table-hover table-bordered" >

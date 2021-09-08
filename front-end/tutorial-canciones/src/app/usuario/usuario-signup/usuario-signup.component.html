@@ -2,8 +2,8 @@
   <div class="row align-items-center">
     <div class="col-xs-10 col-lg-5 card px-2 ">
       <div class="card-body text-center">
-        <h2 class="my-2">Tutorial canciones</h2>
-        <p class="my-2">El sitio para almacenar la información de su colección de música. En este podrá buscar de manera más facil las canciones que tiene en su fonoteca y que quiere escuchar ...</p>
+        <h2 i18n class="my-2">Tutorial canciones<h2>
+        <p i18n class="my-2">El sitio para almacenar la información de su colección de música. En este podrá buscar de manera más facil las canciones que tiene en su fonoteca y que quiere escuchar ...</p>
       </div>
     </div>
 
@@ -11,7 +11,7 @@
       <div class="row">
 
         <div class="my-2 row">
-          <h1 class="text-center">Registro</h1>
+          <h1 i18n class="text-center">Registro</h1>
         </div>
 
         <form [formGroup]="usuarioForm" (ngSubmit)="registrarUsuario()">
@@ -29,7 +29,7 @@
             <div class="alert alert-danger my-3" *ngIf="usuarioForm.get('nombre')?.hasError('maxlength')">
               El usuario no debe exceder los 50 carácteres
             </div>
-            
+
           </div>
 
           <div class="form-group">
@@ -75,11 +75,11 @@
             <button  type="submit" class="btn btn-primary col-8" [disabled]="!usuarioForm.valid || usuarioForm.get('confirmPassword')?.value !== usuarioForm.get('password')?.value">Registrarse</button>
           </div>
           <div class="col-12 text-center mt-2">
-            <p>¿Ya tienes cuenta? <a href="/">Inicia sesión</a></p>
+            <p i18n>¿Ya tienes cuenta? <a href="/">Inicia sesión</a></p>
           </div>
 
         </form>
-        
+
       </div>
     </div>
   </div>
