@@ -23,7 +23,7 @@
               <tbody>
                   <tr *ngFor="let cancion of mostrarCanciones; index as i" (click)="onSelect(cancion, i)" [ngClass]="{'selected': i === indiceSeleccionado}">
                     <td>{{cancion.titulo}}</td>
-                    <td>{{cancion.minutos}}:{{cancion.segundos}}</td>
+                    <td>{{cancion.minutos|number:'2.0'}}:{{cancion.segundos|number:'2.0'}}</td>
                   </tr>
               </tbody>
             </table>
