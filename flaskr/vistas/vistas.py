@@ -48,11 +48,15 @@ class VistaAlbumesCanciones(Resource):
 class VistaSignIn(Resource):
     
     def post(self):
+        usuario_exist = Usuario.query.filter(Usuario.nombre == request.json["nombre"]).all()
+        print(usuario_exist)
+        if len(usuario_exist) > 0:
+             return {"mensaje":'El usuario ya existe!',"estado":0}
         nuevo_usuario = Usuario(nombre=request.json["nombre"], contrasena=request.json["contrasena"])
         db.session.add(nuevo_usuario)
         db.session.commit()
         token_de_acceso = create_access_token(identity = nuevo_usuario.id)
-        return {"mensaje":"usuario creado exitosamente", "token":token_de_acceso}
+        return {"mensaje":"usuario creado exitosamente", "estado":1, "token":token_de_acceso}
 
 
     def put(self, id_usuario):
