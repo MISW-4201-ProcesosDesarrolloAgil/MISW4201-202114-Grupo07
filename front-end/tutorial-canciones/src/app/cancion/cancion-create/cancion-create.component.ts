@@ -79,5 +79,10 @@ export class CancionCreateComponent implements OnInit {
     this.toastr.success(`La canción ${cancion.titulo} fue creada`, "Creación exitosa");
   }
 
-
+  timeFormat(event:any){
+    if(event.target.value.length === 1){
+      let n = "0" + event.target.value
+      event.target.value = n
+     }
+  }
 }
