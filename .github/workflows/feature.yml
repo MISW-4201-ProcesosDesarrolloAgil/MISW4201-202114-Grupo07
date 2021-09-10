@@ -47,9 +47,6 @@ jobs:
         run: |
           cd front-end/tutorial-canciones
           npm install
-      - name: Correr pruebas angular
-        run: |
-          cd front-end/tutorial-canciones
           ng test --no-watch --no-progress --browsers=ChromeHeadlessCI
       - name: Validar resultado con errores
         if: ${{ failure() }}
