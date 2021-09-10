@@ -88,7 +88,6 @@ export class CancionEditComponent implements OnInit {
     if(event.target.value.length === 1){
       let n = "0" + event.target.value
       event.target.value = n
-      console.log(n)
     }
   }
 }
