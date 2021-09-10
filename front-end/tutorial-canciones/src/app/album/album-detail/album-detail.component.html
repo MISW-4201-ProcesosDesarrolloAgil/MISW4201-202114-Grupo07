@@ -46,7 +46,7 @@
         <tbody>
             <tr *ngFor="let cancion of album?.canciones" >
               <td >{{cancion.titulo}}</td>
-              <td class="text-center">{{cancion.minutos}}:{{cancion.segundos}}</td>
+              <td class="text-center">{{cancion.minutos|number:'2.0'}}:{{cancion.segundos|number:'2.0'}}</td>
               <td >{{cancion.interprete}}</td>
             </tr>
         </tbody>
