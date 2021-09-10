@@ -5,21 +5,30 @@ import { DebugElement } from '@angular/core';
 
 import { AlbumDetailComponent } from './album-detail.component';
 
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import { RouterTestingModule } from '@angular/router/testing';
+
 describe('AlbumDetailComponent', () => {
   let component: AlbumDetailComponent;
   let fixture: ComponentFixture<AlbumDetailComponent>;
-
+  let debug: DebugElement;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlbumDetailComponent ]
+      imports: [HttpClientModule, ReactiveFormsModule,
+        FormsModule, ToastrModule.forRoot(), RouterTestingModule],
+      declarations: [AlbumDetailComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AlbumDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    debug = fixture.debugElement;
   });
 
   it('should create', () => {

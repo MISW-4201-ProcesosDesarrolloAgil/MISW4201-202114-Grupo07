@@ -9,22 +9,25 @@
               <label class="fs-4">Álbumes</label>
             </div>
             <div class="col-2 text-center">
-              <button type="button" class="my-1 btn btn-primary btn-circle" (click)="irCrearAlbum()"><i class="bi bi-plus-lg"></i></button>
+              <button type="button" class="my-1 btn btn-primary btn-circle" (click)="irCrearAlbum()"><i
+                  class="bi bi-plus-lg"></i></button>
             </div>
           </div>
         </div>
         <div class="card-body">
 
           <div class="input-group my-2">
-            <input #busqueda type="search" class="form-control" placeholder="Buscar álbumes" aria-label="Search" (keyup)="buscarAlbum(busqueda.value)">
+            <input #busqueda type="search" class="form-control" placeholder="Buscar álbumes" aria-label="Search"
+              (keyup)="buscarAlbum(busqueda.value)">
           </div>
 
           <table class="table table-hover mb-0" aria-describedby="colecName">
             <tbody>
-                <tr *ngFor="let album of mostrarAlbumes; index as i" (click)="onSelect(album, i)" [ngClass]="{'selected': i === indiceSeleccionado}">
-                  <td >{{album.titulo}}</td>
-                  <td >{{album.anio}}</td>
-                </tr>
+              <tr *ngFor="let album of mostrarAlbumes; index as i" (click)="onSelect(album, i)"
+                [ngClass]="{'selected': i === indiceSeleccionado}">
+                <td>{{album.titulo}}</td>
+                <td>{{album.anio}}</td>
+              </tr>
             </tbody>
           </table>
 
@@ -36,3 +39,4 @@
     </div>
   </div>
 </div>
+<app-footer></app-footer>
