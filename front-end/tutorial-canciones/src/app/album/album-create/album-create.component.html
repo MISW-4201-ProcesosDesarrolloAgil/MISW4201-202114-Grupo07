@@ -21,7 +21,8 @@
             </div>
             <div class="row justify-content-center">
               <div class="col-8">
-                <div class="alert alert-danger my-3" *ngIf="albumForm.get('titulo')?.hasError('required') && albumForm.get('titulo')?.touched">
+                <div class="alert alert-danger my-3"
+                  *ngIf="albumForm.get('titulo')?.hasError('required') && albumForm.get('titulo')?.touched">
                   Debe ingresar un título para el álbum
                 </div>
                 <div class="alert alert-danger my-3" *ngIf="albumForm.get('titulo')?.hasError('minlength')">
@@ -33,7 +34,7 @@
               </div>
             </div>
           </div>
-        
+
           <div class="form-group my-2">
             <div class="row">
               <div class="col-2 text-start">
@@ -45,7 +46,8 @@
             </div>
             <div class="row justify-content-center">
               <div class="col-8">
-                <div class="alert alert-danger my-3" *ngIf="albumForm.get('anio')?.hasError('required') && albumForm.get('anio')?.touched">
+                <div class="alert alert-danger my-3"
+                  *ngIf="albumForm.get('anio')?.hasError('required') && albumForm.get('anio')?.touched">
                   Debe ingresar un año para el álbum
                 </div>
                 <div class="alert alert-danger my-3" *ngIf="albumForm.get('anio')?.hasError('minlength')">
@@ -72,7 +74,8 @@
             </div>
             <div class="row justify-content-center">
               <div class="col-8">
-                <div class="alert alert-danger my-3" *ngIf="albumForm.get('medio')?.hasError('required') && albumForm.get('medio')?.touched">
+                <div class="alert alert-danger my-3"
+                  *ngIf="albumForm.get('medio')?.hasError('required') && albumForm.get('medio')?.touched">
                   Debe seleccionar el medio del álbum
                 </div>
               </div>
@@ -85,12 +88,14 @@
                 <label for="descripcion">Descripción </label>
               </div>
               <div class="col-10">
-                <textarea class=" form-control" formControlName="descripcion" placeholder="Descripción del álbum"></textarea>
+                <textarea class=" form-control" formControlName="descripcion"
+                  placeholder="Descripción del álbum"></textarea>
               </div>
             </div>
             <div class="row justify-content-center">
               <div class="col-8">
-                <div class="alert alert-danger my-3" *ngIf="albumForm.get('descripcion')?.hasError('required') && albumForm.get('descripcion')?.touched">
+                <div class="alert alert-danger my-3"
+                  *ngIf="albumForm.get('descripcion')?.hasError('required') && albumForm.get('descripcion')?.touched">
                   Debe ingresar una descripción para el álbum
                 </div>
                 <div class="alert alert-danger my-3" *ngIf="albumForm.get('descripcion')?.hasError('minlength')">
@@ -102,7 +107,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="row mt-4">
             <div class="col-6 text-end">
               <button class="btn btn-danger" (click)="cancelCreate()">Cancelar</button>
@@ -118,3 +123,4 @@
     </div>
   </div>
 </div>
+<app-footer></app-footer>
