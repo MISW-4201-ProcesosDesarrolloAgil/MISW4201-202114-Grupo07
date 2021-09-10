@@ -1,0 +1,19 @@
+.footer {
+  background-color: #181D22;
+  color: #f1f1f1;
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 7%;
+}
+
+.texto_der {
+  text-align: right;
+}
+
+.navbar,
+.nav {
+  background-color: #181D22;
+}
