@@ -39,14 +39,17 @@ jobs:
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 12.8
-        uses: actions/setup-node@v1
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
         with: 
-          node-version: 12.8
+          node-version: '14'    
       - name: Install dependencies
         run: |
-          cd front-end/tutorial-canciones
+          cd front-end/tutorial-canciones/
           npm install
+      - name: Correr pruebas angular
+        run: |
+          cd front-end/tutorial-canciones/
           ng test --no-watch --no-progress --browsers=ChromeHeadlessCI
       - name: Validar resultado con errores
         if: ${{ failure() }}
