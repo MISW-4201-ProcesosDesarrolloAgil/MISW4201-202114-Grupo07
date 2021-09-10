@@ -22,7 +22,6 @@ jobs:
     - name: Correr pruebas
       id: correr-pruebas
       run: |
-        cd flaskr/
         python -m unittest discover tests/
     - name: Validar resultado con errores
       if: ${{ failure() }}
