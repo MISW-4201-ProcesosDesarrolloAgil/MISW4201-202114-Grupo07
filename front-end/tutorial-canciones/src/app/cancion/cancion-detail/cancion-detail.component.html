@@ -1,14 +1,14 @@
 <div class="container">
 
   <div class="row">
-    <div class="col-12 text-center mb-2" >
-      <label class="fs-4 fw-bold">Canción: {{cancion?.titulo}}</label>
+    <div class="mb-2 text-center col-12" >
+      <label class="fs-4 fw-bold" i18n>Canción: {{cancion?.titulo}}</label>
       <button *ngIf="cancion" type="button" class="btn btn-success ms-3 me-2" (click)="goToEdit()" title="Editar canción"><i class="bi bi-pencil-square"></i></button>
       <button *ngIf="cancion" type="button" class="btn btn-danger me-1" (click)="eliminarCancion()" title="Eliminar canción"><i class="bi bi-trash-fill"></i></button>
     </div>
   </div>
 
-  <div class="row mt-2">
+  <div class="mt-2 row">
     <div class="col-6">
       <div class="card">
         <div class="card-body">
@@ -26,16 +26,16 @@
   </div>
 
   <div class="row">
-    <div class="col-12 mt-3 mb-2 ms-2">
+    <div class="mt-3 mb-2 col-12 ms-2">
       <h5 i18n>Álbumes</h5>
     </div>
     <div class="col-12">
       <table class="table table-hover table-bordered" >
         <thead class="table-light">
           <tr>
-            <th scope="col" class="text-center">Título</th>
-            <th scope="col" class="text-center">Año</th>
-            <th scope="col" class="text-center">Medio</th>
+            <th scope="col" class="text-center" i18n>Título</th>
+            <th scope="col" class="text-center" i18n>Año</th>
+            <th scope="col" class="text-center" i18n>Medio</th>
           </tr>
         </thead>
         <tbody>
