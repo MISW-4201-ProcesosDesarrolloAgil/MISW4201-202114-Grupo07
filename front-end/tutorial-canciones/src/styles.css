@@ -40,6 +40,11 @@ body{
   color: #fff;
 }
 
+.btn-share,.btn-share:hover{
+  background-color: #1962D1;
+  border-color: #1962D1;
+  color: #fff;
+}
 
 #sidebar-wrapper {
   min-height: 100vh;
