@@ -10,7 +10,7 @@ album_schema = AlbumSchema()
 comentario_schema = ComentarioSchema()
 
 class VistaCanciones(Resource):
-
+ 
     def post(self):
         nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"])
         db.session.add(nueva_cancion)
@@ -49,14 +49,13 @@ class VistaSignIn(Resource):
     
     def post(self):
         usuario_exist = Usuario.query.filter(Usuario.nombre == request.json["nombre"]).all()
-        print(usuario_exist)
         if len(usuario_exist) > 0:
-             return {"mensaje":'El usuario ya existe!',"estado":0}
+             return {"mensaje":'El usuario ya existe!',"estado":0}, 409
         nuevo_usuario = Usuario(nombre=request.json["nombre"], contrasena=request.json["contrasena"])
         db.session.add(nuevo_usuario)
         db.session.commit()
         token_de_acceso = create_access_token(identity = nuevo_usuario.id)
-        return {"mensaje":"usuario creado exitosamente", "estado":1, "token":token_de_acceso}
+        return {"mensaje":"usuario creado exitosamente", "estado":1, "token":token_de_acceso}, 200
 
 
     def put(self, id_usuario):
@@ -150,6 +149,7 @@ class VistaAlbum(Resource):
 class VistaComentarios(Resource):
 
     def get(self):
+        print('entra')
         return [comentario_schema.dump(comentario) for comentario in Comentario.query.all()]
 
 
