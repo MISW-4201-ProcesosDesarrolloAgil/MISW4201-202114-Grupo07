@@ -1,9 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "cli": {
-    "analytics": "63cfa1be-7452-41e9-b0e3-e714932125a7"
-  },
-  "version": 1,
+  "cli": {"analytics": "fc153fc9-f9b7-4718-912d-b599b4178fa9" },
+    "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "tutorial-canciones": {
@@ -35,7 +33,10 @@
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js" ]
           },
           "configurations": {
             "production": {
