@@ -1,0 +1,29 @@
+.well{
+  width:200px;
+  padding: 8px 0;
+  position: auto;
+  bottom: 0;
+}
+
+
+img.img-navbar{
+  width: 135px; height: auto;
+}
+.nav-link {
+	cursor: pointer;
+  color: #5a52d1;
+  font-weight: bold;
+}
+.nav-link:hover {
+  color: #FFFFFF;
+  background-color: #5a52d1;
+  border-color: #5a52d1;
+}
+.nav-header{
+  text-align: center;
+  background-color: #F2F3F7!important;
+}
+
+.well{
+  background-color: #F2F3F7!important;
+}
