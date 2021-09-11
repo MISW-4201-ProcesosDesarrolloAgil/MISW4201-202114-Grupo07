@@ -54,6 +54,11 @@ class VistaSignIn(Resource):
         token_de_acceso = create_access_token(identity = nuevo_usuario.id)
         return {"mensaje":"usuario creado exitosamente", "token":token_de_acceso}
 
+class VistaUsuario(Resource):
+
+    def get(self, id_usuario):
+        return usuario_schema.dump(Usuario.query.get_or_404(id_usuario))
+
 
     def put(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
