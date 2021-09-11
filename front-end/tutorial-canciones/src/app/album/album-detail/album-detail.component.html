@@ -1,5 +1,4 @@
 <div class="container my-4">
-
   <div class="row">
     <div class="col-lg-6 col-sm-12 text-center mb-2" >
       <label class="fs-4 fw-bold">Álbum: {{album?.titulo}} ({{album?.anio}})</label>
@@ -7,7 +6,7 @@
     <div class="col-lg-6 col-sm-12 text-center mb-2">
       <button *ngIf="album" type="button" class="btn btn-success ms-3 me-2" (click)="goToEdit()" title="Editar álbum"><i class="bi bi-pencil-square"></i></button>
       <button *ngIf="album" type="button" class="btn btn-info me-1 me-2" (click)="goToJoinCancion()" title="Agregar canción" ><i class="bi bi-plus" ></i><i class="bi bi-music-note"></i></button>
-      <button *ngIf="album" type="button" class="btn btn-share me-1" title="Compartir álbum"><i class="bi bi-share-fill"></i></button>
+      <button *ngIf="album" type="button" class="btn btn-share me-1" (click)="open(content)" title="Compartir álbum"><i class="bi bi-share-fill"></i></button>
       <button *ngIf="album" type="button" class="btn btn-danger me-1" (click)="eliminarAlbum()" title="Eliminar álbum"><i class="bi bi-trash-fill"></i></button>
     </div>
   </div>
@@ -57,3 +56,6 @@
     </div>
   </div>
 </div>
+<ng-template #content let-c="close" let-d="dismiss">
+<app-album-share></app-album-share>
+</ng-template>
