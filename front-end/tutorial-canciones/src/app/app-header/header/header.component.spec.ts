@@ -5,6 +5,10 @@ import { DebugElement } from '@angular/core';
 
 import { HeaderComponent } from './header.component';
 
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('HeaderComponent', () => {
@@ -14,7 +18,8 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [HttpClientModule, ReactiveFormsModule,
+        FormsModule, ToastrModule.forRoot(), RouterTestingModule],
       declarations: [HeaderComponent]
     })
       .compileComponents();
