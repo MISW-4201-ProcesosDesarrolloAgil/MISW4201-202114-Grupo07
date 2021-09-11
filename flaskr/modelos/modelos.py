@@ -55,6 +55,7 @@ class Comentario(db.Model):
     respuestas = db.relationship('Comentario', cascade='all, delete, delete-orphan')
 
 class AlbumCompartido(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
     album_id = db.Column(db.Integer, db.ForeignKey("album.id"))
     usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
 

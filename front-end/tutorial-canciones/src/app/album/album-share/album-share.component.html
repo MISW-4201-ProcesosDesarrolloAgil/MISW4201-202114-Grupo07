@@ -1,0 +1,28 @@
+<div class="modal-content shadow-sm">
+  <div class="modal-header  border-bottom-0">
+    <h5 class="modal-titl" i18n>Comparte con tus amigos</h5>
+    <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <div class="col-12">
+      <form [formGroup]="shareForm" (ngSubmit)="!shareForm.invalid">
+        <input type="text" class="form-control" splaceholder="Nombre de usuario">
+        <p class="mb-0"><small class="text-muted" i18n>Agrega los nombres de tus amigos registrados, los puedes separar por
+            comas.</small></p>
+        <div class="alert alert-danger alert-dismissible fade show" *ngIf="shareForm.get('nombre')?.hasError('required') &&
+              shareForm.get('nombre')?.touched" i18n>
+          Por favor agregue uno o más usuarios.
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show" *ngIf="
+                shareForm.get('nombre')?.hasError('minlength') &&
+                shareForm.get('nombre')?.touched" i18n>
+          El nombre de usuario debe contener almenos 5 caracteres.
+        </div>
+        <div class="modal-footer border-top-0">
+          <button type="button" class="btn btn-primary" [disabled]="!shareForm.valid" i18n>Compartir</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"i18n>Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
