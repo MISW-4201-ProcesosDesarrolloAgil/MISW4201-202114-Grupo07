@@ -46,13 +46,13 @@
               <div class="col-3">
                 <div class="row">
                   <div class="col-5">
-                    <input type="text" class="form-control" formControlName="minutos" placeholder="mm">
+                    <input type="text" class="form-control" formControlName="minutos" placeholder="mm" (change)="timeFormat($event)" maxlength="2">
                   </div>
                   <div class="col-1">
                     <label for="titulo">:</label>
                   </div>
                   <div class="col-5">
-                    <input type="text" class="form-control" formControlName="segundos" placeholder="ss">
+                    <input type="text"  class="form-control" formControlName="segundos" placeholder="ss" (change)="timeFormat($event)" maxlength="2">
                   </div>
                 </div>
               </div>
