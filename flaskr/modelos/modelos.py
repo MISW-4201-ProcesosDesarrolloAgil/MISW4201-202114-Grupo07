@@ -35,7 +35,7 @@ class Album(db.Model):
     comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
     
     
-class Usuario(db.Model):
+class Usuario(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
