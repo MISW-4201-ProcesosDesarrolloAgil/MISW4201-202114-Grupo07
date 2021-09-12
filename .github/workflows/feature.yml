@@ -5,7 +5,7 @@ on:
     branches: [DMAG-*]
 
 jobs:
-  job1:
+  back:
     name: Pruebas backend
     runs-on: ubuntu-latest
     steps:
@@ -22,7 +22,6 @@ jobs:
     - name: Correr pruebas
       id: correr-pruebas
       run: |
-        cd flaskr/
         python -m unittest discover tests/
     - name: Validar resultado con errores
       if: ${{ failure() }}
@@ -34,13 +33,40 @@ jobs:
       env:
         MENSAJE_EXITO: Todas las pruebas fueron exitosas
       run: echo "::set-output name=respuesta::${MENSAJE_EXITO}"
+  front:
+      name: Pruebas Frontend
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with: 
+          node-version: '14'    
+      - name: Install dependencies
+        run: |
+          cd front-end/tutorial-canciones/
+          npm install
+      - name: Correr pruebas angular
+        run: |
+          cd front-end/tutorial-canciones/
+          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      - name: Validar resultado con errores
+        if: ${{ failure() }}
+        env:
+          MENSAJE_ERROR: Una o varias pruebas fallaron
+        run: echo "::set-output name=respuesta::${MENSAJE_ERROR}"
+      - name: Validar resultado sin errores
+        if: ${{ success() }}
+        env:
+          MENSAJE_EXITO: Todas las pruebas fueron exitosas
+        run: echo "::set-output name=respuesta::${MENSAJE_EXITO}"  
   merge-branch:
     name: Automerge
-    needs: job1
+    needs: [back, front]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Merge current branch -> dev
+      - name: Merge rama actual -> dev
         uses: devmasx/merge-branch@v1.3.1
         with:
           type: now

@@ -17,6 +17,7 @@ class Cancion(db.Model):
     segundos = db.Column(db.Integer)
     interprete = db.Column(db.String(128))
     albumes = db.relationship('Album', secondary = 'album_cancion', back_populates="canciones")
+    
 
 class Medio(enum.Enum):
    DISCO = 1
@@ -31,12 +32,29 @@ class Album(db.Model):
     medio = db.Column(db.Enum(Medio))
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
     canciones = db.relationship('Cancion', secondary = 'album_cancion', back_populates="albumes")
+    comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
     
-class Usuario(db.Model):
+    
+class Usuario(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
     albumes = db.relationship('Album', cascade='all, delete, delete-orphan')
+    comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
+
+
+class Comentario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    comentario = db.Column(db.String(250))
+    fecha = db.Column(db.String(10))
+    hora = db.Column(db.String(5))
+    album = db.Column(db.Integer, db.ForeignKey("album.id"))
+    cancion = db.Column(db.Integer, db.ForeignKey("cancion.id"))
+    usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+    respuesta = db.Column(db.Integer, db.ForeignKey("comentario.id"))
+    respuestas = db.relationship('Comentario', cascade='all, delete, delete-orphan')
+
+
 
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):
@@ -60,5 +78,11 @@ class AlbumSchema(SQLAlchemyAutoSchema):
 class UsuarioSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = Usuario
+         include_relationships = True
+         load_instance = True
+
+class ComentarioSchema(SQLAlchemyAutoSchema):
+    class Meta:
+         model = Comentario
          include_relationships = True
          load_instance = True
