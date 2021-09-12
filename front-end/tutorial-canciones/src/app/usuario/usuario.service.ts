@@ -23,4 +23,5 @@ export class UsuarioService {
     getUser(usuarioId: number): Observable<Usuario>{
       return this.http.get<Usuario>(`${this.backUrl}/usuario/${usuarioId}`)
     }
+
 }

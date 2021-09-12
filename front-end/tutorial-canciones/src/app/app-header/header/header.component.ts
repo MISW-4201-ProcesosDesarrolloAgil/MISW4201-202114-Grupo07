@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
     private router: ActivatedRoute,
     private usuarioService: UsuarioService,
     private toastr: ToastrService,
-    private routerPath: Router
+    private routerPath: Router,
     ) { }
 
   userId: number
@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   userName: string
 
   ngOnInit(): void {
+
       if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
         this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
         this.routerPath.navigate([`/`])
@@ -35,12 +36,24 @@ export class HeaderComponent implements OnInit {
         })
 
       }
-
    }
- 
+
   showError(error: string){
     this.toastr.error(error, "Error de autenticación")
   }
 
-}
+  goTo(menu: string){
+    const userId = parseInt(this.router.snapshot.params.userId)
+    const token = this.router.snapshot.params.userToken
+    if(menu === "logIn"){
+      this.routerPath.navigate([`/`])
+    }
+    else if(menu === "album"){
+      this.routerPath.navigate([`/albumes/${userId}/${token}`])
+    }
+    else{
+      this.routerPath.navigate([`/canciones/${userId}/${token}`])
+    }
+  }
 
+}

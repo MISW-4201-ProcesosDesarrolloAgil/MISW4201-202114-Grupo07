@@ -4,11 +4,12 @@ nav{
   font-weight: bold;
   text-align: right;
 }
-.navbar-brand img{
-  width: 100px;
-  height: auto;
+
+.texto_der {
+  text-align: right;
 }
-.card{
-  border: 1px solid rgba(0,0,0,.125);
-  border-radius: .25rem;
+
+.navbar,
+.nav {
+  background-color: #181D22;
 }
