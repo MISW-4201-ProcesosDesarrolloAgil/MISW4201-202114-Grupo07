@@ -6,6 +6,8 @@ import { Cancion } from '../cancion/cancion';
 import { Coment } from '../album/album-comment/coment';
 import { CommentResp } from '../album/album-comment/commentResp';
 
+import { AlbumCompartir } from './album-share/albumCompartir';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -67,6 +69,13 @@ export class AlbumService {
 
   getAlbumComentarios(albumId: number): Observable<CommentResp[]> {
     return this.http.get<CommentResp[]>(`${this.backUrl}/comentarioAlbum/${albumId}`)
+  }
+
+  compartirAlbum(token: string, coment: AlbumCompartir): Observable<AlbumCompartir> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.post<AlbumCompartir>(`${this.backUrl}/compartirAlbum`, coment, { headers: headers })
   }
 
 }
