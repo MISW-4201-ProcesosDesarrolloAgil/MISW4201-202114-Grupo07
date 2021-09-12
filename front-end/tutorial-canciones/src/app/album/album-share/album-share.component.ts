@@ -52,10 +52,11 @@ export class AlbumShareComponent implements OnInit {
   compartirAlbum(usuarios: UsuarioCompartirAlbum) {
 
     var users = usuarios.nombre.split(',');
+    console.log();
     for (let i = 0; i < users.length; i++) {
       if (users[i].length > 0) {
         var compartir = new AlbumCompartir(users[i], this.albumComp);
-        this.albumService.compartirAlbum(this.token, compartir)
+        this.albumService.compartirAlbum(this.router.snapshot.params.userId, this.token, compartir)
           .subscribe(com => {
             this.showSuccess()
           },

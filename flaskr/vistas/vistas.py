@@ -8,7 +8,7 @@ cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()
 album_schema = AlbumSchema()
 comentario_schema = ComentarioSchema()
-album_compartido = AlbumCompartidoSchema()
+album_comp_schema = AlbumCompartidoSchema()
 
 class VistaCanciones(Resource):
  
@@ -190,15 +190,17 @@ class VistaUsuarios(Resource):
 
 class VistaAlbumsCompartido(Resource):
 
-    def get(self, id_usuario, id_album):
-        return usuario_schema.dump(Usuario.query.get_or_404(id_usuario))
+    def get(self, id_usuariolog):
+        return [album_comp_schema.dump(comentario) for comentario in AlbumCompartido.query.filter(AlbumCompartido.usuario_id == id_usuariolog).all()]
 
 
-    def post(self):
+    def post(self, id_usuariolog):
         ####VALIDAMOS SI EXISTE EL USUARIO
         id_usuario = request.json['usuario_id']
         id_album = request.json['album_id']
         usuario = Usuario.query.filter(Usuario.nombre == id_usuario).first()
+        if usuario.id == id_usuariolog:
+            return "No se puede compartir con el mismo usuario logeado", 404
         db.session.commit()
         if usuario is None:
             return "El usuario no existe", 404
@@ -222,7 +224,7 @@ class VistaAlbumsCompartido(Resource):
                     nuevo_album_compartido = AlbumCompartido( album_id =  albumid, usuario_id = usuarioid)
                     db.session.add(nuevo_album_compartido)
                     db.session.commit()
-                    return album_compartido.dump(nuevo_album_compartido), 200
+                    return album_comp_schema.dump(nuevo_album_compartido), 200
                     
                 else:
                     return "El usuario ya tiene el album compartido.", 404
