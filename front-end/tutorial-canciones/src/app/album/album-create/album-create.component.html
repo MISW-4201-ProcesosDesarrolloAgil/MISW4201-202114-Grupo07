@@ -19,7 +19,7 @@
           <div class="my-2 form-group">
             <div class="row">
               <div class="col-2 text-start">
-                <label for="titulo" i18n>Título </label>
+                <label for="titulo">Título </label>
               </div>
               <div class="col-10">
                 <input type="text" class="form-control" formControlName="titulo" placeholder="Titulo del album">
@@ -27,8 +27,7 @@
             </div>
             <div class="row justify-content-center">
               <div class="col-8">
-                <div class="my-3 alert alert-danger" *ngIf="albumForm.get('titulo')?.hasError('required') && albumForm.get('titulo')?.touched">
-                <div class="my-3 alert alerdivanger"
+                <div class="my-3 alert alert-danger"
                   *ngIf="albumForm.get('titulo')?.hasError('required') && albumForm.get('titulo')?.touched" i18n>
                   Debe ingresar un título para el álbum
                 </div>
@@ -45,7 +44,7 @@
           <div class="my-2 form-group">
             <div class="row">
               <div class="col-2 text-start">
-                <label i18n  1for="anio">Año </label>
+                <label for="anio">Año </label>
               </div>
               <div class="col-10">
                 <input type="text" class="form-control" formControlName="anio" placeholder="Año de lanzamiento">
@@ -74,7 +73,7 @@
               </div>
               <div class="col-10">
                 <select class="form-select" formControlName="medio">
-                  <option value="" disabled i18n>Selecciona el medio del álbum</option>
+                  <option value="" disabled>Selecciona el medio del álbum</option>
                   <option *ngFor="let medio of medios" value={{medio.llave}}>{{medio.llave}}</option>
                 </select>
               </div>
@@ -117,10 +116,10 @@
 
           <div class="mt-4 row">
             <div class="col-6 text-end">
-              <button class="btn btn-danger" (click)="cancelCreate()" i18n>Cancelar</button>
+              <button class="btn btn-danger" (click)="cancelCreate()">Cancelar</button>
             </div>
             <div class="col-6 text-start">
-              <button type="submit" class="btn btn-primary" [disabled]="!albumForm.valid" i18n>Crear</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!albumForm.valid">Crear</button>
             </div>
           </div>
 
@@ -131,10 +130,10 @@
   </div>
 </div>
 
+
 <!-- /#container-fluid -->
 </div>
 <!-- Page Content -->
 </div>
 <!-- /#wrapper -->
 <app-footer></app-footer>
-
