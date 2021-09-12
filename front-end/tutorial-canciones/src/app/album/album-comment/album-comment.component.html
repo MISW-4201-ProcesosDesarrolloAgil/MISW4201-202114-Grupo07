@@ -1,10 +1,14 @@
-<app-header></app-header>
+<div class="d-flex" id="wrapper">
+  <app-menu></app-menu>
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <app-header></app-header>
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-10">
       <div class="mx-3 my-5 card">
         <div class="text-center row col-12">
-            <p class="mt-5 mb-2 fs-3 fw-bold">Comentar Álbum</p>
+            <p class="mt-5 mb-2 fs-3 fw-bold" i18n>Comentar Álbum</p>
         </div>
         <form class="mx-5 my-3" [formGroup]="albumCommentForm" (ngSubmit)="createAlbumComment(albumCommentForm.value)">
 
@@ -12,19 +16,19 @@
             <div class="row justify-content-center">
               <div class="col-10">
                 <textarea class=" form-control" formControlName="comentario"
-                  placeholder="Comentario del álbum"></textarea>
+                  placeholder="Comentario del álbum" i18n></textarea>
               </div>
             </div>
             <div class="row justify-content-center">
               <div class="col-8">
                 <div class="my-3 alert alert-danger"
-                  *ngIf="albumCommentForm.get('comentario')?.hasError('required') && albumCommentForm.get('comentario')?.touched">
+                  *ngIf="albumCommentForm.get('comentario')?.hasError('required') && albumCommentForm.get('comentario')?.touched" i18n>
                   Debe ingresar un comentario para el álbum
                 </div>
-                <div class="my-3 alert alert-danger" *ngIf="albumCommentForm.get('comentario')?.hasError('minlength')">
+                <div class="my-3 alert alert-danger" *ngIf="albumCommentForm.get('comentario')?.hasError('minlength')" i18n>
                   La comentario del álbum debe tener por lo menos un carácter
                 </div>
-                <div class="my-3 alert alert-danger" *ngIf="albumCommentForm.get('comentario')?.hasError('maxlength')">
+                <div class="my-3 alert alert-danger" *ngIf="albumCommentForm.get('comentario')?.hasError('maxlength')" i18n>
                   La comentario del álbum no debe superar los 512 carácteres
                 </div>
               </div>
@@ -45,4 +49,9 @@
     </div>
   </div>
 </div>
+
+    <!-- /#container-fluid -->
+  </div>
+</div>
+<!-- /#wrapper -->
 <app-footer></app-footer>
