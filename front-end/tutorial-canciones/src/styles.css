@@ -20,6 +20,7 @@ body{
   background-color: #5a52d1;
   border-color: #5a52d1;
 }
+
 .btn:hover{
   opacity: 0.8;
 }
@@ -43,6 +44,11 @@ body{
 .btn-share,.btn-share:hover{
   background-color: #1962D1;
   border-color: #1962D1;
+  color: #fff;
+}
+.btn-comment,.btn-comment:hover{
+  background-color: #17A589;
+  border-color: #17A589;
   color: #fff;
 }
 
