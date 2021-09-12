@@ -38,6 +38,16 @@
             "scripts": []
           },
           "configurations": {
+
+            "en": {
+              "aot": true,
+              "outputPath": "dist/tutorial-canciones-en/",
+              // "i18nFile": "src/locale/messages.en.xlf",
+              // "i18nFormat": "xlf",
+              // "i18nLocale": "en",
+              "i18nMissingTranslation": "error"
+            },
+
             "production": {
               "budgets": [
                 {
@@ -75,6 +85,9 @@
           "configurations": {
             "production": {
               "browserTarget": "tutorial-canciones:build:production"
+            },
+            "en": {
+              "browserTarget": "tutorial-canciones:build:en"
             },
             "development": {
               "browserTarget": "tutorial-canciones:build:development"
