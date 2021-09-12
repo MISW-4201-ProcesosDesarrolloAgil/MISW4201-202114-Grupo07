@@ -20,10 +20,8 @@ export class UsuarioService {
         return this.http.post<any>(`${this.backUrl}/signin`, {"nombre": nombre, "contrasena": contrasena})
     }
 
-
     getUser(usuarioId: number): Observable<Usuario>{
       return this.http.get<Usuario>(`${this.backUrl}/usuario/${usuarioId}`)
     }
-
 
 }
