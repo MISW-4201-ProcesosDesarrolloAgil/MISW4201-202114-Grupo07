@@ -1,4 +1,10 @@
-<app-header></app-header>
+<div class="d-flex" id="wrapper">
+  <app-menu></app-menu>
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <app-header></app-header>
+
+
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-10">
@@ -21,7 +27,9 @@
             </div>
             <div class="row justify-content-center">
               <div class="col-8">
-                <div class="my-3 alert alert-danger" *ngIf="albumForm.get('titulo')?.hasError('required') && albumForm.get('titulo')?.touched" i18n>
+                <div class="my-3 alert alert-danger" *ngIf="albumForm.get('titulo')?.hasError('required') && albumForm.get('titulo')?.touched">
+                <div class="my-3 alert alerdivanger"
+                  *ngIf="albumForm.get('titulo')?.hasError('required') && albumForm.get('titulo')?.touched" i18n>
                   Debe ingresar un título para el álbum
                 </div>
                 <div class="my-3 alert alert-danger" *ngIf="albumForm.get('titulo')?.hasError('minlength')" i18n>
@@ -45,13 +53,14 @@
             </div>
             <div class="row justify-content-center">
               <div class="col-8">
-                <div class="my-3 alert alert-danger" *ngIf="albumForm.get('anio')?.hasError('required') && albumForm.get('anio')?.touched" i18n>
+                <div class="my-3 alert alert-danger"
+                  *ngIf="albumForm.get('anio')?.hasError('required') && albumForm.get('anio')?.touched" i18n>
                   Debe ingresar un año para el álbum
                 </div>
                 <div class="my-3 alert alert-danger" *ngIf="albumForm.get('anio')?.hasError('minlength')" i18n>
                   El año debe tener 4 números
                 </div>
-                <div class="my-3 alert alert-danger" *ngIf="albumForm.get('anio')?.hasError('maxlength')">
+                <div class="my-3 alert alert-danger" *ngIf="albumForm.get('anio')?.hasError('maxlength')" i18n>
                   El año debe tener 4 números
                 </div>
               </div>
@@ -72,7 +81,8 @@
             </div>
             <div class="row justify-content-center">
               <div class="col-8">
-                <div class="my-3 alert alert-danger" *ngIf="albumForm.get('medio')?.hasError('required') && albumForm.get('medio')?.touched" i18n>
+                <div class="my-3 alert alert-danger"
+                  *ngIf="albumForm.get('medio')?.hasError('required') && albumForm.get('medio')?.touched" i18n>
                   Debe seleccionar el medio del álbum
                 </div>
               </div>
@@ -85,12 +95,14 @@
                 <label for="descripcion" i18n>Descripción </label>
               </div>
               <div class="col-10">
-                <textarea class=" form-control" formControlName="descripcion" placeholder="Descripción del álbum"></textarea>
+                <textarea class=" form-control" formControlName="descripcion"
+                  placeholder="Descripción del álbum"></textarea>
               </div>
             </div>
             <div class="row justify-content-center">
               <div class="col-8">
-                <div class="my-3 alert alert-danger" *ngIf="albumForm.get('descripcion')?.hasError('required') && albumForm.get('descripcion')?.touched" i18n>
+                <div class="my-3 alert alert-danger"
+                  *ngIf="albumForm.get('descripcion')?.hasError('required') && albumForm.get('descripcion')?.touched" i18n>
                   Debe ingresar una descripción para el álbum
                 </div>
                 <div class="my-3 alert alert-danger" *ngIf="albumForm.get('descripcion')?.hasError('minlength')" i18n>
@@ -105,7 +117,7 @@
 
           <div class="mt-4 row">
             <div class="col-6 text-end">
-              <button class="btn btn-danger" (click)="cancelCreate()">Cancelar</button>
+              <button class="btn btn-danger" (click)="cancelCreate()" i18n>Cancelar</button>
             </div>
             <div class="col-6 text-start">
               <button type="submit" class="btn btn-primary" [disabled]="!albumForm.valid" i18n>Crear</button>
@@ -118,3 +130,11 @@
     </div>
   </div>
 </div>
+
+<!-- /#container-fluid -->
+</div>
+<!-- Page Content -->
+</div>
+<!-- /#wrapper -->
+<app-footer></app-footer>
+

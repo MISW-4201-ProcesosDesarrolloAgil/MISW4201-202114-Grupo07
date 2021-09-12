@@ -12,14 +12,14 @@
     <div class="col-6">
       <div class="card">
         <div class="card-body">
-          <p i18n class="my-0"><span class="fw-bold">Duración: </span> <span class="text-capitalize">{{cancion?.minutos}}:{{cancion?.segundos}}</span></p>
+          <p class="my-0"><span class="fw-bold" i18n>Duración: </span> <span class="text-capitalize">{{cancion?.minutos|number:'2.0'}}:{{cancion?.segundos|number:'2.0'}}</span></p>
         </div>
       </div>
     </div>
     <div class="col-6">
       <div class="card">
         <div class="card-body">
-          <p i18n class="my-0"><span class="fw-bold">Intérpretes: </span> <span class="text-capitalize">{{cancion?.interprete}}</span></p>
+          <p class="my-0"><span class="fw-bold" i18n>Intérpretes: </span> <span class="text-capitalize">{{cancion?.interprete}}</span></p>
         </div>
       </div>
     </div>
