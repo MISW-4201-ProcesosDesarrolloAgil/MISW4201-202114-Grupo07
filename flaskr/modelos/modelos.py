@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from marshmallow import fields
+from marshmallow.fields import Nested
 import enum
 
 
@@ -51,6 +52,7 @@ class Comentario(db.Model):
     album = db.Column(db.Integer, db.ForeignKey("album.id"))
     cancion = db.Column(db.Integer, db.ForeignKey("cancion.id"))
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+    usuarioo = db.relationship("Usuario", back_populates="comentarios")
     respuesta = db.Column(db.Integer, db.ForeignKey("comentario.id"))
     respuestas = db.relationship('Comentario', cascade='all, delete, delete-orphan')
 
@@ -85,10 +87,13 @@ class UsuarioSchema(SQLAlchemyAutoSchema):
          load_instance = True
 
 class ComentarioSchema(SQLAlchemyAutoSchema):
+    usuarioo = Nested(UsuarioSchema)
     class Meta:
          model = Comentario
          include_relationships = True
          load_instance = True
+    
+    
 
 class AlbumCompartidoSchema(SQLAlchemyAutoSchema):
     class Meta:
