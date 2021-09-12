@@ -35,7 +35,7 @@ class Album(db.Model):
     comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
     
     
-class Usuario(db.Model):
+class Usuario(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
@@ -54,7 +54,10 @@ class Comentario(db.Model):
     respuesta = db.Column(db.Integer, db.ForeignKey("comentario.id"))
     respuestas = db.relationship('Comentario', cascade='all, delete, delete-orphan')
 
-
+class AlbumCompartido(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    album_id = db.Column(db.Integer, db.ForeignKey("album.id"))
+    usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
 
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):
@@ -86,3 +89,12 @@ class ComentarioSchema(SQLAlchemyAutoSchema):
          model = Comentario
          include_relationships = True
          load_instance = True
+
+class AlbumCompartidoSchema(SQLAlchemyAutoSchema):
+    class Meta:
+         model = AlbumCompartido
+         include_relationships = True
+         load_instance = True
+
+         
+ 
