@@ -5,6 +5,8 @@ import { Album, Cancion } from '../album';
 import { AlbumComp } from './albumComp';
 import { AlbumService } from '../album.service';
 
+import * as $ from 'jquery';
+
 @Component({
   selector: 'app-album-list',
   templateUrl: './album-list.component.html',
@@ -36,6 +38,13 @@ export class AlbumListComponent implements OnInit {
       this.token = this.router.snapshot.params.userToken
       this.getAlbumes();
     }
+
+     //Toggle Click Function
+     $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+
   }
 
   getAlbumes(): void {

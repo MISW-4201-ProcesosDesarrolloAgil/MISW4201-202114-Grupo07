@@ -8,6 +8,8 @@ import { Album, Medio } from '../album';
 import { AlbumComment } from './album-comment';
 import { Coment } from './coment';
 
+import * as $ from 'jquery';
+
 @Component({
   selector: 'app-album-comment',
   templateUrl: './album-comment.component.html',
@@ -41,6 +43,14 @@ export class AlbumCommentComponent implements OnInit {
         comentario: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(512)]],
       })
     }
+
+
+     //Toggle Click Function
+     $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+
   }
 
   showError(error: string) {
