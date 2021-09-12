@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlbumService } from '../album.service';
 import { Album, Medio } from '../album';
 import { AlbumComment } from './album-comment';
@@ -11,7 +11,8 @@ import { Coment } from './coment';
 @Component({
   selector: 'app-album-comment',
   templateUrl: './album-comment.component.html',
-  styleUrls: ['./album-comment.component.css']
+  styleUrls: ['./album-comment.component.css'],
+  providers: [NgbModalConfig, NgbModal]
 })
 export class AlbumCommentComponent implements OnInit {
 
@@ -119,25 +120,5 @@ export class AlbumCommentComponent implements OnInit {
         })
   }
 
-  // createAlbum(newAlbum: Album){
-  //   this.albumCommentForm.get('anio')?.setValue(parseInt(this.albumCommentForm.get('anio')?.value))
-  //   this.albumService.comentarAlbum(this.userId, this.token, newAlbum)
-  //   .subscribe(album => {
-  //     this.showSuccess(album)
-  //     this.albumCommentForm.reset()
-  //     this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
-  //   },
-  //   error=> {
-  //     if(error.statusText === "UNAUTHORIZED"){
-  //       this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
-  //     }
-  //     else if(error.statusText === "UNPROCESSABLE ENTITY"){
-  //       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
-  //     }
-  //     else{
-  //       this.showError("Ha ocurrido un error. " + error.message)
-  //     }
-  //   })
-  // }
 
 }

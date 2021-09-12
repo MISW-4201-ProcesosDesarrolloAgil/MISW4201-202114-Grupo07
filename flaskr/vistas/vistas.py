@@ -194,9 +194,11 @@ class VistaAlbumsCompartido(Resource):
         return usuario_schema.dump(Usuario.query.get_or_404(id_usuario))
 
 
-    def post(self, id_usuario, id_album):
+    def post(self):
         ####VALIDAMOS SI EXISTE EL USUARIO
-        usuario = Usuario.query.filter(Usuario.id == id_usuario).first()
+        id_usuario = request.json['usuario_id']
+        id_album = request.json['album_id']
+        usuario = Usuario.query.filter(Usuario.nombre == id_usuario).first()
         db.session.commit()
         if usuario is None:
             return "El usuario no existe", 404
@@ -207,20 +209,23 @@ class VistaAlbumsCompartido(Resource):
                 return "El album no existe", 404
             else:
                 albumid = request.json['album_id']
-                usuarioid = request.json['usuario_id']
+                usuarioid = usuario.id
 
                 album = Album.query.get_or_404(albumid)
                 usuario = Usuario.query.get_or_404(usuarioid)
 
                 ##CONSULTAMOS SI ESE USUARIO YA TIENE EL ALBUM COMPRATIDO
-                album_compartido = AlbumCompartido.query.filter( AlbumCompartido.album_id ==  albumid,  AlbumCompartido.usuario_id == usuarioid).first()
+                album_compar = AlbumCompartido.query.filter( AlbumCompartido.album_id ==  albumid,  AlbumCompartido.usuario_id == usuarioid).first()
+
                 db.session.commit()
-                if album_compartido is None:
-                    return "El usuario ya tiene el album compartido.", 404
-                else:
+                if album_compar is None:
                     nuevo_album_compartido = AlbumCompartido( album_id =  albumid, usuario_id = usuarioid)
                     db.session.add(nuevo_album_compartido)
                     db.session.commit()
-                    return album_compartido.dump(album_compartido)
+                    return album_compartido.dump(nuevo_album_compartido), 200
+                    
+                else:
+                    return "El usuario ya tiene el album compartido.", 404
+                    
         
  

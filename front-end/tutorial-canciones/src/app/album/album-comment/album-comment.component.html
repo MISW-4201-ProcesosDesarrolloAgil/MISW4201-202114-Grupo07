@@ -4,7 +4,7 @@
     <div class="col-10">
       <div class="mx-3 my-5 card">
         <div class="text-center row col-12">
-            <p class="mt-5 mb-2 fs-3 fw-bold">Comentar Álbum</p>
+          <p class="mt-5 mb-2 fs-3 fw-bold">Comentar Álbum</p>
         </div>
         <form class="mx-5 my-3" [formGroup]="albumCommentForm" (ngSubmit)="createAlbumComment(albumCommentForm.value)">
 
@@ -36,7 +36,7 @@
               <button class="btn btn-danger" (click)="cancelCreate()">Cancelar</button>
             </div>
             <div class="col-6 text-start">
-              <button type="submit" class="btn btn-primary" [disabled]="!albumCommentForm.valid" >Comentar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!albumCommentForm.valid">Comentar</button>
             </div>
           </div>
 
