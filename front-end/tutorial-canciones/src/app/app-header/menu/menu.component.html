@@ -1,29 +1,10 @@
-      <div class="well">
-        <ul class="nav nav-listnavbar-nav bg-gradient-success sidebar sidebar-dark accordion">
-          <li class="nav-header col-12"><a href="/"><img src="/assets/img/ionic_logo.png" class="img-navbar"></a></li>
-          <li class="col-12"><p><hr class="sidebar-divider my-0"></li>
-          <li class="col-12">
-            <a class="nav-link" (click)="goTo('album')"><li class=''> <i class="bi bi-window-dock"></i> Álbumes</a>
-          </li>
-          <li class="col-12"><hr class="sidebar-divider my-0"></li>
-          <li class="col-12">
-            <a class="nav-link" (click)="goTo('cancion')"><i class="bi bi-volume-down-fill"></i> Canciones</a>
-          </li>
 
-          <li class="col-12"><hr class="sidebar-divider my-0"></li>
-          <li class="col-12">
-            <a class="nav-link" (click)="goTo('acercade')"> <i class="bi bi-eye-fill"></i> Acerca de </a>
-          </li>
-
-          <li class="col-12"><hr class="sidebar-divider my-0"></li>
-          <li class="col-12">
-            <a class="nav-link" (click)="goTo('logIn')"> <i class="bi bi-lock-fill"></i> Salir</a>
-          </li>
-          <li class="col-12"><hr class="sidebar-divider my-0"></li>
-        </ul>
-      </div>
-
-
-
-<!-- End of Sidebar -->
-
+  <div class="sidebar-heading text-center"><img src="/assets/img/ionic_logo.png" class="img-navbar"> </div>
+  <div class="list-group list-group-flush">
+    <a class="list-group-item list-group-item-action bg-light"> </a>
+    <a (click)="goTo('album')"    class="list-group-item list-group-item-action bg-light">  <i class="bi bi-folder-fill"></i> Álbumes</a>
+    <a (click)="goTo('cancion')"  class="list-group-item list-group-item-action bg-light">  <i class="bi bi-earbuds"></i> Canciones </a>
+    <a (click)="goTo('acercade')" class="list-group-item list-group-item-action bg-light">  <i class="bi bi-eye-fill"></i> Acerca de </a>
+    <a (click)="goTo('logIn')"    class="list-group-item list-group-item-action bg-light">  <i class="bi bi-lock-fill"></i> Salir </a>
+    <a class="list-group-item list-group-item-action bg-light"> </a>
+  </div>

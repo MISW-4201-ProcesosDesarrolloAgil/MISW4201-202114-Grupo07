@@ -4,6 +4,10 @@ import { ToastrService } from "ngx-toastr";
 import { Album, Cancion } from '../album';
 import { AlbumService } from '../album.service';
 
+import * as $ from 'jquery';
+
+
+
 @Component({
   selector: 'app-album-list',
   templateUrl: './album-list.component.html',
@@ -17,7 +21,7 @@ export class AlbumListComponent implements OnInit {
     private toastr: ToastrService,
     private routerPath: Router
   ) { }
-  
+
   userId: number
   token: string
   albumes: Array<Album>
@@ -34,6 +38,13 @@ export class AlbumListComponent implements OnInit {
       this.token = this.router.snapshot.params.userToken
       this.getAlbumes();
     }
+
+      //Toggle Click Function
+      $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+      });
+
   }
 
   getAlbumes():void{
@@ -57,7 +68,7 @@ export class AlbumListComponent implements OnInit {
         this.showError("Ha ocurrido un error. " + error.message)
       }
     })
-    
+
   }
 
   onSelect(a: Album, index: number){
