@@ -28,9 +28,9 @@ export class MenuComponent implements OnInit {
       this.routerPath.navigate([`/canciones/${userId}/${token}`])
     }
     else if(menu === "acercade"){
-      this.routerPath.navigate([`/canciones/${userId}/${token}`])
+      this.routerPath.navigate([`/acercade/${userId}/${token}`])
     }
-    
+
   }
 
 }
