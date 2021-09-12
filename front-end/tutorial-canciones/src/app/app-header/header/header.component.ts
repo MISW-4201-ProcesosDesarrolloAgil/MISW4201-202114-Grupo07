@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, NgModule } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from "ngx-toastr";
+import { UsuarioService } from '../../usuario/usuario.service';
 
 @Component({
   selector: 'app-header',
@@ -9,24 +11,36 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   constructor(
-    private routerPath: Router,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private usuarioService: UsuarioService,
+    private toastr: ToastrService,
+    private routerPath: Router
     ) { }
 
-  ngOnInit(): void {  }
+  userId: number
+  token: string
+  userName: string
 
-  goTo(menu: string){
-    const userId = parseInt(this.router.snapshot.params.userId)
-    const token = this.router.snapshot.params.userToken
-    if(menu === "logIn"){
-      this.routerPath.navigate([`/`])
-    }
-    else if(menu === "album"){
-      this.routerPath.navigate([`/albumes/${userId}/${token}`])
-    }
-    else{
-      this.routerPath.navigate([`/canciones/${userId}/${token}`])
-    }
+  ngOnInit(): void {
+      if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
+        this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+        this.routerPath.navigate([`/`])
+      }
+      else{
+        this.userId = parseInt(this.router.snapshot.params.userId)
+
+        this.token = this.router.snapshot.params.userToken
+        this.usuarioService.getUser(this.userId)
+        .subscribe(usuario => { this.userName = usuario.nombre.split("@", 1)[0]
+        })
+
+      }
+
+   }
+ 
+  showError(error: string){
+    this.toastr.error(error, "Error de autenticación")
   }
 
 }
+

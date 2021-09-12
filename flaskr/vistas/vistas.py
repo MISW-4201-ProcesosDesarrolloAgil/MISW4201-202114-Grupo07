@@ -172,3 +172,8 @@ class VistaComentariosAlbum(Resource):
 
     def get(self, id_album):
         return [comentario_schema.dump(comentario) for comentario in Comentario.query.filter(Comentario.album == id_album).all()]
+
+class VistaUsuario(Resource):
+
+    def get(self, id_usuario):
+        return usuario_schema.dump(Usuario.query.get_or_404(id_usuario))

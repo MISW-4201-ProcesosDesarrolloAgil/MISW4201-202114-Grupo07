@@ -1,5 +1,8 @@
 nav{
   background-color: #F2F3F7!important;
+  color: black;
+  font-weight: bold;
+  text-align: right;
 }
 .navbar-brand img{
   width: 100px;
