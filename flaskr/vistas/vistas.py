@@ -155,7 +155,6 @@ class VistaAlbum(Resource):
 class VistaComentarios(Resource):
 
     def get(self):
-        print('entra')
         return [comentario_schema.dump(comentario) for comentario in Comentario.query.all()]
 
 
@@ -176,7 +175,7 @@ class VistaComentarios(Resource):
         album.comentarios.append(nuevo_comentario)
         db.session.add(nuevo_comentario)
         db.session.commit()
-        return comentario_schema.dump(comentario_schema)
+        return comentario_schema.dump(nuevo_comentario), 200
 
 class VistaComentariosAlbum(Resource):
 
