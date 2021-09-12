@@ -34,6 +34,7 @@ class Album(db.Model):
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
     canciones = db.relationship('Cancion', secondary = 'album_cancion', back_populates="albumes")
     comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
+    compartidos = db.relationship('AlbumCompartido', cascade='all, delete, delete-orphan')
     
     
 class Usuario(db.Model): 
@@ -59,6 +60,7 @@ class Comentario(db.Model):
 class AlbumCompartido(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     album_id = db.Column(db.Integer, db.ForeignKey("album.id"))
+    album = db.relationship("Album", back_populates="compartidos")
     usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
 
 class EnumADiccionario(fields.Field):
@@ -96,9 +98,12 @@ class ComentarioSchema(SQLAlchemyAutoSchema):
     
 
 class AlbumCompartidoSchema(SQLAlchemyAutoSchema):
+    album = Nested(AlbumSchema)
     class Meta:
          model = AlbumCompartido
          include_relationships = True
+         include_fk = True
+         exclude = ['usuario_id','id','album_id']
          load_instance = True
 
          
