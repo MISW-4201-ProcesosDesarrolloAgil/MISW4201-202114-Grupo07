@@ -15,7 +15,7 @@ describe('MenuComponent', () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
   let debug: DebugElement;
-  
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, ReactiveFormsModule,
