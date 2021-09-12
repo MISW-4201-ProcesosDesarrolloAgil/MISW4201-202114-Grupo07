@@ -1,3 +1,5 @@
+import { AlbumComment } from "./album-comment/album-comment";
+
 export class Album {
 
     id: number;
@@ -8,6 +10,7 @@ export class Album {
     usuario: number;
     interpretes: Array<string>;
     canciones: Array<Cancion>
+    comentarios: Array<AlbumComment>
 
     constructor(
         id: number,
@@ -17,7 +20,8 @@ export class Album {
         medio: Medio,
         usuario: number,
         interpretes: Array<string>,
-        canciones: Array<Cancion>
+        canciones: Array<Cancion>,
+        comentarios: Array<AlbumComment>
     ){
         this.id = id,
         this.titulo = titulo,
@@ -26,7 +30,8 @@ export class Album {
         this.medio = medio,
         this.usuario = usuario,
         this.interpretes = interpretes,
-        this.canciones = canciones
+        this.canciones = canciones,
+        this.comentarios = comentarios
     }
 }
 
@@ -64,3 +69,25 @@ export class Cancion{
         this.interprete = interprete
     }
 }
+// export class AlbumComment {
+//   id: number;
+//   comentario: string;
+//   album: Album;
+//   usuario: Usuario;
+//   fecha: DatePipe;
+
+
+//   constructor(
+//       id: number,
+//       comentario: string,
+//       album: Album,
+//       usuario: Usuario,
+//       fecha: DatePipe,
+//   ){
+//       this.id = id,
+//       this.comentario = comentario,
+//       this.album = album,
+//       this.usuario = usuario,
+//       this.fecha = fecha
+//   }
+// }

@@ -45,6 +45,10 @@ export class AlbumDetailComponent implements OnInit {
     this.routerPath.navigate([`/albumes/join/${this.album.id}/${this.userId}/${this.token}`])
   }
 
+  goToCommentAlbum(){
+    this.routerPath.navigate([`/albumes/comment/${this.album.id}/${this.userId}/${this.token}`])
+  }
+
   eliminarAlbum(){
     this.deleteAlbum.emit(this.album.id)
   }
