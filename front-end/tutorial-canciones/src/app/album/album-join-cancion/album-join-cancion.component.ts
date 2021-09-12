@@ -6,7 +6,7 @@ import { Cancion } from 'src/app/cancion/cancion';
 import { CancionService } from 'src/app/cancion/cancion.service';
 import { Album} from '../album';
 import { AlbumService } from '../album.service';
-
+import * as $ from 'jquery';
 @Component({
   selector: 'app-album-join-cancion',
   templateUrl: './album-join-cancion.component.html',
@@ -49,6 +49,13 @@ export class AlbumJoinCancionComponent implements OnInit {
         this.getCanciones(album.canciones)
       })
     }
+
+     //Toggle Click Function
+     $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+    
   }
 
   getCanciones(cancionesAlbum: Array<any>){

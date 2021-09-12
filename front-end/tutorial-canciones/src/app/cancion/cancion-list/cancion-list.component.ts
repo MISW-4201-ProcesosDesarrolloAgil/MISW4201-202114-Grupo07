@@ -3,7 +3,7 @@ import { Cancion } from '../cancion';
 import { CancionService } from '../cancion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-
+import * as $ from 'jquery';
 @Component({
   selector: 'app-cancion-list',
   templateUrl: './cancion-list.component.html',
@@ -34,6 +34,11 @@ export class CancionListComponent implements OnInit {
       this.token = this.router.snapshot.params.userToken
       this.getCanciones();
     }
+    //Toggle Click Function
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
   }
 
   getCanciones():void{
@@ -55,7 +60,7 @@ export class CancionListComponent implements OnInit {
     error => {
       this.showError(`Ha ocurrido un error: ${error.message}`)
     })
-    
+
   }
 
   buscarCancion(busqueda: string){
