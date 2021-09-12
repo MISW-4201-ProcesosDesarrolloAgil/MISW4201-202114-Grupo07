@@ -61,9 +61,9 @@ const routes: Routes = [
     component: CancionEditComponent
   },
   {
-    path: 'acerca-de',
-    component: AcercaDeComponent,
-    // pathMatch: 'full'
+
+    path: 'acercade/:userId/:userToken',
+    component: AcercaDeComponent
   }
 ];
 

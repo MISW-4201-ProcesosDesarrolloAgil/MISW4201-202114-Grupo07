@@ -1,6 +1,6 @@
       <div class="well">
         <ul class="nav nav-listnavbar-nav bg-gradient-success sidebar sidebar-dark accordion">
-          <li class="nav-header col-12"><img src="/assets/img/ionic_logo.png" class="img-navbar"></li>
+          <li class="nav-header col-12"><a href="/"><img src="/assets/img/ionic_logo.png" class="img-navbar"></a></li>
           <li class="col-12"><p><hr class="sidebar-divider my-0"></li>
           <li class="col-12">
             <a class="nav-link" (click)="goTo('album')"><li class=''> <i class="bi bi-window-dock"></i> Álbumes</a>
@@ -9,6 +9,12 @@
           <li class="col-12">
             <a class="nav-link" (click)="goTo('cancion')"><i class="bi bi-volume-down-fill"></i> Canciones</a>
           </li>
+
+          <li class="col-12"><hr class="sidebar-divider my-0"></li>
+          <li class="col-12">
+            <a class="nav-link" (click)="goTo('acercade')"> <i class="bi bi-eye-fill"></i> Acerca de </a>
+          </li>
+
           <li class="col-12"><hr class="sidebar-divider my-0"></li>
           <li class="col-12">
             <a class="nav-link" (click)="goTo('logIn')"> <i class="bi bi-lock-fill"></i> Salir</a>
