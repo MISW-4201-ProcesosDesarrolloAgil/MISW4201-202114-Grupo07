@@ -8,7 +8,7 @@
           class="bi bi-pencil-square"></i></button>
       <button *ngIf="album" type="button" class="btn btn-info me-1 me-2" (click)="goToJoinCancion()"
         title="Agregar canción"><i class="bi bi-plus"></i><i class="bi bi-music-note"></i></button>
-      <button *ngIf="album" type="button" class="btn btn-info me-1 me-2" (click)="goToCommentAlbum()"
+      <button *ngIf="album" type="button" class="btn btn-comment me-1 me-2" (click)="goToCommentAlbum()"
         title="Comentar canción"><i class="bi bi-plus"></i><i class="bi bi-chat"></i></button>
       <button *ngIf="album" type="button" class="btn btn-share me-1" (click)="open(content)" title="Compartir álbum"><i
           class="bi bi-share-fill"></i></button>
@@ -87,5 +87,5 @@
   </div>
 </div>
 <ng-template #content let-c="close" let-d="dismiss">
-  <app-album-share></app-album-share>
+  <app-album-share [albumComp]="album.id"></app-album-share>
 </ng-template>
