@@ -1,5 +1,5 @@
 from flask import request
-from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Comentario, ComentarioSchema
+from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Comentario, ComentarioSchema, AlbumCompartido, AlbumCompartidoSchema 
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
@@ -8,6 +8,7 @@ cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()
 album_schema = AlbumSchema()
 comentario_schema = ComentarioSchema()
+album_compartido = AlbumCompartidoSchema()
 
 class VistaCanciones(Resource):
  
@@ -180,3 +181,46 @@ class VistaComentariosAlbum(Resource):
 
     def get(self, id_album):
         return [comentario_schema.dump(comentario) for comentario in Comentario.query.filter(Comentario.album == id_album).all()]
+
+class VistaUsuarios(Resource):
+    
+    def get(self):
+        return [usuario_schema.dump(ca) for ca in Usuario.query.all()]
+
+
+class VistaAlbumsCompartido(Resource):
+
+    def get(self, id_usuario, id_album):
+        return usuario_schema.dump(Usuario.query.get_or_404(id_usuario))
+
+
+    def post(self, id_usuario, id_album):
+        ####VALIDAMOS SI EXISTE EL USUARIO
+        usuario = Usuario.query.filter(Usuario.id == id_usuario).first()
+        db.session.commit()
+        if usuario is None:
+            return "El usuario no existe", 404
+        else:            
+            album = Usuario.query.filter(Album.id == id_album).first()
+            db.session.commit()
+            if album is None:
+                return "El album no existe", 404
+            else:
+                albumid = request.json['album_id']
+                usuarioid = request.json['usuario_id']
+
+                album = Album.query.get_or_404(albumid)
+                usuario = Usuario.query.get_or_404(usuarioid)
+
+                ##CONSULTAMOS SI ESE USUARIO YA TIENE EL ALBUM COMPRATIDO
+                album_compartido = AlbumCompartido.query.filter( AlbumCompartido.album_id ==  albumid,  AlbumCompartido.usuario_id == usuarioid).first()
+                db.session.commit()
+                if album_compartido is None:
+                    return "El usuario ya tiene el album compartido.", 404
+                else:
+                    nuevo_album_compartido = AlbumCompartido( album_id =  albumid, usuario_id = usuarioid)
+                    db.session.add(nuevo_album_compartido)
+                    db.session.commit()
+                    return album_compartido.dump(album_compartido)
+        
+ 
