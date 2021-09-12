@@ -1,14 +1,19 @@
 <div class="container my-4">
   <div class="row">
-    <div class="mb-2 text-center col-lg-6 col-sm-12" >
+    <div class="mb-2 text-center col-lg-6 col-sm-12">
       <label class="fs-4 fw-bold" i18n>Álbum: {{album?.titulo}} ({{album?.anio}})</label>
     </div>
     <div class="mb-2 text-center col-lg-6 col-sm-12">
-      <button *ngIf="album" type="button" class="btn btn-success ms-3 me-2" (click)="goToEdit()" title="Editar álbum"><i class="bi bi-pencil-square"></i></button>
-      <button *ngIf="album" type="button" class="btn btn-info me-1 me-2" (click)="goToJoinCancion()" title="Agregar canción" ><i class="bi bi-plus" ></i><i class="bi bi-music-note"></i></button>
-      <button *ngIf="album" type="button" class="btn btn-info me-1 me-2" (click)="goToCommentAlbum()" title="Comentar canción" ><i class="bi bi-plus" ></i><i class="bi bi-chat"></i></button>
-      <button *ngIf="album" type="button" class="btn btn-share me-1" (click)="open(content)" title="Compartir álbum"><i class="bi bi-share-fill"></i></button>
-      <button *ngIf="album" type="button" class="btn btn-danger me-1" (click)="eliminarAlbum()" title="Eliminar álbum"><i class="bi bi-trash-fill"></i></button>
+      <button *ngIf="album" type="button" class="btn btn-success ms-3 me-2" (click)="goToEdit()" title="Editar álbum"><i
+          class="bi bi-pencil-square"></i></button>
+      <button *ngIf="album" type="button" class="btn btn-info me-1 me-2" (click)="goToJoinCancion()"
+        title="Agregar canción"><i class="bi bi-plus"></i><i class="bi bi-music-note"></i></button>
+      <button *ngIf="album" type="button" class="btn btn-info me-1 me-2" (click)="goToCommentAlbum()"
+        title="Comentar canción"><i class="bi bi-plus"></i><i class="bi bi-chat"></i></button>
+      <button *ngIf="album" type="button" class="btn btn-share me-1" (click)="open(content)" title="Compartir álbum"><i
+          class="bi bi-share-fill"></i></button>
+      <button *ngIf="album" type="button" class="btn btn-danger me-1" (click)="eliminarAlbum()"
+        title="Eliminar álbum"><i class="bi bi-trash-fill"></i></button>
     </div>
   </div>
 
@@ -38,7 +43,7 @@
       <h5 i18n>Canciones</h5>
     </div>
     <div class="col-12">
-      <table class="table table-hover table-bordered" >
+      <table class="table table-hover table-bordered">
         <thead class="table-light">
           <tr>
             <th scope="col" class="text-center" i18n>Canción</th>
@@ -47,11 +52,11 @@
           </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let cancion of album?.canciones" >
-              <td >{{cancion.titulo}}</td>
-              <td class="text-center">{{cancion.minutos|number:'2.0'}}:{{cancion.segundos|number:'2.0'}}</td>
-              <td >{{cancion.interprete}}</td>
-            </tr>
+          <tr *ngFor="let cancion of album?.canciones">
+            <td>{{cancion.titulo}}</td>
+            <td class="text-center">{{cancion.minutos|number:'2.0'}}:{{cancion.segundos|number:'2.0'}}</td>
+            <td>{{cancion.interprete}}</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -62,7 +67,7 @@
       <h5>Comentarios</h5>
     </div>
     <div class="col-12">
-      <table class="table table-hover table-bordered" >
+      <table class="table table-hover table-bordered">
         <thead class="table-light">
           <tr>
             <th scope="col" class="text-center" i18n>Comentario</th>
@@ -71,16 +76,16 @@
           </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let cancion of album?.canciones" >
-              <td >{{cancion.titulo}}</td>
-              <td class="text-center">{{cancion.minutos}}:{{cancion.segundos}}</td>
-              <td >{{cancion.interprete}}</td>
-            </tr>
+          <tr *ngFor="let comentario of comentarios">
+            <td>{{comentario.comentario}}</td>
+            <td class="text-center">{{comentario.usuarioo.nombre}}</td>
+            <td>{{comentario.fecha}}--{{comentario.hora}}</td>
+          </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
 <ng-template #content let-c="close" let-d="dismiss">
-<app-album-share></app-album-share>
+  <app-album-share></app-album-share>
 </ng-template>

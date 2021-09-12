@@ -4,7 +4,9 @@ import { Album } from '../album';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
-
+import { AlbumService } from '../album.service';
+import { Coment } from '../album-comment/coment';
+import { CommentResp } from '../album-comment/commentResp';
 @Component({
   selector: 'app-album-detail',
   templateUrl: './album-detail.component.html',
@@ -19,40 +21,68 @@ export class AlbumDetailComponent implements OnInit {
 
   userId: number;
   token: string;
+  comentarios: Array<CommentResp>
 
   constructor(
+    private albumService: AlbumService,
     private routerPath: Router,
     private router: ActivatedRoute,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-  ) { }
+  ) {
+
+
+  }
 
   ngOnInit() {
     this.userId = parseInt(this.router.snapshot.params.userId)
     this.token = this.router.snapshot.params.userToken
 
     this.shareForm = this.formBuilder.group({
-      nombre:["",[Validators.required, Validators.minLength(5)]]
+      nombre: ["", [Validators.required, Validators.minLength(5)]]
     })
+
   }
 
-  goToEdit(){
+  ngOnChanges() {
+    this.getComentarios();
+  }
+
+  goToEdit() {
     this.routerPath.navigate([`/albumes/edit/${this.album.id}/${this.userId}/${this.token}`])
   }
 
-  goToJoinCancion(){
+  goToJoinCancion() {
     this.routerPath.navigate([`/albumes/join/${this.album.id}/${this.userId}/${this.token}`])
   }
 
-  goToCommentAlbum(){
+  goToCommentAlbum() {
     this.routerPath.navigate([`/albumes/comment/${this.album.id}/${this.userId}/${this.token}`])
   }
 
-  eliminarAlbum(){
+  eliminarAlbum() {
     this.deleteAlbum.emit(this.album.id)
   }
-  open(content:any) {
+  open(content: any) {
     this.modalService.open(content);
   }
+
+  getComentarios(): void {
+    if (this.album) {
+      this.albumService.getAlbumComentarios(this.album.id)
+        .subscribe(comen => {
+
+          this.comentarios = comen
+
+        },
+          error => {
+            console.log(error)
+
+          })
+
+    }
+
+  }
+
 }

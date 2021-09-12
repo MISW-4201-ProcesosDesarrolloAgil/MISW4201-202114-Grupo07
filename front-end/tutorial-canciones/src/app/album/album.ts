@@ -1,73 +1,74 @@
 import { AlbumComment } from "./album-comment/album-comment";
+import { Coment } from "./album-comment/coment";
 
 export class Album {
 
-    id: number;
-    titulo: string;
-    anio: number;
-    descripcion: string;
-    medio: Medio;
-    usuario: number;
-    interpretes: Array<string>;
-    canciones: Array<Cancion>
-    comentarios: Array<AlbumComment>
+  id: number;
+  titulo: string;
+  anio: number;
+  descripcion: string;
+  medio: Medio;
+  usuario: number;
+  interpretes: Array<string>;
+  canciones: Array<Cancion>
+  comentarios: Array<Coment>
 
-    constructor(
-        id: number,
-        titulo: string,
-        anio: number,
-        descripcion: string,
-        medio: Medio,
-        usuario: number,
-        interpretes: Array<string>,
-        canciones: Array<Cancion>,
-        comentarios: Array<AlbumComment>
-    ){
-        this.id = id,
-        this.titulo = titulo,
-        this.anio = anio,
-        this.descripcion = descripcion,
-        this.medio = medio,
-        this.usuario = usuario,
-        this.interpretes = interpretes,
-        this.canciones = canciones,
-        this.comentarios = comentarios
-    }
+  constructor(
+    id: number,
+    titulo: string,
+    anio: number,
+    descripcion: string,
+    medio: Medio,
+    usuario: number,
+    interpretes: Array<string>,
+    canciones: Array<Cancion>,
+    comentarios: Array<Coment>
+  ) {
+    this.id = id,
+      this.titulo = titulo,
+      this.anio = anio,
+      this.descripcion = descripcion,
+      this.medio = medio,
+      this.usuario = usuario,
+      this.interpretes = interpretes,
+      this.canciones = canciones,
+      this.comentarios = comentarios
+  }
 }
 
-export class Medio{
-    llave: string;
+export class Medio {
+  llave: string;
+  valor: number
+
+  constructor(
+    llave: string,
     valor: number
-
-    constructor(
-        llave: string,
-        valor:number
-    ){
-        this.llave = llave,
-        this.valor = valor
-    }
+  ) {
+    this.llave = llave,
+      this.valor = valor
+  }
 }
 
-export class Cancion{
-    id: number;
-    titulo: string;
-    minutos: number;
-    segundos: number;
-    interprete: string;
+export class Cancion {
+  id: number;
+  titulo: string;
+  minutos: number;
+  segundos: number;
+  interprete: string;
 
-    constructor(
-        id: number,
-        titulo: string,
-        minutos: number,
-        segundos: number,
-        interprete: string
-    ){
-        this.id = id,
-        this.titulo = titulo,
-        this.minutos = minutos,
-        this.segundos = segundos,
-        this.interprete = interprete
-    }
+  constructor(
+    id: number,
+    titulo: string,
+    minutos: number,
+    segundos: number,
+    interprete: string
+  ) {
+    this.id = id,
+      this.titulo = titulo,
+      this.minutos = minutos,
+      this.segundos = segundos,
+      this.interprete = interprete
+  }
 }
 // export class AlbumComment {
 //   id: number;
