@@ -5,13 +5,14 @@ on:
     tags: 'v*'
 
 jobs:
-  build: Crear rama release
-  runs-on: ubuntu-latest
-  steps:
-  - uses: actions/checkout@v2
-  - run: |
-      git checkout -b release
-      git push --set-upstream origin release
+  build: 
+      name: Crear rama release
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+      - run: |
+          git checkout -b release
+          git push --set-upstream origin release
   back:
     name: Pruebas backend
     runs-on: ubuntu-latest
