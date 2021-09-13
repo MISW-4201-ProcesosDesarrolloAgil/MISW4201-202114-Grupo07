@@ -1,0 +1,15 @@
+nav{
+  background-color: #F2F3F7!important;
+  color: black;
+  font-weight: bold;
+  text-align: right;
+}
+
+.texto_der {
+  text-align: right;
+}
+
+.navbar,
+.nav {
+  background-color: #181D22;
+}

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Cancion } from '../cancion';
 import { CancionService } from '../cancion.service';
-
+import * as $ from 'jquery';
 @Component({
   selector: 'app-cancion-create',
   templateUrl: './cancion-create.component.html',
@@ -38,6 +38,11 @@ export class CancionCreateComponent implements OnInit {
         interprete: ["", [Validators.required, Validators.maxLength(128)]]
       })
     }
+    //Toggle Click Function
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
   }
 
   createCancion(newCancion: Cancion){
@@ -79,5 +84,10 @@ export class CancionCreateComponent implements OnInit {
     this.toastr.success(`La canción ${cancion.titulo} fue creada`, "Creación exitosa");
   }
 
-
+  timeFormat(event:any){
+    if(event.target.value.length === 1){
+      let n = "0" + event.target.value
+      event.target.value = n
+     }
+  }
 }

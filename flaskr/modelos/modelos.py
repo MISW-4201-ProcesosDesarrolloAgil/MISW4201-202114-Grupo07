@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from marshmallow import fields
+from marshmallow.fields import Nested
 import enum
 
 
@@ -17,6 +18,7 @@ class Cancion(db.Model):
     segundos = db.Column(db.Integer)
     interprete = db.Column(db.String(128))
     albumes = db.relationship('Album', secondary = 'album_cancion', back_populates="canciones")
+    
 
 class Medio(enum.Enum):
    DISCO = 1
@@ -31,12 +33,35 @@ class Album(db.Model):
     medio = db.Column(db.Enum(Medio))
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
     canciones = db.relationship('Cancion', secondary = 'album_cancion', back_populates="albumes")
+    comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
+    compartidos = db.relationship('AlbumCompartido', cascade='all, delete, delete-orphan')
     
-class Usuario(db.Model):
+    
+class Usuario(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
     albumes = db.relationship('Album', cascade='all, delete, delete-orphan')
+    comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
+
+
+class Comentario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    comentario = db.Column(db.String(250))
+    fecha = db.Column(db.String(10))
+    hora = db.Column(db.String(5))
+    album = db.Column(db.Integer, db.ForeignKey("album.id"))
+    cancion = db.Column(db.Integer, db.ForeignKey("cancion.id"))
+    usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+    usuarioo = db.relationship("Usuario", back_populates="comentarios")
+    respuesta = db.Column(db.Integer, db.ForeignKey("comentario.id"))
+    respuestas = db.relationship('Comentario', cascade='all, delete, delete-orphan')
+
+class AlbumCompartido(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    album_id = db.Column(db.Integer, db.ForeignKey("album.id"))
+    album = db.relationship("Album", back_populates="compartidos")
+    usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
 
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):
@@ -62,3 +87,24 @@ class UsuarioSchema(SQLAlchemyAutoSchema):
          model = Usuario
          include_relationships = True
          load_instance = True
+
+class ComentarioSchema(SQLAlchemyAutoSchema):
+    usuarioo = Nested(UsuarioSchema)
+    class Meta:
+         model = Comentario
+         include_relationships = True
+         load_instance = True
+    
+    
+
+class AlbumCompartidoSchema(SQLAlchemyAutoSchema):
+    album = Nested(AlbumSchema)
+    class Meta:
+         model = AlbumCompartido
+         include_relationships = True
+         include_fk = True
+         exclude = ['usuario_id','id','album_id']
+         load_instance = True
+
+         
+ 

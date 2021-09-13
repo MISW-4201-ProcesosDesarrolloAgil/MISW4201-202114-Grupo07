@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlbumService } from '../album.service';
 import { Album, Medio } from '../album';
 
+import * as $ from 'jquery';
+
 @Component({
   selector: 'app-album-create',
   templateUrl: './album-create.component.html',
@@ -54,6 +56,14 @@ export class AlbumCreateComponent implements OnInit {
         medio: ["", [Validators.required]]
       })
     }
+
+
+     //Toggle Click Function
+     $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+    
   }
 
   showError(error: string){

@@ -5,21 +5,31 @@ import { DebugElement } from '@angular/core';
 
 import { CancionDetailComponent } from './cancion-detail.component';
 
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import { RouterTestingModule } from '@angular/router/testing';
+
 describe('CancionDetailComponent', () => {
   let component: CancionDetailComponent;
   let fixture: ComponentFixture<CancionDetailComponent>;
+  let debug: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CancionDetailComponent ]
+      imports: [HttpClientModule, ReactiveFormsModule,
+        FormsModule, ToastrModule.forRoot(), RouterTestingModule],
+      declarations: [CancionDetailComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CancionDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    debug = fixture.debugElement;
   });
 
   it('should create', () => {

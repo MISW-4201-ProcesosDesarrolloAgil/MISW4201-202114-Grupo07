@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Album, Medio } from '../album';
 import { AlbumService } from '../album.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-album-edit',
@@ -32,7 +33,7 @@ export class AlbumEditComponent implements OnInit {
   ]
 
   constructor(
-    
+
     private albumService: AlbumService,
     private formBuilder: FormBuilder,
     private router: ActivatedRoute,
@@ -57,6 +58,13 @@ export class AlbumEditComponent implements OnInit {
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
     }
+
+     //Toggle Click Function
+     $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+
   }
 
   cancelCreate(){

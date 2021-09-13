@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Cancion } from '../cancion';
 import { CancionService } from '../cancion.service';
-
+import * as $ from 'jquery';
 @Component({
   selector: 'app-cancion-edit',
   templateUrl: './cancion-edit.component.html',
@@ -43,6 +43,11 @@ export class CancionEditComponent implements OnInit {
         })
       })
     }
+    //Toggle Click Function
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
   }
 
   cancelCreate(){
@@ -84,4 +89,10 @@ export class CancionEditComponent implements OnInit {
     this.toastr.success(`La canción ${cancion.titulo} fue editada`, "Edición exitosa");
   }
 
+  timeFormat(event:any){
+    if(event.target.value.length === 1){
+      let n = "0" + event.target.value
+      event.target.value = n
+    }
+  }
 }

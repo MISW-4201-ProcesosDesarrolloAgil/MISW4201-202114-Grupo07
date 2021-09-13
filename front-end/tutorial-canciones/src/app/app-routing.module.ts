@@ -9,6 +9,8 @@ import { CancionCreateComponent } from './cancion/cancion-create/cancion-create.
 import { CancionEditComponent } from './cancion/cancion-edit/cancion-edit.component';
 import { AlbumJoinCancionComponent } from './album/album-join-cancion/album-join-cancion.component';
 import { UsuarioSignupComponent } from './usuario/usuario-signup/usuario-signup.component';
+import { AcercaDeComponent } from './inicio/acerca-de/acerca-de.component';
+import { AlbumCommentComponent } from './album/album-comment/album-comment.component';
 
 const routes: Routes = [
   {
@@ -43,6 +45,10 @@ const routes: Routes = [
     component: AlbumJoinCancionComponent
   },
   {
+    path: 'albumes/comment/:albumId/:userId/:userToken',
+    component: AlbumCommentComponent
+  },
+  {
     path: 'canciones/:userId/:userToken',
     component: CancionListComponent
   },
@@ -53,6 +59,11 @@ const routes: Routes = [
   {
     path: 'canciones/edit/:cancionId/:userId/:userToken',
     component: CancionEditComponent
+  },
+  {
+
+    path: 'acercade/:userId/:userToken',
+    component: AcercaDeComponent
   }
 ];
 

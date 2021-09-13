@@ -1,0 +1,18 @@
+footer {
+	background-color:#1A1A1A;
+	height: 50%;
+  color: white;
+  padding: 1px;
+}
+
+.texto_der{
+  text-align: right;
+}
+.main1 {
+  display:flex;
+  margin:0 auto;
+}
+
+a img:hover {
+    color: #fff;
+}

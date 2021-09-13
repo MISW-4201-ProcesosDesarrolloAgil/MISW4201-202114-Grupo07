@@ -1,38 +1,58 @@
-<app-header></app-header>
+<div class="d-flex" id="wrapper">
+  <div class="bg-light border-right" id="sidebar-wrapper">
+  <app-menu></app-menu>
+  </div>
+  <div id="page-content-wrapper">
+    <app-header></app-header>
+    <div class="container-fluid">
+
+
 <div class="container my-4">
-    <div class="row">
-      <div class="col-4">
-        <div class="card">
-          <div class="card-header">
-            <div class="row">
-              <div class="col-10 text-center">
-                <label class="fs-4">Canciones</label>
-              </div>
-              <div class="col-2 text-center">
-                <button type="button" class="my-1 btn btn-outline-primary btn-circle" (click)="irCrearCancion()"><i class="bi bi-plus-lg"></i></button>
-              </div>
+  <div class="row">
+    <div class="col-lg-4 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="text-center col-10">
+              <label class="fs-4" i18n>Canciones</label>
+            </div>
+            <div class="text-center col-2">
+              <button type="button" class="my-1 btn btn-primary btn-circle" (click)="irCrearCancion()"><i
+                  class="bi bi-plus-lg"></i></button>
             </div>
           </div>
-          <div class="card-body">
-  
-            <div class="input-group my-2">
-              <input #busqueda type="search" class="form-control" placeholder="Buscar canciones" aria-label="Search" (keyup)="buscarCancion(busqueda.value)">
-            </div>
-  
-            <table class="table table-hover mb-0" aria-describedby="colecName">
+        </div>
+        <div class="card-body">
+
+          <div class="my-2 input-group">
+            <input #busqueda type="search" class="form-control" placeholder="Buscar canciones" aria-label="Search"
+              (keyup)="buscarCancion(busqueda.value)">
+          </div>
+
+            <table class="table mb-0 table-hover" aria-describedby="colecName">
               <tbody>
                   <tr *ngFor="let cancion of mostrarCanciones; index as i" (click)="onSelect(cancion, i)" [ngClass]="{'selected': i === indiceSeleccionado}">
                     <td>{{cancion.titulo}}</td>
-                    <td>{{cancion.minutos}}:{{cancion.segundos}}</td>
+                    <td>{{cancion.minutos|number:'2.0'}}:{{cancion.segundos|number:'2.0'}}</td>
                   </tr>
               </tbody>
             </table>
-            
-          </div>
+
         </div>
       </div>
-      <div class="col-8">
-        <app-cancion-detail (deleteCancion)="eliminarCancion()" [cancion]="cancionSeleccionada"></app-cancion-detail>
-      </div>
+    </div>
+    <div class="col-lg-8 col-sm-12">
+      <app-cancion-detail (deleteCancion)="eliminarCancion()" [cancion]="cancionSeleccionada"></app-cancion-detail>
     </div>
   </div>
+</div>
+
+
+
+
+<app-footer></app-footer>
+</div>
+</div>
+</div>
+<!-- /#wrapper -->
+

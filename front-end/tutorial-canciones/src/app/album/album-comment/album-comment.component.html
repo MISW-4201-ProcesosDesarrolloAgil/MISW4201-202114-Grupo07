@@ -1,0 +1,66 @@
+<div class="d-flex" id="wrapper">
+  <div class="bg-light border-right" id="sidebar-wrapper">
+  <app-menu></app-menu>
+  </div>
+  <div id="page-content-wrapper">
+    <app-header></app-header>
+    <div class="container-fluid">
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="mx-3 my-5 card">
+        <div class="text-center row col-12">
+            <p class="mt-5 mb-2 fs-3 fw-bold" i18n>Álbum: {{album?.titulo}} ({{album?.anio}})</p>
+        </div>
+        <div class="mb-2 text-center col-lg-6 col-sm-12">
+          <label class="fs-4 fw-bold" i18n>Comentar Álbum</label>
+        </div>
+        <form class="mx-5 my-3" [formGroup]="albumCommentForm" (ngSubmit)="createAlbumComment(albumCommentForm.value)">
+
+          <div class="my-2 form-group">
+            <div class="row justify-content-center">
+              <div class="col-10">
+                <textarea class=" form-control" formControlName="comentario"
+                  placeholder="Comentario del álbum" i18n></textarea>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-8">
+                <div class="my-3 alert alert-danger"
+                  *ngIf="albumCommentForm.get('comentario')?.hasError('required') && albumCommentForm.get('comentario')?.touched" i18n>
+                  Debe ingresar un comentario para el álbum
+                </div>
+                <div class="my-3 alert alert-danger" *ngIf="albumCommentForm.get('comentario')?.hasError('minlength')" i18n>
+                  La comentario del álbum debe tener por lo menos un carácter
+                </div>
+                <div class="my-3 alert alert-danger" *ngIf="albumCommentForm.get('comentario')?.hasError('maxlength')" i18n>
+                  La comentario del álbum no debe superar los 512 carácteres
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 row">
+            <div class="col-6 text-end">
+              <button class="btn btn-danger" (click)="cancelCreate()">Cancelar</button>
+            </div>
+            <div class="col-6 text-start">
+              <button type="submit" class="btn btn-primary" [disabled]="!albumCommentForm.valid">Comentar</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<app-footer></app-footer>
+</div>
+</div>
+</div>
+<!-- /#wrapper -->
+

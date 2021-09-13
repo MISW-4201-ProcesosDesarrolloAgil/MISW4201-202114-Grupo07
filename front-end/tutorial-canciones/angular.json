@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "f5704b6c-3851-486b-8c91-93a4411c60ff"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -32,9 +35,22 @@
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js"]
           },
           "configurations": {
+
+            "en": {
+              "aot": true,
+              "outputPath": "dist/tutorial-canciones-en/",
+              // "i18nFile": "src/locale/messages.en.xlf",
+              // "i18nFormat": "xlf",
+              // "i18nLocale": "en",
+              "i18nMissingTranslation": "error"
+            },
+
             "production": {
               "budgets": [
                 {
@@ -73,6 +89,9 @@
             "production": {
               "browserTarget": "tutorial-canciones:build:production"
             },
+            "en": {
+              "browserTarget": "tutorial-canciones:build:en"
+            },
             "development": {
               "browserTarget": "tutorial-canciones:build:development"
             }
@@ -97,10 +116,16 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.css"
             ],
-            "scripts": []
-          }
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js"]
+           }
         }
       }
     }
