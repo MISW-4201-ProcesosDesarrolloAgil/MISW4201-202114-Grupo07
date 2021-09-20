@@ -11,7 +11,10 @@
     <div class="col-10">
       <div class="mx-3 my-5 card">
         <div class="text-center row col-12">
-            <p class="mt-5 mb-2 fs-3 fw-bold" i18n>Comentar Álbum</p>
+            <p class="mt-5 mb-2 fs-3 fw-bold" i18n>Álbum: {{album?.titulo}} ({{album?.anio}})</p>
+        </div>
+        <div class="mb-2 text-center col-lg-6 col-sm-12">
+          <label class="fs-4 fw-bold" i18n>Comentar Álbum</label>
         </div>
         <form class="mx-5 my-3" [formGroup]="albumCommentForm" (ngSubmit)="createAlbumComment(albumCommentForm.value)">
 

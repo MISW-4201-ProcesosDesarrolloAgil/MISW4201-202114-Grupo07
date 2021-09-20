@@ -17,7 +17,7 @@ import * as $ from 'jquery';
   providers: [NgbModalConfig, NgbModal]
 })
 export class AlbumCommentComponent implements OnInit {
-
+  album: Album
   userId: number
   token: string
   albumCommentForm: FormGroup
@@ -37,6 +37,7 @@ export class AlbumCommentComponent implements OnInit {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
     else {
+      this.getAlbum()
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
       this.albumCommentForm = this.formBuilder.group({
@@ -68,6 +69,25 @@ export class AlbumCommentComponent implements OnInit {
   cancelCreate() {
     this.albumCommentForm.reset()
     this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+  }
+
+  getAlbum() {
+    this.albumService.getAlbum(this.router.snapshot.params.albumId)
+    .subscribe(com => {
+      this.album = com;
+
+    },
+      error => {
+        if (error.statusText === "UNAUTHORIZED") {
+          this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+        }
+        else if (error.statusText === "UNPROCESSABLE ENTITY") {
+          this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+        }
+        else {
+          this.showError("Ha ocurrido un error. " + error.message)
+        }
+      })
   }
 
   createAlbumComment(newComment: AlbumComment) {
