@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') { 
             steps {
                 scmSkip(deleteBuild: true, skipPattern:'.*\\[ci-skip\\].*')
-                git branch: 'main',  
+                git branch: 'dev',  
                 credentialsId: env.GITHUB_TOKEN_ID,
                 url: 'https://github.com/MISW-4102-ProcesosDeDesarrolloAgil/' + env.GIT_REPO
             }
@@ -30,8 +30,8 @@ pipeline {
                     sh('git config --global user.name "ci-isis2603"')
                     sh('git add ./reports/index.html')
                     sh('git commit -m "[ci-skip] GitInspector report added"')
-                    sh('git pull https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/MISW-4102-ProcesosDeDesarrolloAgil/${GIT_REPO} main')
-                    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/MISW-4102-ProcesosDeDesarrolloAgil/${GIT_REPO} main')
+                    sh('git pull https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/MISW-4102-ProcesosDeDesarrolloAgil/${GIT_REPO} dev')
+                    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/MISW-4102-ProcesosDeDesarrolloAgil/${GIT_REPO} dev')
                 }  
             }
         }
