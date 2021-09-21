@@ -23,7 +23,7 @@ export class CancionDetailComponent implements OnInit {
   ngOnInit() {
     this.userId = parseInt(this.router.snapshot.params.userId)
     this.token = this.router.snapshot.params.userToken
-    
+
   }
 
   eliminarCancion(){
@@ -33,5 +33,10 @@ export class CancionDetailComponent implements OnInit {
   goToEdit(){
     this.routerPath.navigate([`/canciones/edit/${this.cancion.id}/${this.userId}/${this.token}`])
   }
+
+  goToCommentCancion() {
+    this.routerPath.navigate([`/canciones/comment/${this.cancion.id}/${this.userId}/${this.token}`])
+  }
+
 
 }

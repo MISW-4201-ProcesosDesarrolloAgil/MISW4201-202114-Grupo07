@@ -11,32 +11,32 @@
     <div class="col-10">
       <div class="mx-3 my-5 card">
         <div class="text-center row col-12">
-            <p class="mt-5 mb-2 fs-3 fw-bold" i18n>Álbum: {{album?.titulo}} ({{album?.anio}})</p>
+            <p class="mt-5 mb-2 fs-3 fw-bold" i18n>Canción: {{cancion?.titulo}}</p>
         </div>
         <div class="text-center row col-12">
           <!-- <label class="fs-4 fw-bold" i18n>Comentar Álbum</label> -->
-          <p class="mt-5 mb-2 fs-6" i18n>Agregar comentario al Álbum</p>
+          <p class="mt-5 mb-2 fs-6" i18n>Agregar comentario a la Canción</p>
         </div>
-        <form class="mx-5 my-3" [formGroup]="albumCommentForm" (ngSubmit)="createAlbumComment(albumCommentForm.value)">
+        <form class="mx-5 my-3" [formGroup]="cancionCommentForm" (ngSubmit)="createCancionComment(cancionCommentForm.value)">
 
           <div class="my-2 form-group">
             <div class="row justify-content-center">
               <div class="col-10">
                 <textarea class=" form-control" formControlName="comentario"
-                  placeholder="Comentario del álbum" i18n></textarea>
+                  placeholder="Comentario de la cancion" i18n></textarea>
               </div>
             </div>
             <div class="row justify-content-center">
               <div class="col-8">
                 <div class="my-3 alert alert-danger"
-                  *ngIf="albumCommentForm.get('comentario')?.hasError('required') && albumCommentForm.get('comentario')?.touched" i18n>
-                  Debe ingresar un comentario para el álbum
+                  *ngIf="cancionCommentForm.get('comentario')?.hasError('required') && cancionCommentForm.get('comentario')?.touched" i18n>
+                  Debe ingresar un comentario para la canción
                 </div>
-                <div class="my-3 alert alert-danger" *ngIf="albumCommentForm.get('comentario')?.hasError('minlength')" i18n>
-                  La comentario del álbum debe tener por lo menos un carácter
+                <div class="my-3 alert alert-danger" *ngIf="cancionCommentForm.get('comentario')?.hasError('minlength')" i18n>
+                  El comentario de la cancion debe tener por lo menos un carácter
                 </div>
-                <div class="my-3 alert alert-danger" *ngIf="albumCommentForm.get('comentario')?.hasError('maxlength')" i18n>
-                  La comentario del álbum no debe superar los 512 carácteres
+                <div class="my-3 alert alert-danger" *ngIf="cancionCommentForm.get('comentario')?.hasError('maxlength')" i18n>
+                  El comentario de la cancion no debe superar los 512 carácteres
                 </div>
               </div>
             </div>
@@ -47,7 +47,7 @@
               <button class="btn btn-danger" (click)="cancelCreate()">Cancelar</button>
             </div>
             <div class="col-6 text-start">
-              <button type="submit" class="btn btn-primary" [disabled]="!albumCommentForm.valid">Comentar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!cancionCommentForm.valid">Comentar</button>
             </div>
           </div>
 
@@ -64,4 +64,5 @@
 </div>
 </div>
 <!-- /#wrapper -->
+
 

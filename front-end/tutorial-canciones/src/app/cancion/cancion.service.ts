@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cancion } from './cancion';
 import { Album } from '../album/album';
+import { CommentCancion } from './cancion-comment/commentCancion';
+import { CommentCancionResp } from './cancion-comment/commentCancionResp';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class CancionService {
 
   getCancionesAlbum(idAlbum: number, token: string): Observable<Cancion[]>{
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`       
+      'Authorization': `Bearer ${token}`
     })
     return this.http.get<Cancion[]>(`${this.backUrl}/album/${idAlbum}/canciones`, {headers: headers})
   }
@@ -42,6 +44,17 @@ export class CancionService {
 
   eliminarCancion(cancionId: number): Observable<Cancion>{
     return this.http.delete<Cancion>(`${this.backUrl}/cancion/${cancionId}`)
+  }
+
+  comentarCancion(token: string, coment: CommentCancion): Observable<CommentCancion> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.post<CommentCancion>(`${this.backUrl}/comentarios`, coment, { headers: headers })
+  }
+
+  getCancionComentarios(albumId: number): Observable<CommentCancionResp[]> {
+    return this.http.get<CommentCancionResp[]>(`${this.backUrl}/comentarioAlbum/${albumId}`)
   }
 
 }
