@@ -17,7 +17,11 @@ class Cancion(db.Model):
     minutos = db.Column(db.Integer)
     segundos = db.Column(db.Integer)
     interprete = db.Column(db.String(128))
+    usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+    # usuarioo = db.relationship("Usuario", back_populates="canciones")
     albumes = db.relationship('Album', secondary = 'album_cancion', back_populates="canciones")
+    comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
+    
     
 
 class Medio(enum.Enum):
@@ -42,6 +46,7 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
     albumes = db.relationship('Album', cascade='all, delete, delete-orphan')
+    canciones = db.relationship('Cancion', cascade='all, delete, delete-orphan')
     comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
 
 
@@ -73,6 +78,7 @@ class CancionSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = Cancion
          include_relationships = True
+         include_fk=True
          load_instance = True
 
 class AlbumSchema(SQLAlchemyAutoSchema):

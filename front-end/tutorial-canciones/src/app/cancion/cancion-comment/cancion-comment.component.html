@@ -1,0 +1,67 @@
+<div class="container my-4">
+  <div class="row">
+    <div class="mt-3 mb-2 col-12 ms-2">
+      <h5>Comentarios</h5>
+    </div>
+    <div class="mb-2 text-center col-lg-6 col-sm-12">
+      <button class="btn btn-success btn-sm" (click)="nuevoComentario()">Comentar</button>
+    </div>
+    <form *ngIf="showComent" class="mx-5 my-3" [formGroup]="cancionCommentForm"
+      (ngSubmit)="createAlbumComment(cancionCommentForm.value)">
+
+      <div class="my-2 form-group">
+        <div class="row justify-content-center">
+          <div class="col-10">
+            <textarea class=" form-control" formControlName="comentario" placeholder="Comentario de de la canción"
+              i18n></textarea>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-8">
+            <div class="my-3 alert alert-danger"
+              *ngIf="cancionCommentForm.get('comentario')?.hasError('required') && cancionCommentForm.get('comentario')?.touched"
+              i18n>
+              Debe ingresar un comentario para la canción
+            </div>
+            <div class="my-3 alert alert-danger" *ngIf="cancionCommentForm.get('comentario')?.hasError('minlength')"
+              i18n>
+              La comentario de la canción debe tener por lo menos un carácter
+            </div>
+            <div class="my-3 alert alert-danger" *ngIf="cancionCommentForm.get('comentario')?.hasError('maxlength')"
+              i18n>
+              La comentario de la canción no debe superar los 512 carácteres
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 row">
+        <div class="col-6 text-end">
+          <button class="btn btn-danger" (click)="nuevoComentario()">Cancelar</button>
+        </div>
+        <div class="col-6 text-start">
+          <button type="submit" class="btn btn-primary" [disabled]="!cancionCommentForm.valid">Comentar</button>
+        </div>
+      </div>
+
+    </form>
+    <div class="col-12">
+      <table style="width:100%" class="table table-hover table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th scope="col" style="width:55%" class="text-center" i18n>Comentario</th>
+            <th scope="col" style="width:25%" class="text-center" i18n>Usuario</th>
+            <th scope="col" style="width:20%" class="text-center" i18n>Fecha y Hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let comentario of comentarios">
+            <td>{{comentario.comentario}}</td>
+            <td class="text-center">{{comentario.usuarioo.nombre}}</td>
+            <td>{{comentario.fecha}}--{{comentario.hora}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
