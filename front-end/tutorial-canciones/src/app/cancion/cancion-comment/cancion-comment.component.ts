@@ -1,41 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Cancion } from '../cancion';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CancionService } from '../cancion.service';
-import { CancionComment } from './cancion-comment';
-import { CommentCancion } from './commentCancion';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommentResp } from 'src/app/album/album-comment/commentResp';
+import { Cancion } from 'src/app/album/album';
+import { AlbumComment } from 'src/app/album/album-comment/album-comment';
+import { CommentCancion } from '../commentCancion';
 
 @Component({
   selector: 'app-cancion-comment',
   templateUrl: './cancion-comment.component.html',
-  styleUrls: ['./cancion-comment.component.css'],
-  providers: [NgbModalConfig, NgbModal]
+  styleUrls: ['./cancion-comment.component.css']
 })
 export class CancionCommentComponent implements OnInit {
-  cancion: Cancion
+
+  @Input() cancion: Cancion;
+
+  comentarios: Array<CommentResp>
+  cancionCommentForm: FormGroup
   userId: number
   token: string
-  cancionCommentForm: FormGroup
+  showComent: boolean
 
-  constructor(
-    private cancionService: CancionService,
+  constructor(private cancionService: CancionService,
     private formBuilder: FormBuilder,
     private router: ActivatedRoute,
     private toastr: ToastrService,
-    private routerPath: Router
-  ) { }
+    private routerPath: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
 
-    console.log(this.router.snapshot.params.cancionId);
     if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
     else {
-      this.getCancion()
+      this.getComentarios()
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
       this.cancionCommentForm = this.formBuilder.group({
@@ -43,13 +44,10 @@ export class CancionCommentComponent implements OnInit {
       })
     }
 
-
-     //Toggle Click Function
-     $("#menu-toggle").click(function(e) {
+    $("#menu-toggle").click(function (e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
-
   }
 
   showError(error: string) {
@@ -61,7 +59,34 @@ export class CancionCommentComponent implements OnInit {
   }
 
   showSuccess() {
-    this.toastr.success(`El comentario para la cancion fue creado`, "Creación exitosa");
+    this.toastr.success(`El comentario para el album fue creado`, "Creación exitosa");
+  }
+
+  ngOnChanges() {
+    this.getComentarios();
+  }
+
+  getComentarios(): void {
+    if (this.cancion) {
+      this.cancionService.getCancionComentarios(this.cancion.id)
+        .subscribe(comen => {
+
+          this.comentarios = comen
+
+        },
+          error => {
+            console.log(error)
+
+          })
+
+    }
+
+  }
+
+
+
+  nuevoComentario() {
+    this.showComent = !this.showComent;
   }
 
   cancelCreate() {
@@ -69,28 +94,10 @@ export class CancionCommentComponent implements OnInit {
     this.routerPath.navigate([`/canciones/${this.userId}/${this.token}`])
   }
 
-  getCancion() {
-    this.cancionService.getCancion(this.router.snapshot.params.cancionId)
-    .subscribe(com => {
-      this.cancion = com;
-
-    },
-      error => {
-        if (error.statusText === "UNAUTHORIZED") {
-          this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
-        }
-        else if (error.statusText === "UNPROCESSABLE ENTITY") {
-          this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
-        }
-        else {
-          this.showError("Ha ocurrido un error. " + error.message)
-        }
-      })
-  }
-
-  createCancionComment(newComment: CancionComment) {
+  createCancionComment(newComment: AlbumComment) {
     var idUsuario = this.router.snapshot.params.userId;
-    var idCancion = this.router.snapshot.params.cancionId;
+    var idCancion = this.router.snapshot.params.cancionId
+
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1;
@@ -127,13 +134,12 @@ export class CancionCommentComponent implements OnInit {
     var hora = hourT + ':' + minutesT;
 
     var comment = new CommentCancion(newComment.comentario, fecha, hora, idCancion, idUsuario);
-    console.log(comment)
 
     this.cancionService.comentarCancion(this.token, comment)
       .subscribe(com => {
-        this.showSuccess()
         this.cancionCommentForm.reset()
-        this.routerPath.navigate([`/canciones/${this.userId}/${this.token}`])
+        this.showSuccess()
+        this.getComentarios()
       },
         error => {
           if (error.statusText === "UNAUTHORIZED") {

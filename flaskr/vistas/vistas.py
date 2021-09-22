@@ -15,12 +15,25 @@ class VistaCanciones(Resource):
  
     def post(self):
         nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"])
-        db.session.add(nueva_cancion)
-        db.session.commit()
-        return cancion_schema.dump(nueva_cancion)
+        usuario = Usuario.query.get_or_404(request.json["usuario"])
+        usuario.canciones.append(nueva_cancion)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return 'El usuario ya tiene un album con dicho nombre',409
+
+        return album_schema.dump(nueva_cancion)
 
     def get(self):
         return [cancion_schema.dump(ca) for ca in Cancion.query.all()]
+
+class VistaCancionesUsuario(Resource):
+
+    def get(self, id_usuario):
+        print(id_usuario)
+        return [cancion_schema.dump(cancion) for cancion in Cancion.query.filter(Cancion.usuario == id_usuario).all()]
+
 
 class VistaCancion(Resource):
 
@@ -160,20 +173,25 @@ class VistaComentarios(Resource):
 
 
     def post(self):
-        
+        print(request.json)
         comentario = request.json['comentario']
         fecha = request.json['fecha']
         hora = request.json['hora']
-        idalbum = request.json['idalbum']
         idusuario = request.json['idusuario']
-
-        album = Album.query.get_or_404(idalbum)
         usuario = Usuario.query.get_or_404(idusuario)
         nuevo_comentario = Comentario(  comentario = comentario,\
                                         fecha = fecha,\
                                         hora = hora)
         usuario.comentarios.append(nuevo_comentario)
-        album.comentarios.append(nuevo_comentario)
+        if "idalbum" in request.json:
+            idalbum = request.json['idalbum']
+            album = Album.query.get(idalbum)
+            album.comentarios.append(nuevo_comentario)
+        elif "idcancion" in request.json:
+            idcancion = request.json['idcancion']
+            cancion = Cancion.query.get(idcancion)
+            cancion.comentarios.append(nuevo_comentario)
+            
         db.session.add(nuevo_comentario)
         db.session.commit()
         return comentario_schema.dump(nuevo_comentario), 200
@@ -181,7 +199,12 @@ class VistaComentarios(Resource):
 class VistaComentariosAlbum(Resource):
 
     def get(self, id_album):
-        return [comentario_schema.dump(comentario) for comentario in Comentario.query.filter(Comentario.album == id_album).all()]
+        return [comentario_schema.dump(comentario) for comentario in Comentario.query.filter(Comentario.album == id_album).order_by(Comentario.fecha.desc()).order_by(Comentario.hora.desc()).all()]
+
+class VistaComentariosCancion(Resource):
+
+    def get(self, id_cancion):
+        return [comentario_schema.dump(comentario) for comentario in Comentario.query.filter(Comentario.cancion == id_cancion).order_by(Comentario.fecha.desc()).order_by(Comentario.hora.desc()).all()]
 
 class VistaUsuarios(Resource):
     

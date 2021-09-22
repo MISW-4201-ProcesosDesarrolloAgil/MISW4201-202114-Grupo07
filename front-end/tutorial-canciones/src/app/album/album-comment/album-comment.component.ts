@@ -46,8 +46,8 @@ export class AlbumCommentComponent implements OnInit {
     }
 
 
-     //Toggle Click Function
-     $("#menu-toggle").click(function(e) {
+    //Toggle Click Function
+    $("#menu-toggle").click(function (e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
@@ -73,21 +73,21 @@ export class AlbumCommentComponent implements OnInit {
 
   getAlbum() {
     this.albumService.getAlbum(this.router.snapshot.params.albumId)
-    .subscribe(com => {
-      this.album = com;
+      .subscribe(com => {
+        this.album = com;
 
-    },
-      error => {
-        if (error.statusText === "UNAUTHORIZED") {
-          this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
-        }
-        else if (error.statusText === "UNPROCESSABLE ENTITY") {
-          this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
-        }
-        else {
-          this.showError("Ha ocurrido un error. " + error.message)
-        }
-      })
+      },
+        error => {
+          if (error.statusText === "UNAUTHORIZED") {
+            this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+          }
+          else if (error.statusText === "UNPROCESSABLE ENTITY") {
+            this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+          }
+          else {
+            this.showError("Ha ocurrido un error. " + error.message)
+          }
+        })
   }
 
   createAlbumComment(newComment: AlbumComment) {

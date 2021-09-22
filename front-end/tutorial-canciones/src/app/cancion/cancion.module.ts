@@ -15,6 +15,6 @@ import { CancionCommentComponent } from './cancion-comment/cancion-comment.compo
   imports: [
     CommonModule, AppHeaderModule, ReactiveFormsModule, AppMenuModule
   ],
-  exports:[CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent]
+  exports: [CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent, CancionCommentComponent]
 })
 export class CancionModule { }
