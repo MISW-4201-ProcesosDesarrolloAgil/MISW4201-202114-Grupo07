@@ -14,7 +14,7 @@ class VistaCanciones(Resource):
  
     def post(self):
         nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"])
-        usuario = Usuario.query.get_or_404(request.json["id_usuario"])
+        usuario = Usuario.query.get_or_404(request.json["usuario"])
         usuario.canciones.append(nueva_cancion)
         try:
             db.session.commit()
@@ -198,7 +198,7 @@ class VistaComentarios(Resource):
 class VistaComentariosAlbum(Resource):
 
     def get(self, id_album):
-        return [comentario_schema.dump(comentario) for comentario in Comentario.query.filter(Comentario.album == id_album).all()]
+        return [comentario_schema.dump(comentario) for comentario in Comentario.query.filter(Comentario.album == id_album).order_by(Comentario.fecha.desc()).order_by(Comentario.hora.desc()).all()]
 
 class VistaComentariosCancion(Resource):
 

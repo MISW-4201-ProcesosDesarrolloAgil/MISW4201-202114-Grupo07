@@ -20,15 +20,15 @@ describe('AlbumCommentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-        imports: [HttpClientModule, ReactiveFormsModule,
+      imports: [HttpClientModule, ReactiveFormsModule,
         FormsModule, ToastrModule.forRoot(), RouterTestingModule],
-      declarations: [ AlbumCommentComponent ],
+      declarations: [AlbumCommentComponent],
       providers: [
 
         { provide: FormBuilder, useValue: formBuilder }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

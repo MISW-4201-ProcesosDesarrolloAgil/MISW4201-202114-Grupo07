@@ -43,6 +43,11 @@ export class CancionCommentComponent implements OnInit {
         comentario: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(512)]],
       })
     }
+
+    $("#menu-toggle").click(function (e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
   }
 
   showError(error: string) {
@@ -84,9 +89,14 @@ export class CancionCommentComponent implements OnInit {
     this.showComent = !this.showComent;
   }
 
-  createAlbumComment(newComment: AlbumComment) {
+  cancelCreate() {
+    this.cancionCommentForm.reset()
+    this.routerPath.navigate([`/canciones/${this.userId}/${this.token}`])
+  }
+
+  createCancionComment(newComment: AlbumComment) {
     var idUsuario = this.router.snapshot.params.userId;
-    var idCancion = this.cancion.id
+    var idCancion = this.router.snapshot.params.cancionId
 
     var today = new Date();
     var dd = today.getDate();
@@ -127,8 +137,8 @@ export class CancionCommentComponent implements OnInit {
 
     this.cancionService.comentarCancion(this.token, comment)
       .subscribe(com => {
-        this.showSuccess()
         this.cancionCommentForm.reset()
+        this.showSuccess()
         this.getComentarios()
       },
         error => {
