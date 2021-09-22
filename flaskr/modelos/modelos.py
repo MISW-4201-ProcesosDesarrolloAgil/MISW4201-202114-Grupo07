@@ -68,6 +68,11 @@ class AlbumCompartido(db.Model):
     album = db.relationship("Album", back_populates="compartidos")
     usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
 
+class CancionFavorita(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    cancion_id = db.Column(db.Integer, db.ForeignKey("cancion.id"))
+    usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):
         if value is None:
@@ -99,9 +104,7 @@ class ComentarioSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = Comentario
          include_relationships = True
-         load_instance = True
-    
-    
+         load_instance = True    
 
 class AlbumCompartidoSchema(SQLAlchemyAutoSchema):
     album = Nested(AlbumSchema)
@@ -110,6 +113,15 @@ class AlbumCompartidoSchema(SQLAlchemyAutoSchema):
          include_relationships = True
          include_fk = True
          exclude = ['usuario_id','id','album_id']
+         load_instance = True
+
+class CancionFavoritaSchema(SQLAlchemyAutoSchema):
+    cancion = Nested(AlbumSchema)
+    class Meta:
+         model = CancionFavorita
+         include_relationships = True
+         include_fk = True
+         exclude = ['usuario_id','id','cancion_id']
          load_instance = True
 
          

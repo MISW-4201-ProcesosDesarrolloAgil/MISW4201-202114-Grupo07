@@ -1,5 +1,5 @@
 from flask import request
-from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Comentario, ComentarioSchema, AlbumCompartido, AlbumCompartidoSchema 
+from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Comentario, ComentarioSchema, AlbumCompartido, AlbumCompartidoSchema, CancionFavoritaSchema, CancionFavorita
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
@@ -9,6 +9,7 @@ usuario_schema = UsuarioSchema()
 album_schema = AlbumSchema()
 comentario_schema = ComentarioSchema()
 album_comp_schema = AlbumCompartidoSchema()
+cancion_favorita_schema = CancionFavoritaSchema()
 
 class VistaCanciones(Resource):
  
@@ -252,5 +253,43 @@ class VistaAlbumsCompartido(Resource):
                 else:
                     return "El usuario ya tiene el album compartido.", 404
                     
-        
+
+class VistaCancionFavorita(Resource):
+
+    def get(self, id_usuariolog):
+        return [cancion_favorita_schema.dump(comentario) for comentario in CancionFavorita.query.filter(CancionFavorita.usuario_id == id_usuariolog).all()]
+
+
+    def post(self, id_usuariolog):
+        ####VALIDAMOS SI EXISTE EL USUARIO
+        id_usuario = request.json['usuario_id']
+        id_cancion = request.json['cancion_id']
+        usuario = Usuario.query.filter(Usuario.id == id_usuario).first()
+        if usuario is None:
+            return "El usuario no existe", 404
+        else:            
+            cancion = Usuario.query.filter(Cancion.id == id_cancion).first()
+            db.session.commit()
+            if cancion is None:
+                return "El cancion no existe", 404
+            else:
+                cancionid = request.json['cancion_id']
+                usuarioid = usuario.id
+
+                cancion = Cancion.query.get_or_404(cancionid)
+                usuario = Usuario.query.get_or_404(usuarioid)
+
+                ##CONSULTAMOS SI ESE USUARIO YA TIENE EL cancion COMPRATIDO
+                cancion_compar = CancionFavorita.query.filter( CancionFavorita.cancion_id ==  cancionid,  CancionFavorita.usuario_id == usuarioid).first()
+
+                db.session.commit()
+                if cancion_compar is None:
+                    nuevo_cancion_favrito = CancionFavorita( cancion_id =  cancionid, usuario_id = usuarioid)
+                    db.session.add(nuevo_cancion_favrito)
+                    db.session.commit()
+                    return cancion_favorita_schema.dump(nuevo_cancion_favrito), 200
+                    
+                else:
+                    return "El usuario ya tiene la misma cancion favorita.", 404
+
  
