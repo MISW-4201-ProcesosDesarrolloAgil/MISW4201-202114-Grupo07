@@ -18,6 +18,7 @@ class Test_Pruebas(unittest.TestCase):
         app.config['APP_ENV'] = 'APP_ENV_TESTING'
         app.config['WTF_CSRF_ENABLED'] = False
         self.client = app.test_client()
+        db.drop_all()
         db.create_all()
         
 
