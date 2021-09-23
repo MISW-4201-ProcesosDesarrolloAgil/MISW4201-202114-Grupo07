@@ -1,5 +1,5 @@
 from flask import request
-from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Comentario, ComentarioSchema, AlbumCompartido, AlbumCompartidoSchema 
+from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Comentario, ComentarioSchema, AlbumCompartido, AlbumCompartidoSchema, CancionFavoritaSchema, CancionFavorita, CancionCompartido, CancionCompartidoSchema
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
@@ -9,17 +9,34 @@ usuario_schema = UsuarioSchema()
 album_schema = AlbumSchema()
 comentario_schema = ComentarioSchema()
 album_comp_schema = AlbumCompartidoSchema()
+cancion_favorita_schema = CancionFavoritaSchema()
+cancion_comp_schema = CancionCompartidoSchema()
+
+
 
 class VistaCanciones(Resource):
  
     def post(self):
         nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"], genero=request.json["genero"])
-        db.session.add(nueva_cancion)
-        db.session.commit()
-        return cancion_schema.dump(nueva_cancion)
+        usuario = Usuario.query.get_or_404(request.json["usuario"])
+        usuario.canciones.append(nueva_cancion)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return 'El usuario ya tiene un album con dicho nombre',409
+
+        return album_schema.dump(nueva_cancion)
 
     def get(self):
         return [cancion_schema.dump(ca) for ca in Cancion.query.all()]
+
+class VistaCancionesUsuario(Resource):
+
+    def get(self, id_usuario):
+        print(id_usuario)
+        return [cancion_schema.dump(cancion) for cancion in Cancion.query.filter(Cancion.usuario == id_usuario).all()]
+
 
 class VistaCancion(Resource):
 
@@ -167,20 +184,25 @@ class VistaComentarios(Resource):
 
 
     def post(self):
-        
+        print(request.json)
         comentario = request.json['comentario']
         fecha = request.json['fecha']
         hora = request.json['hora']
-        idalbum = request.json['idalbum']
         idusuario = request.json['idusuario']
-
-        album = Album.query.get_or_404(idalbum)
         usuario = Usuario.query.get_or_404(idusuario)
         nuevo_comentario = Comentario(  comentario = comentario,\
                                         fecha = fecha,\
                                         hora = hora)
         usuario.comentarios.append(nuevo_comentario)
-        album.comentarios.append(nuevo_comentario)
+        if "idalbum" in request.json:
+            idalbum = request.json['idalbum']
+            album = Album.query.get(idalbum)
+            album.comentarios.append(nuevo_comentario)
+        elif "idcancion" in request.json:
+            idcancion = request.json['idcancion']
+            cancion = Cancion.query.get(idcancion)
+            cancion.comentarios.append(nuevo_comentario)
+            
         db.session.add(nuevo_comentario)
         db.session.commit()
         return comentario_schema.dump(nuevo_comentario), 200
@@ -188,7 +210,12 @@ class VistaComentarios(Resource):
 class VistaComentariosAlbum(Resource):
 
     def get(self, id_album):
-        return [comentario_schema.dump(comentario) for comentario in Comentario.query.filter(Comentario.album == id_album).all()]
+        return [comentario_schema.dump(comentario) for comentario in Comentario.query.filter(Comentario.album == id_album).order_by(Comentario.fecha.desc()).order_by(Comentario.hora.desc()).all()]
+
+class VistaComentariosCancion(Resource):
+
+    def get(self, id_cancion):
+        return [comentario_schema.dump(comentario) for comentario in Comentario.query.filter(Comentario.cancion == id_cancion).order_by(Comentario.fecha.desc()).order_by(Comentario.hora.desc()).all()]
 
 class VistaUsuarios(Resource):
     
@@ -207,6 +234,9 @@ class VistaAlbumsCompartido(Resource):
         id_usuario = request.json['usuario_id']
         id_album = request.json['album_id']
         usuario = Usuario.query.filter(Usuario.nombre == id_usuario).first()
+        verificarComp = AlbumCompartido.query.filter(AlbumCompartido.usuario_id == id_usuariolog).all()
+        if len(verificarComp) > 0:
+            return "No puede compartir un album compartido", 404
         if usuario.id == id_usuariolog:
             return "No se puede compartir con el mismo usuario logeado", 404
         db.session.commit()
@@ -236,3 +266,89 @@ class VistaAlbumsCompartido(Resource):
                     
                 else:
                     return "El usuario ya tiene el album compartido.", 404
+                    
+
+class VistaCancionesCompartido(Resource):
+
+    def get(self, id_usuariolog):
+        return [cancion_comp_schema.dump(comentario) for comentario in CancionCompartido.query.filter(CancionCompartido.usuario_id == id_usuariolog).all()]
+
+
+    def post(self, id_usuariolog):  
+        ####VALIDAMOS SI EXISTE EL USUARIO
+        id_usuario = request.json['usuario_id']
+        id_cancion = request.json['cancion_id']
+        usuario = Usuario.query.filter(Usuario.nombre == id_usuario).first()
+        verificarComp = CancionCompartido.query.filter(CancionCompartido.usuario_id == id_usuariolog).all()
+        if len(verificarComp) > 0:
+            return "No puede compartir una canción compartida", 404
+        if usuario.id == id_usuariolog:
+            return "No se puede compartir con el mismo usuario logeado", 404
+        db.session.commit()
+        if usuario is None:
+            return "El usuario no existe", 404
+        else:            
+            cancion = Usuario.query.filter(Cancion.id == id_cancion).first()
+            db.session.commit()
+            if cancion is None:
+                return "La canción no existe", 404
+            else:
+                cancionid = request.json['cancion_id']
+                usuarioid = usuario.id
+
+                cancion = Cancion.query.get_or_404(cancionid)
+                usuario = Usuario.query.get_or_404(usuarioid)
+
+                ##CONSULTAMOS SI ESE USUARIO YA TIENE EL ALBUM COMPRATIDO
+                cancion_compar = CancionCompartido.query.filter( CancionCompartido.cancion_id ==  cancionid,  CancionCompartido.usuario_id == usuarioid).first()
+
+                db.session.commit()
+                if cancion_compar is None:
+                    nuevo_cancion_compartido = CancionCompartido( cancion_id =  cancionid, usuario_id = usuarioid)
+                    db.session.add(nuevo_cancion_compartido)
+                    db.session.commit()
+                    return album_comp_schema.dump(nuevo_cancion_compartido), 200
+                    
+                else:
+                    return "El usuario ya tiene la canción compartida.", 404
+
+
+class VistaCancionFavorita(Resource):
+
+    def get(self, id_usuariolog):
+        return [cancion_favorita_schema.dump(comentario) for comentario in CancionFavorita.query.filter(CancionFavorita.usuario_id == id_usuariolog).all()]
+
+
+    def post(self, id_usuariolog):
+        ####VALIDAMOS SI EXISTE EL USUARIO
+        id_usuario = request.json['usuario_id']
+        id_cancion = request.json['cancion_id']
+        usuario = Usuario.query.filter(Usuario.id == id_usuario).first()
+        if usuario is None:
+            return "El usuario no existe", 404
+        else:            
+            cancion = Usuario.query.filter(Cancion.id == id_cancion).first()
+            db.session.commit()
+            if cancion is None:
+                return "El cancion no existe", 404
+            else:
+                cancionid = request.json['cancion_id']
+                usuarioid = usuario.id
+
+                cancion = Cancion.query.get_or_404(cancionid)
+                usuario = Usuario.query.get_or_404(usuarioid)
+
+                ##CONSULTAMOS SI ESE USUARIO YA TIENE EL cancion COMPRATIDO
+                cancion_compar = CancionFavorita.query.filter( CancionFavorita.cancion_id ==  cancionid,  CancionFavorita.usuario_id == usuarioid).first()
+
+                db.session.commit()
+                if cancion_compar is None:
+                    nuevo_cancion_favrito = CancionFavorita( cancion_id =  cancionid, usuario_id = usuarioid)
+                    db.session.add(nuevo_cancion_favrito)
+                    db.session.commit()
+                    return cancion_favorita_schema.dump(nuevo_cancion_favrito), 200
+                    
+                else:
+                    return "El usuario ya tiene la misma cancion favorita.", 404
+
+ 

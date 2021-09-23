@@ -3,6 +3,7 @@ import { Cancion } from '../cancion';
 import { CancionService } from '../cancion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CancionComp } from './cancionComp';
 import * as $ from 'jquery';
 @Component({
   selector: 'app-cancion-list',
@@ -24,71 +25,86 @@ export class CancionListComponent implements OnInit {
   mostrarCanciones: Array<Cancion>
   cancionSeleccionada: Cancion
   indiceSeleccionado: number = 0
+  cancionesComp: Array<CancionComp>
 
   ngOnInit() {
-    if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
+    if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
-    else{
+    else {
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
       this.getCanciones();
     }
     //Toggle Click Function
-    $("#menu-toggle").click(function(e) {
+    $("#menu-toggle").click(function (e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
   }
 
-  getCanciones():void{
-    this.cancionService.getCanciones()
-    .subscribe(canciones => {
-      this.canciones = canciones
-      this.mostrarCanciones = canciones
-      this.onSelect(this.mostrarCanciones[0], 0)
-    })
+  getCanciones(): void {
+    this.cancionService.getCancionesUsuarios(this.userId)
+      .subscribe(canciones => {
+
+        console.log(canciones)
+        this.canciones = canciones
+        this.mostrarCanciones = canciones
+        this.onSelect(this.mostrarCanciones[0], 0)
+      })
+
+    this.cancionService.getCancionCompartidos(this.userId, this.token)
+      .subscribe(canciones => {
+        this.cancionesComp = canciones
+        for (let i = 0; i < this.cancionesComp.length; i++) {
+          this.mostrarCanciones.push(this.cancionesComp[i].cancion)
+        }
+
+        if (canciones.length > 0) {
+          this.onSelect(this.mostrarCanciones[0], 0)
+        }
+      })
   }
 
-  onSelect(cancion: Cancion, indice: number){
+  onSelect(cancion: Cancion, indice: number) {
     this.indiceSeleccionado = indice
     this.cancionSeleccionada = cancion
     this.cancionService.getAlbumesCancion(cancion.id)
-    .subscribe(albumes => {
-      this.cancionSeleccionada.albumes = albumes
-    },
-    error => {
-      this.showError(`Ha ocurrido un error: ${error.message}`)
-    })
+      .subscribe(albumes => {
+        this.cancionSeleccionada.albumes = albumes
+      },
+        error => {
+          this.showError(`Ha ocurrido un error: ${error.message}`)
+        })
 
   }
 
-  buscarCancion(busqueda: string){
+  buscarCancion(busqueda: string) {
     let cancionesBusqueda: Array<Cancion> = []
-    this.canciones.map( cancion => {
-      if(cancion.titulo.toLocaleLowerCase().includes(busqueda.toLocaleLowerCase())){
+    this.canciones.map(cancion => {
+      if (cancion.titulo.toLocaleLowerCase().includes(busqueda.toLocaleLowerCase())) {
         cancionesBusqueda.push(cancion)
       }
     })
     this.mostrarCanciones = cancionesBusqueda
   }
 
-  eliminarCancion(){
+  eliminarCancion() {
     this.cancionService.eliminarCancion(this.cancionSeleccionada.id)
-    .subscribe(cancion => {
-      this.ngOnInit()
-      this.showSuccess()
-    },
-    error=> {
-      this.showError("Ha ocurrido un error. " + error.message)
-    })
+      .subscribe(cancion => {
+        this.ngOnInit()
+        this.showSuccess()
+      },
+        error => {
+          this.showError("Ha ocurrido un error. " + error.message)
+        })
   }
 
-  irCrearCancion(){
+  irCrearCancion() {
     this.routerPath.navigate([`/canciones/create/${this.userId}/${this.token}`])
   }
 
-  showError(error: string){
+  showError(error: string) {
     this.toastr.error(error, "Error de autenticación")
   }
 

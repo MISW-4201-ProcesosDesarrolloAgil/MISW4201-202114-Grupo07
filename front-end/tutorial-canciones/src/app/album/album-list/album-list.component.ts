@@ -39,8 +39,8 @@ export class AlbumListComponent implements OnInit {
       this.getAlbumes();
     }
 
-     //Toggle Click Function
-     $("#menu-toggle").click(function(e) {
+    //Toggle Click Function
+    $("#menu-toggle").click(function (e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });

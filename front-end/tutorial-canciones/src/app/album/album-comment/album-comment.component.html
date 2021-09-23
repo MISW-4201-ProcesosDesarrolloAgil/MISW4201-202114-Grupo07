@@ -13,8 +13,9 @@
         <div class="text-center row col-12">
             <p class="mt-5 mb-2 fs-3 fw-bold" i18n>Álbum: {{album?.titulo}} ({{album?.anio}})</p>
         </div>
-        <div class="mb-2 text-center col-lg-6 col-sm-12">
-          <label class="fs-4 fw-bold" i18n>Comentar Álbum</label>
+        <div class="text-center row col-12">
+          <!-- <label class="fs-4 fw-bold" i18n>Comentar Álbum</label> -->
+          <p class="mt-5 mb-2 fs-6" i18n>Agregar comentario al Álbum</p>
         </div>
         <form class="mx-5 my-3" [formGroup]="albumCommentForm" (ngSubmit)="createAlbumComment(albumCommentForm.value)">
 

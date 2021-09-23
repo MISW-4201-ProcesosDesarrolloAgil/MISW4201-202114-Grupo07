@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Cancion } from 'src/app/cancion/cancion';
 import { CancionService } from 'src/app/cancion/cancion.service';
-import { Album} from '../album';
+import { Album } from '../album';
 import { AlbumService } from '../album.service';
 import * as $ from 'jquery';
 @Component({
@@ -31,73 +31,73 @@ export class AlbumJoinCancionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
+    if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
-    else{
+    else {
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
       this.albumId = this.router.snapshot.params.albumId
       this.albumService.getAlbum(this.albumId)
-      .subscribe(album => {
-        this.album = album
-        this.albumCancionForm = this.formBuilder.group({
-          tituloAlbum: [album.titulo, [Validators.required]],
-          idCancion: ["", [Validators.required]],
-          tituloCancion: ["", [Validators.required]]
+        .subscribe(album => {
+          this.album = album
+          this.albumCancionForm = this.formBuilder.group({
+            tituloAlbum: [album.titulo, [Validators.required]],
+            idCancion: ["", [Validators.required]],
+            tituloCancion: ["", [Validators.required]]
+          })
+          this.getCanciones(album.canciones)
         })
-        this.getCanciones(album.canciones)
-      })
     }
 
-     //Toggle Click Function
-     $("#menu-toggle").click(function(e) {
+    //Toggle Click Function
+    $("#menu-toggle").click(function (e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
-    
+
   }
 
-  getCanciones(cancionesAlbum: Array<any>){
+  getCanciones(cancionesAlbum: Array<any>) {
     let cancionesNoAgregadas: Array<Cancion> = []
-    this.cancionService.getCanciones()
-    .subscribe(canciones => {
-      canciones.map(c => {
-        if(!cancionesAlbum.includes(c.id)){
-          cancionesNoAgregadas.push(c)
-        }
+    this.cancionService.getCancionesUsuarios(this.userId)
+      .subscribe(canciones => {
+        canciones.map(c => {
+          if (!cancionesAlbum.includes(c.id)) {
+            cancionesNoAgregadas.push(c)
+          }
+        })
       })
-    })
     this.canciones = cancionesNoAgregadas
   }
 
-  cancelarAsociacion(){
+  cancelarAsociacion() {
     this.albumCancionForm.reset()
     this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
   }
 
-  asociarCancion(){
+  asociarCancion() {
     this.albumService.asociarCancion(this.albumId, this.albumCancionForm.get('idCancion')?.value)
-    .subscribe(cancion => {
-      this.showSuccess(this.albumCancionForm.get('tituloAlbum')?.value, cancion.titulo)
-      this.albumCancionForm.reset()
-      this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
-    },
-    error=> {
-      if(error.statusText === "UNPROCESSABLE ENTITY"){
-        this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
-      }
-      else{
-        this.showError("Ha ocurrido un error. " + error.message)
-      }
-    })
+      .subscribe(cancion => {
+        this.showSuccess(this.albumCancionForm.get('tituloAlbum')?.value, cancion.titulo)
+        this.albumCancionForm.reset()
+        this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+      },
+        error => {
+          if (error.statusText === "UNPROCESSABLE ENTITY") {
+            this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+          }
+          else {
+            this.showError("Ha ocurrido un error. " + error.message)
+          }
+        })
   }
 
-  onSelect(albumId: any){
+  onSelect(albumId: any) {
     this.albumCancionForm.get('idCancion')?.setValue(albumId)
   }
 
-  showError(error: string){
+  showError(error: string) {
     this.toastr.error(error, "Error")
   }
 
