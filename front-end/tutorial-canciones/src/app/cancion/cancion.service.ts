@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cancion } from './cancion';
+import { CancionFavorita } from './cancion-favorita';
 import { Album } from '../album/album';
 import { CommentCancion } from './cancion-comment/commentCancion';
 import { CommentCancionResp } from './cancion-comment/commentCancionResp';
@@ -55,6 +56,10 @@ export class CancionService {
 
   getCancionComentarios(albumId: number): Observable<CommentCancionResp[]> {
     return this.http.get<CommentCancionResp[]>(`${this.backUrl}/comentarioAlbum/${albumId}`)
+  }
+
+  selCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita>{
+    return this.http.get<CancionFavorita>(`${this.backUrl}/addcancionFavorita/${cancionId}/${userId}`)
   }
 
 }
