@@ -3,6 +3,7 @@ import { Cancion } from '../cancion';
 import { CancionService } from '../cancion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CancionComp } from './cancionComp';
 import * as $ from 'jquery';
 @Component({
   selector: 'app-cancion-list',
@@ -24,6 +25,7 @@ export class CancionListComponent implements OnInit {
   mostrarCanciones: Array<Cancion>
   cancionSeleccionada: Cancion
   indiceSeleccionado: number = 0
+  cancionesComp: Array<CancionComp>
 
   ngOnInit() {
     if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
@@ -49,6 +51,18 @@ export class CancionListComponent implements OnInit {
         this.canciones = canciones
         this.mostrarCanciones = canciones
         this.onSelect(this.mostrarCanciones[0], 0)
+      })
+
+    this.cancionService.getCancionCompartidos(this.userId, this.token)
+      .subscribe(canciones => {
+        this.cancionesComp = canciones
+        for (let i = 0; i < this.cancionesComp.length; i++) {
+          this.mostrarCanciones.push(this.cancionesComp[i].cancion)
+        }
+
+        if (canciones.length > 0) {
+          this.onSelect(this.mostrarCanciones[0], 0)
+        }
       })
   }
 

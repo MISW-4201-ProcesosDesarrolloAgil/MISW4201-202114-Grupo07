@@ -1,7 +1,7 @@
 from flaskr import create_app
 from flask_restful import Api
 from .modelos import db
-from .vistas import VistaCanciones, VistaCancion, VistaSignIn, VistaAlbum, VistaAlbumsUsuario, VistaCancionesAlbum, VistaLogIn, VistaAlbumesCanciones, VistaComentarios, VistaComentariosAlbum,  VistaUsuario, VistaUsuarios, VistaAlbumsCompartido, VistaCancionesUsuario,VistaComentariosCancion,VistaCancionFavorita
+from .vistas import VistaCanciones, VistaCancion, VistaSignIn, VistaAlbum, VistaAlbumsUsuario, VistaCancionesAlbum, VistaLogIn, VistaAlbumesCanciones, VistaComentarios, VistaComentariosAlbum,  VistaUsuario, VistaUsuarios, VistaAlbumsCompartido, VistaCancionesUsuario,VistaComentariosCancion,VistaCancionFavorita, VistaCancionesCompartido
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS, cross_origin
 
@@ -33,6 +33,7 @@ api.add_resource(VistaAlbumsCompartido, '/compartirAlbum/<int:id_usuariolog>')
 
 api.add_resource(VistaCancionesUsuario, '/usuarios/<int:id_usuario>/canciones')
 
+api.add_resource(VistaCancionFavorita, '/cancionFavorita/<int:id_usuariolog>') 
 api.add_resource(VistaCancionFavorita, '/addcancionFavorita/<int:id_cancionlog>/<int:id_usuariolog>') 
 
 jwt = JWTManager(app)

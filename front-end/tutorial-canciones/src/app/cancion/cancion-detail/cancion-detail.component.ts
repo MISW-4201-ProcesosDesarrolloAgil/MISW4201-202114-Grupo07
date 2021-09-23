@@ -5,11 +5,13 @@ import { CancionFavorita } from '../cancion-favorita';
 import { CommentResp } from 'src/app/album/album-comment/commentResp';
 import { ToastrService } from 'ngx-toastr';
 import { CancionService } from '../cancion.service';
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-cancion-detail',
   templateUrl: './cancion-detail.component.html',
-  styleUrls: ['./cancion-detail.component.css']
+  styleUrls: ['./cancion-detail.component.css'],
+  providers: [NgbModalConfig, NgbModal]
 })
 export class CancionDetailComponent implements OnInit {
 
@@ -25,7 +27,8 @@ export class CancionDetailComponent implements OnInit {
     private cancionService: CancionService,
     private router: ActivatedRoute,
     private toastr: ToastrService,
-    private routerPath: Router
+    private routerPath: Router,
+    private modalService: NgbModal,
   ) { }
 
   ngOnInit() {
@@ -109,6 +112,9 @@ export class CancionDetailComponent implements OnInit {
       this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
     }
 
+  openShare(content: any) {
+    this.modalService.open(content);
+  }
 
 
 }
