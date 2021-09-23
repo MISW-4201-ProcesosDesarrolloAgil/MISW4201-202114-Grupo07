@@ -42,9 +42,10 @@ class VistaCancion(Resource):
         db.session.commit()
         return '',204
         
-    # def filter_genero(self):
-    #     return Cancion.query.filter(Cancion.genero.all())
-    
+class VistaFiltro(VistaCanciones, Resource):
+    def get(self):
+        #return [cancion_schema.dump(gen) for gen in Cancion.genero.query.all()]
+        return Cancion.query.filter(Cancion.genero.all())
     # def filter_interprete(self):
     #     return Cancion.query.filter(Cancion.interprete.all())        
 

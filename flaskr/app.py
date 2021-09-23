@@ -1,7 +1,8 @@
+from flaskr.vistas.vistas import VistaFiltro
 from flaskr import create_app
 from flask_restful import Api
 from .modelos import db
-from .vistas import VistaCanciones, VistaCancion, VistaSignIn, VistaAlbum, VistaAlbumsUsuario, VistaCancionesAlbum, VistaLogIn, VistaAlbumesCanciones, VistaComentarios, VistaComentariosAlbum,  VistaUsuario, VistaUsuarios, VistaAlbumsCompartido
+from .vistas import VistaCanciones, VistaCancion, VistaSignIn, VistaAlbum, VistaAlbumsUsuario, VistaCancionesAlbum, VistaLogIn, VistaAlbumesCanciones, VistaComentarios, VistaComentariosAlbum,  VistaUsuario, VistaUsuarios, VistaAlbumsCompartido, VistaFiltro
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS, cross_origin
 
@@ -29,5 +30,7 @@ api.add_resource(VistaComentariosAlbum, '/comentarioAlbum/<int:id_album>')
 
 api.add_resource(VistaUsuarios, '/usuarios')
 api.add_resource(VistaAlbumsCompartido, '/compartirAlbum/<int:id_usuariolog>') 
+
+api.add_resource(VistaFiltro, '/canciones/generos')
 
 jwt = JWTManager(app)
