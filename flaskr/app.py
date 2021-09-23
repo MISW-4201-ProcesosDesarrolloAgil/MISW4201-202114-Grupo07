@@ -30,6 +30,6 @@ api.add_resource(VistaComentariosAlbum, '/comentarioAlbum/<int:id_album>')
 api.add_resource(VistaUsuarios, '/usuarios')
 api.add_resource(VistaAlbumsCompartido, '/compartirAlbum/<int:id_usuariolog>') 
 
-api.add_resource(VistaCancionFavorita, '/cancionFavorita/<int:id_usuariolog>') 
+api.add_resource(VistaCancionFavorita, '/addcancionFavorita/<int:id_cancionlog>/<int:id_usuariolog>')
 
 jwt = JWTManager(app)
