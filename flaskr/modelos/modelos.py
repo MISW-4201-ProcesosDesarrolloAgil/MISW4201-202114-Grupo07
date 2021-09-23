@@ -18,10 +18,10 @@ class Cancion(db.Model):
     segundos = db.Column(db.Integer)
     interprete = db.Column(db.String(128))
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
-    # usuarioo = db.relationship("Usuario", back_populates="canciones")
     albumes = db.relationship('Album', secondary = 'album_cancion', back_populates="canciones")
     comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
-    
+    compartidos = db.relationship('CancionCompartido', cascade='all, delete, delete-orphan')
+
     
 
 class Medio(enum.Enum):
@@ -66,6 +66,12 @@ class AlbumCompartido(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     album_id = db.Column(db.Integer, db.ForeignKey("album.id"))
     album = db.relationship("Album", back_populates="compartidos")
+    usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+
+class CancionCompartido(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    cancion_id = db.Column(db.Integer, db.ForeignKey("cancion.id"))
+    cancion = db.relationship("Cancion", back_populates="compartidos")
     usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
 
 class CancionFavorita(db.Model):
@@ -113,6 +119,16 @@ class AlbumCompartidoSchema(SQLAlchemyAutoSchema):
          include_relationships = True
          include_fk = True
          exclude = ['usuario_id','id','album_id']
+         load_instance = True
+
+
+class CancionCompartidoSchema(SQLAlchemyAutoSchema):
+    cancion = Nested(CancionSchema)
+    class Meta:
+         model = CancionCompartido
+         include_relationships = True
+         include_fk = True
+         exclude = ['usuario_id','id','cancion_id']
          load_instance = True
 
 class CancionFavoritaSchema(SQLAlchemyAutoSchema):
