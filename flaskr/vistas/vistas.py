@@ -307,40 +307,39 @@ class VistaCancionesCompartido(Resource):
 
 class VistaCancionFavorita(Resource):
 
-    def get(self, id_usuariolog):
-        return [cancion_favorita_schema.dump(comentario) for comentario in CancionFavorita.query.filter(CancionFavorita.usuario_id == id_usuariolog).all()]
+    ##def get(self, id_usuariolog):
+    ##   return [cancion_favorita_schema.dump(comentario) for comentario in CancionFavorita.query.filter(CancionFavorita.usuario_id == id_usuariolog).all()]
 
 
-    def post(self, id_usuariolog):
+    def get(self, id_cancionlog, id_usuariolog):
         ####VALIDAMOS SI EXISTE EL USUARIO
-        id_usuario = request.json['usuario_id']
-        id_cancion = request.json['cancion_id']
-        usuario = Usuario.query.filter(Usuario.id == id_usuario).first()
+        usuario = Usuario.query.filter(Usuario.id == id_usuariolog).first()
+        db.session.commit()
         if usuario is None:
-            return "El usuario no existe", 404
+            return {"mensaje":"El usuario no existe"}, 400 
         else:            
-            cancion = Usuario.query.filter(Cancion.id == id_cancion).first()
+            cancion = Cancion.query.filter(Cancion.id == id_cancionlog).first()
             db.session.commit()
             if cancion is None:
-                return "El cancion no existe", 404
+                return {"mensaje":"El canción no existe"}, 400 
             else:
-                cancionid = request.json['cancion_id']
+                cancionid = cancion.id
                 usuarioid = usuario.id
 
                 cancion = Cancion.query.get_or_404(cancionid)
                 usuario = Usuario.query.get_or_404(usuarioid)
 
-                ##CONSULTAMOS SI ESE USUARIO YA TIENE EL cancion COMPRATIDO
+                ##CONSULTAMOS SI ESE USUARIO YA TIENE La cancion COMPRATIDO
                 cancion_compar = CancionFavorita.query.filter( CancionFavorita.cancion_id ==  cancionid,  CancionFavorita.usuario_id == usuarioid).first()
-
                 db.session.commit()
+
                 if cancion_compar is None:
-                    nuevo_cancion_favrito = CancionFavorita( cancion_id =  cancionid, usuario_id = usuarioid)
-                    db.session.add(nuevo_cancion_favrito)
+                    nueva_cancion_favorita = CancionFavorita( cancion_id =  cancionid, usuario_id = usuarioid)
+                    db.session.add(nueva_cancion_favorita)
                     db.session.commit()
-                    return cancion_favorita_schema.dump(nuevo_cancion_favrito), 200
+                    return cancion_favorita_schema.dump(nueva_cancion_favorita), 200
                     
                 else:
-                    return "El usuario ya tiene la misma cancion favorita.", 404
+                     return "El usuario ya tiene la misma cancion favorita, no se puede seleccionar como favorita de nuevo", 400 
 
  

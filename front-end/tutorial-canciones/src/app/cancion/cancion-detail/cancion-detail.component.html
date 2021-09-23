@@ -7,8 +7,13 @@
         title="Editar canción"><i class="bi bi-pencil-square"></i></button>
       <button *ngIf="cancion" type="button" class="btn btn-comment me-1 me-2" (click)="goToCommentCancion()"
         title="Comentar canción"><i class="bi bi-plus"></i><i class="bi bi-chat"></i></button>
+
+      <button *ngIf="cancion" type="button" class="btn btn-info me-1 me-2" (click)="selCancionFavorita()"
+        title="Seleccionar canción como favorita"><i class="bi bi-plus"></i><i class="bi bi-heart"></i></button>
+
       <button *ngIf="cancion" type="button" class="btn btn-share me-1" (click)="openShare(content)"
         title="Compartir álbum"><i class="bi bi-share-fill"></i></button>
+
       <button *ngIf="cancion" type="button" class="btn btn-danger me-1" (click)="eliminarCancion()"
         title="Eliminar canción"><i class="bi bi-trash-fill"></i></button>
     </div>
