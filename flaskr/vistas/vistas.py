@@ -242,12 +242,12 @@ class VistaCancionFavorita(Resource):
         usuario = Usuario.query.filter(Usuario.id == id_usuariolog).first()
         db.session.commit()
         if usuario is None:
-            return "El usuario no existe", 404
+            return {"mensaje":"El usuario no existe"}, 400 
         else:            
             cancion = Cancion.query.filter(Cancion.id == id_cancionlog).first()
             db.session.commit()
             if cancion is None:
-                return "El cancion no existe", 404
+                return {"mensaje":"El canción no existe"}, 400 
             else:
                 cancionid = cancion.id
                 usuarioid = usuario.id
@@ -266,6 +266,6 @@ class VistaCancionFavorita(Resource):
                     return cancion_favorita_schema.dump(nueva_cancion_favorita), 200
                     
                 else:
-                    return "El usuario ya tiene la misma cancion favorita.", 404
+                     return "El usuario ya tiene la misma cancion favorita, no se puede seleccionar como favorita de nuevo", 400 
 
  
