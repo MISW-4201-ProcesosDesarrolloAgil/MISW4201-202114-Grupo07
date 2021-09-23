@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { Cancion } from './cancion';
 import { CancionFavorita } from './cancion-favorita';
 import { Album } from '../album/album';
-import { CommentCancion } from './cancion-comment/commentCancion';
-import { CommentCancionResp } from './cancion-comment/commentCancionResp';
+import { Coment } from '../album/album-comment/coment';
+import { CommentResp } from '../album/album-comment/commentResp';
+import { CommentCancion } from './commentCancion';
 
 @Injectable({
   providedIn: 'root'
@@ -16,34 +17,40 @@ export class CancionService {
 
   constructor(private http: HttpClient) { }
 
-  getCancionesAlbum(idAlbum: number, token: string): Observable<Cancion[]>{
+  getCancionesAlbum(idAlbum: number, token: string): Observable<Cancion[]> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
-    return this.http.get<Cancion[]>(`${this.backUrl}/album/${idAlbum}/canciones`, {headers: headers})
+    return this.http.get<Cancion[]>(`${this.backUrl}/album/${idAlbum}/canciones`, { headers: headers })
   }
 
-  getCanciones(): Observable<Cancion[]>{
+  getCanciones(): Observable<Cancion[]> {
+
     return this.http.get<Cancion[]>(`${this.backUrl}/canciones`)
   }
 
-  getAlbumesCancion(cancionId: number): Observable<Album[]>{
+  getCancionesUsuarios(idUsuario: number): Observable<Cancion[]> {
+
+    return this.http.get<Cancion[]>(`${this.backUrl}/usuarios/${idUsuario}/canciones`)
+  }
+
+  getAlbumesCancion(cancionId: number): Observable<Album[]> {
     return this.http.get<Album[]>(`${this.backUrl}/cancion/${cancionId}/albumes`)
   }
 
-  crearCancion(cancion: Cancion):Observable<Cancion>{
+  crearCancion(cancion: Cancion): Observable<Cancion> {
     return this.http.post<Cancion>(`${this.backUrl}/canciones`, cancion)
   }
 
-  getCancion(cancionId: number): Observable<Cancion>{
+  getCancion(cancionId: number): Observable<Cancion> {
     return this.http.get<Cancion>(`${this.backUrl}/cancion/${cancionId}`)
   }
 
-  editarCancion(cancion: Cancion, cancionId: number):Observable<Cancion>{
+  editarCancion(cancion: Cancion, cancionId: number): Observable<Cancion> {
     return this.http.put<Cancion>(`${this.backUrl}/cancion/${cancionId}`, cancion)
   }
 
-  eliminarCancion(cancionId: number): Observable<Cancion>{
+  eliminarCancion(cancionId: number): Observable<Cancion> {
     return this.http.delete<Cancion>(`${this.backUrl}/cancion/${cancionId}`)
   }
 
@@ -54,8 +61,8 @@ export class CancionService {
     return this.http.post<CommentCancion>(`${this.backUrl}/comentarios`, coment, { headers: headers })
   }
 
-  getCancionComentarios(albumId: number): Observable<CommentCancionResp[]> {
-    return this.http.get<CommentCancionResp[]>(`${this.backUrl}/comentarioAlbum/${albumId}`)
+  getCancionComentarios(cancionId: number): Observable<CommentResp[]> {
+    return this.http.get<CommentResp[]>(`${this.backUrl}/comentarioCancion/${cancionId}`)
   }
 
   selCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita>{

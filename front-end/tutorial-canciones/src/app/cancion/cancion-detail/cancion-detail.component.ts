@@ -2,8 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cancion } from '../cancion';
 import { CancionFavorita } from '../cancion-favorita';
-import { CancionService } from '../cancion.service';
+import { CommentResp } from 'src/app/album/album-comment/commentResp';
 import { ToastrService } from 'ngx-toastr';
+import { CancionService } from '../cancion.service';
 
 @Component({
   selector: 'app-cancion-detail',
@@ -18,25 +19,66 @@ export class CancionDetailComponent implements OnInit {
 
   userId: number;
   token: string;
+  comentarios: Array<CommentResp>
 
   constructor(
     private cancionService: CancionService,
     private router: ActivatedRoute,
-    private routerPath: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private routerPath: Router
   ) { }
 
   ngOnInit() {
-    this.userId = parseInt(this.router.snapshot.params.userId)
-    this.token = this.router.snapshot.params.userToken
+
+    if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
+      this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+    }
+    else {
+      this.getComentarios()
+      this.userId = parseInt(this.router.snapshot.params.userId)
+      this.token = this.router.snapshot.params.userToken
+    }
 
   }
 
-  eliminarCancion(){
+  getComentarios(): void {
+    if (this.cancion) {
+      this.cancionService.getCancionComentarios(this.cancion.id)
+        .subscribe(comen => {
+
+          this.comentarios = comen
+
+        },
+          error => {
+            console.log(error)
+
+          })
+
+    }
+
+  }
+
+  showError(error: string) {
+    this.toastr.error(error, "Error")
+  }
+
+  showWarning(warning: string) {
+    this.toastr.warning(warning, "Error de autenticación")
+  }
+
+  showSuccess() {
+    this.toastr.success(`El comentario para el album fue creado`, "Creación exitosa");
+  }
+
+  ngOnChanges() {
+    this.getComentarios();
+  }
+
+  eliminarCancion() {
     this.deleteCancion.emit(this.cancion.id)
   }
 
-  goToEdit(){
+  goToEdit() {
     this.routerPath.navigate([`/canciones/edit/${this.cancion.id}/${this.userId}/${this.token}`])
   }
 
@@ -51,15 +93,15 @@ export class CancionDetailComponent implements OnInit {
         this.showSuccesscf()
       },
       error=> {
-          this.showError(error.error)
+          this.showErrorcf(error.error)
       })
     }
 
-    showError(error: string){
+    showErrorcf(error: string){
       this.toastr.error(error, "Mesaje de error")
     }
 
-    showSuccess() {
+    showSuccessdc() {
       this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
     }
 

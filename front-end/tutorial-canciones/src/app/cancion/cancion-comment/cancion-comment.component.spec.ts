@@ -11,18 +11,18 @@ describe('CancionCommentComponent', () => {
   let component: CancionCommentComponent;
   let fixture: ComponentFixture<CancionCommentComponent>;
   let debug: DebugElement;
-  const  formBuilder: FormBuilder = new FormBuilder();
+  const formBuilder: FormBuilder = new FormBuilder();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, ReactiveFormsModule, FormsModule, ToastrModule.forRoot(), RouterTestingModule],
 
-      declarations: [ CancionCommentComponent ],
+      declarations: [CancionCommentComponent],
       providers: [
         { provide: FormBuilder, useValue: formBuilder }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
