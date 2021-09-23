@@ -226,6 +226,9 @@ class VistaAlbumsCompartido(Resource):
         id_usuario = request.json['usuario_id']
         id_album = request.json['album_id']
         usuario = Usuario.query.filter(Usuario.nombre == id_usuario).first()
+        verificarComp = AlbumCompartido.query.filter(AlbumCompartido.usuario_id == id_usuariolog).all()
+        if len(verificarComp) > 0:
+            return "No puede compartir un album compartido", 404
         if usuario.id == id_usuariolog:
             return "No se puede compartir con el mismo usuario logeado", 404
         db.session.commit()
@@ -263,11 +266,14 @@ class VistaCancionesCompartido(Resource):
         return [cancion_comp_schema.dump(comentario) for comentario in CancionCompartido.query.filter(CancionCompartido.usuario_id == id_usuariolog).all()]
 
 
-    def post(self, id_usuariolog):
+    def post(self, id_usuariolog):  
         ####VALIDAMOS SI EXISTE EL USUARIO
         id_usuario = request.json['usuario_id']
         id_cancion = request.json['cancion_id']
         usuario = Usuario.query.filter(Usuario.nombre == id_usuario).first()
+        verificarComp = CancionCompartido.query.filter(CancionCompartido.usuario_id == id_usuariolog).all()
+        if len(verificarComp) > 0:
+            return "No puede compartir una canción compartida", 404
         if usuario.id == id_usuariolog:
             return "No se puede compartir con el mismo usuario logeado", 404
         db.session.commit()
