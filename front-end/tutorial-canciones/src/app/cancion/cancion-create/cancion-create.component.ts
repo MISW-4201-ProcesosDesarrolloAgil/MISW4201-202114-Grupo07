@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Cancion } from '../cancion';
+import { Cancion, Genero } from '../cancion';
 import { CancionService } from '../cancion.service';
 import * as $ from 'jquery';
 @Component({
@@ -15,6 +15,44 @@ export class CancionCreateComponent implements OnInit {
   userId: number
   token: string
   cancionForm: FormGroup
+  generos:Array<Genero> = [
+    {
+      llave: "Academico",
+      valor: 1
+    },
+    {
+      llave: "Alternativo",
+      valor: 2
+    },
+    {
+      llave: "Experimental",
+      valor: 3
+    },
+    {
+      llave: "Folclor",
+      valor: 4
+    },
+    {
+      llave: "Jazz",
+      valor: 5
+    },
+    {
+      llave: "Pop",
+      valor: 6
+    },
+    {
+      llave: "Rock",
+      valor: 7
+    },
+    {
+      llave: "Tropical",
+      valor: 8
+    },
+    {
+      llave: "Urbano",
+      valor: 9
+    }
+  ]
 
   constructor(
     private cancionService: CancionService,
@@ -35,7 +73,8 @@ export class CancionCreateComponent implements OnInit {
         titulo: ["", [Validators.required, Validators.maxLength(128)]],
         minutos: ["", [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(2)]],
         segundos: ["", [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(2)]],
-        interprete: ["", [Validators.required, Validators.maxLength(128)]]
+        interprete: ["", [Validators.required, Validators.maxLength(128)]],
+        genero: ["", [Validators.required]]
       })
     }
     //Toggle Click Function

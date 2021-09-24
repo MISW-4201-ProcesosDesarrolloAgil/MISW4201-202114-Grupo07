@@ -27,8 +27,24 @@
                 <div class="my-2 input-group">
                   <input #busqueda type="search" class="form-control" placeholder="Buscar canciones" aria-label="Search"
                     (keyup)="buscarCancion(busqueda.value)">
+                  <div class="text-center col-2">
+                    <button type="button" class="my-1 btn btn-filter btn-circle" (click)="isCollapsed = !isCollapsed"
+                      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseFilters"><i
+                        class="bi bi-filter"></i></button>
+                  </div>
                 </div>
-
+                <div id="collapseFilters" class="col-12 my-2" [ngbCollapse]="isCollapsed">
+                  <div class="col-6" style="padding-right:.25rem;">
+                    <select class="form-select">
+                      <option value="" disabled>Género</option>
+                    </select>
+                  </div>
+                  <div class="col-6" style="padding-left:.25rem;">
+                    <select class="form-select">
+                      <option value="" disabled>Intérprete</option>
+                    </select>
+                  </div>
+                </div>
                 <table class="table mb-0 table-hover" aria-describedby="colecName">
                   <tbody>
                     <tr *ngFor="let cancion of mostrarCanciones; index as i" (click)="onSelect(cancion, i)"

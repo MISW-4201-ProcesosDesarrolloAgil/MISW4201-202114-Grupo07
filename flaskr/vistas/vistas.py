@@ -17,7 +17,7 @@ cancion_comp_schema = CancionCompartidoSchema()
 class VistaCanciones(Resource):
  
     def post(self):
-        nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"])
+        nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"], genero=request.json["genero"])
         usuario = Usuario.query.get_or_404(request.json["usuario"])
         usuario.canciones.append(nueva_cancion)
         try:
@@ -49,6 +49,7 @@ class VistaCancion(Resource):
         cancion.minutos = request.json.get("minutos",cancion.minutos)
         cancion.segundos = request.json.get("segundos",cancion.segundos)
         cancion.interprete = request.json.get("interprete",cancion.interprete)
+        cancion.genero = request.json.get("genero",cancion.genero)
         db.session.commit()
         return cancion_schema.dump(cancion)
 
@@ -57,6 +58,13 @@ class VistaCancion(Resource):
         db.session.delete(cancion)
         db.session.commit()
         return '',204
+        
+class VistaFiltro(Resource):
+    def get(self):
+        return [cancion_schema.dump(g) for g in Cancion.query.filter(Cancion.genero).all()]
+        #return Cancion.query.filter(Cancion.genero.all())
+    # def filter_interprete(self):
+    #     return Cancion.query.filter(Cancion.interprete.all())        
 
 class VistaAlbumesCanciones(Resource):
     def get(self, id_cancion):
@@ -139,7 +147,7 @@ class VistaCancionesAlbum(Resource):
             else:
                 return 'Canción errónea',404
         else: 
-            nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"])
+            nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"], genero=request.json["genero"])
             album.canciones.append(nueva_cancion)
         db.session.commit()
         return cancion_schema.dump(nueva_cancion)

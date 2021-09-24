@@ -12,6 +12,8 @@ import * as $ from 'jquery';
 })
 export class CancionListComponent implements OnInit {
 
+  public isCollapsed = true;
+
   constructor(
     private cancionService: CancionService,
     private routerPath: Router,

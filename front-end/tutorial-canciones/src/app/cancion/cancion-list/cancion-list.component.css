@@ -7,7 +7,23 @@
   line-height: 1.428571429;
   border-radius: 15px;
 }
-
 .selected{
   background-color: #F6F4FF;
+}
+#collapseFilters.show{
+  display: inline-flex;
+  justify-content: space-between;
+}
+.bi-filter::before {
+  font-size: 16px!important;
+  font-weight: 500!important;
+}
+.btn-filter, .btn-filter:active, .btn-filter:hover{
+  background-color:#E66D68;
+  border-color:#E66D68;
+  color: #fff;
+}
+.input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3), .input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu){
+  border-top-right-radius:0.25rem!important;
+  border-bottom-right-radius:0.25rem!important;
 }
