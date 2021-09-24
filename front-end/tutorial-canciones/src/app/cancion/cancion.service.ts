@@ -92,4 +92,8 @@ export class CancionService {
     return this.http.get<CancionFavorita>(`${this.backUrl}/estcancionFavorita/${cancionId}/${userId}`)
   }
 
+  delCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita>{
+    return this.http.delete<CancionFavorita>(`${this.backUrl}/addcancionFavorita/${cancionId}/${userId}`)
+  }
+
 }

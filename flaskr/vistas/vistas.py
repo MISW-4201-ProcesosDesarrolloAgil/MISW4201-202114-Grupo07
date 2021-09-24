@@ -334,7 +334,9 @@ class VistaCancionFavorita(Resource):
                     db.session.delete(cancion_compardel)
                     db.session.commit()
                     return '',204
-                    
+                else:
+                    return "El usuario No tiene la cancion como favorita, no se puede eliminar de favorita", 400 
+
 
     def get(self, id_cancionlog, id_usuariolog):
         ####VALIDAMOS SI EXISTE EL USUARIO
