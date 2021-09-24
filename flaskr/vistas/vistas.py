@@ -342,4 +342,14 @@ class VistaCancionFavorita(Resource):
                 else:
                      return "El usuario ya tiene la misma cancion favorita, no se puede seleccionar como favorita de nuevo", 400 
 
- 
+class VistaCancionFavoritaest(Resource):
+
+    def get(self, id_cancionlog, id_usuariolog):
+        ##CONSULTAMOS SI ESE USUARIO YA TIENE La cancion COMPRATIDO
+        cancion_compar = CancionFavorita.query.filter( CancionFavorita.cancion_id ==  id_cancionlog,  CancionFavorita.usuario_id == id_usuariolog).first()
+        db.session.commit()
+
+        if cancion_compar is None:     
+            return False
+        else:
+            return True 

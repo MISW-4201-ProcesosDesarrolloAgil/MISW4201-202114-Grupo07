@@ -85,7 +85,11 @@ export class CancionService {
       'Authorization': `Bearer ${token}`
     })
     return this.http.get<CancionComp[]>(`${this.backUrl}/compartirCancion/${usuario}`, { headers: headers })
- 
+
+  }
+
+  cauCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita>{
+    return this.http.get<CancionFavorita>(`${this.backUrl}/estcancionFavorita/${cancionId}/${userId}`)
   }
 
 }
