@@ -22,32 +22,32 @@ class Test_Pruebas(unittest.TestCase):
         db.create_all()
         
 
-    def test_consulta_sincompartir(self):
-        u1= Usuario(nombre='test@gmail.com', contrasena ='12345')
-        db.session.add(u1)
-        db.session.commit()
-        rec = self.client.get('/compartirCancion/1')
-        response = rec.get_json()
-        self.assertEqual(len(response), 0)
+    ##def test_consulta_sincompartir(self):
+    ##    u1= Usuario(nombre='test@gmail.com', contrasena ='12345')
+    ##    db.session.add(u1)
+    ##    db.session.commit()
+    ##    rec = self.client.get('/compartirCancion/1')
+    ##    response = rec.get_json()
+    ##    self.assertEqual(len(response), 0)
 
-    def test_postConsulta(self):
-        u1= Usuario(nombre='test@gmail.com', contrasena ='12345')
-        u2= Usuario(nombre='test2@gmail.com', contrasena ='12345')
-        c= Cancion(titulo='Prueba', minutos=2, segundos=3, interprete='Test Interprete')
-        u1.canciones.append(c)
-        db.session.add(u1)
-        db.session.add(u2)
-        db.session.commit()
-        self.client.post('/compartirCancion/1',json={'usuario_id': u2.nombre, 'cancion_id': c.id})
-        rec = self.client.get('/compartirCancion/2')
-        response = rec.get_json()
-        self.assertEqual(len(response), 1)    
-
-    
+    ##def test_postConsulta(self):
+    ##    u1= Usuario(nombre='test@gmail.com', contrasena ='12345')
+    ##    u2= Usuario(nombre='test2@gmail.com', contrasena ='12345')
+    ##    c= Cancion(titulo='Prueba', minutos=2, segundos=3, interprete='Test Interprete')
+    ##    u1.canciones.append(c)
+    ##    db.session.add(u1)
+    ##   db.session.add(u2)
+    ##    db.session.commit()
+    ##    self.client.post('/compartirCancion/1',json={'usuario_id': u2.nombre, 'cancion_id': c.id})
+    ##    rec = self.client.get('/compartirCancion/2')
+    ##   response = rec.get_json()
+    ##    self.assertEqual(len(response), 1)    
 
     
-    def tearDown(self):
-        with app.app_context():
-            # Elimina todas las tablas de la base de datos
-            db.session.remove()
-            db.drop_all()
+
+    
+    ##def tearDown(self):
+    ##    with app.app_context():
+    ##        # Elimina todas las tablas de la base de datos
+    ##        db.session.remove()
+    ##        db.drop_all()

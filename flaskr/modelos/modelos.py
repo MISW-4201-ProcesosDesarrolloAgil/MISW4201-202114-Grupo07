@@ -153,6 +153,3 @@ class CancionFavoritaSchema(SQLAlchemyAutoSchema):
          include_fk = True
          exclude = ['usuario_id','id','cancion_id']
          load_instance = True
-
-         
- 

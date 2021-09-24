@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-menu',
@@ -10,10 +11,18 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private routerPath: Router,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private toastr: ToastrService
     ) { }
 
-  ngOnInit(): void {  }
+  ngOnInit(): void {
+
+    if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
+      this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+      this.routerPath.navigate([`/`])
+    }
+
+   }
 
   goTo(menu: string){
     const userId = parseInt(this.router.snapshot.params.userId)
@@ -31,6 +40,10 @@ export class MenuComponent implements OnInit {
       this.routerPath.navigate([`/acercade/${userId}/${token}`])
     }
 
+  }
+
+  showError(error: string) {
+    this.toastr.error(error, "Error")
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cancion } from '../cancion';
+import { CancionFavorita } from '../cancion-favorita';
 import { CommentResp } from 'src/app/album/album-comment/commentResp';
 import { ToastrService } from 'ngx-toastr';
 import { CancionService } from '../cancion.service';
@@ -16,10 +17,14 @@ export class CancionDetailComponent implements OnInit {
 
   @Input() cancion: Cancion;
   @Output() deleteCancion = new EventEmitter();
+  cancionSeleccionada: Cancion
 
   userId: number;
   token: string;
+  conreult: CancionFavorita;
+  conreultok: CancionFavorita;
   comentarios: Array<CommentResp>
+
 
   constructor(
     private cancionService: CancionService,
@@ -38,6 +43,7 @@ export class CancionDetailComponent implements OnInit {
       this.getComentarios()
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
+      this.cauCancionFavorita()
     }
 
   }
@@ -73,6 +79,8 @@ export class CancionDetailComponent implements OnInit {
 
   ngOnChanges() {
     this.getComentarios();
+    this.cauCancionFavorita();
+    // consultar servicio favoritos
   }
 
   eliminarCancion() {
@@ -87,8 +95,62 @@ export class CancionDetailComponent implements OnInit {
     this.routerPath.navigate([`/canciones/comment/${this.cancion.id}/${this.userId}/${this.token}`])
   }
 
+    selCancionFavorita() {
+      this.cancionService.selCancionFavorita(this.cancion.id, this.userId)
+      .subscribe(cancionService => {
+        this.ngOnInit()
+        this.showSuccesscf()
+      },
+      error=> {
+          this.showErrorcf(error.error)
+      })
+    }
+
+    delCancionFavorita() {
+      this.cancionService.delCancionFavorita(this.cancion.id, this.userId)
+      .subscribe(cancionService => {
+        this.ngOnInit()
+        this.showdelete()
+      },
+      error=> {
+          this.showErrorde(error.error)
+      })
+    }
+
+
+    showErrorcf(error: string){
+      this.toastr.error(error, "Mesaje de error")
+    }
+
+    showErrorde(error: string){
+      this.toastr.error(error, "Mesaje de error")
+    }
+
+    showSuccessdc() {
+      this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
+      this.cauCancionFavorita()
+    }
+
+    showdelete() {
+      this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
+    }
+
+    showSuccesscf() {
+      this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
+      this.cauCancionFavorita()
+    }
+
   openShare(content: any) {
     this.modalService.open(content);
+  }
+
+  cauCancionFavorita() {
+    this.cancionService.cauCancionFavorita(this.cancion.id, this.userId)
+      .subscribe(cancionService => {
+        this.conreultok = cancionService
+        this.conreult = cancionService
+        console.log(cancionService)
+    })
   }
 
 
