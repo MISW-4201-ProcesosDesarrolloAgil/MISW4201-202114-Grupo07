@@ -1,57 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { CancionService } from '../cancion.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AlbumService } from '../album.service';
-import { Album, Medio } from '../album';
-import { AlbumComment } from './album-comment';
-import { Coment } from './coment';
-
-import * as $ from 'jquery';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommentResp } from 'src/app/album/album-comment/commentResp';
+import { Cancion } from 'src/app/album/album';
+import { AlbumComment } from 'src/app/album/album-comment/album-comment';
+import { CommentCancion } from '../commentCancion';
 
 @Component({
-  selector: 'app-album-comment',
-  templateUrl: './album-comment.component.html',
-  styleUrls: ['./album-comment.component.css'],
-  providers: [NgbModalConfig, NgbModal]
+  selector: 'app-cancion-comment',
+  templateUrl: './cancion-comment.component.html',
+  styleUrls: ['./cancion-comment.component.css']
 })
-export class AlbumCommentComponent implements OnInit {
-  album: Album
+export class CancionCommentComponent implements OnInit {
+
+  @Input() cancion: Cancion;
+
+  comentarios: Array<CommentResp>
+  cancionCommentForm: FormGroup
   userId: number
   token: string
-  albumCommentForm: FormGroup
+  showComent: boolean
 
-  constructor(
-    private albumService: AlbumService,
+  constructor(private cancionService: CancionService,
     private formBuilder: FormBuilder,
     private router: ActivatedRoute,
     private toastr: ToastrService,
-    private routerPath: Router
-  ) { }
+    private routerPath: Router) { }
 
   ngOnInit() {
 
-    console.log(this.router.snapshot.params.albumId);
     if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
     else {
-      this.getAlbum()
+      this.getComentarios()
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
-      this.albumCommentForm = this.formBuilder.group({
+      this.cancionCommentForm = this.formBuilder.group({
         comentario: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(512)]],
       })
     }
-
-
-    //Toggle Click Function
-    $("#menu-toggle").click(function (e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
-
   }
 
   showError(error: string) {
@@ -66,33 +57,37 @@ export class AlbumCommentComponent implements OnInit {
     this.toastr.success(`El comentario para el album fue creado`, "Creación exitosa");
   }
 
-  cancelCreate() {
-    this.albumCommentForm.reset()
-    this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+  ngOnChanges() {
+    this.getComentarios();
   }
 
-  getAlbum() {
-    this.albumService.getAlbum(this.router.snapshot.params.albumId)
-      .subscribe(com => {
-        this.album = com;
+  getComentarios(): void {
+    if (this.cancion) {
+      this.cancionService.getCancionComentarios(this.cancion.id)
+        .subscribe(comen => {
 
-      },
-        error => {
-          if (error.statusText === "UNAUTHORIZED") {
-            this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
-          }
-          else if (error.statusText === "UNPROCESSABLE ENTITY") {
-            this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
-          }
-          else {
-            this.showError("Ha ocurrido un error. " + error.message)
-          }
-        })
+          this.comentarios = comen
+
+        },
+          error => {
+            console.log(error)
+
+          })
+
+    }
+
+  }
+
+
+
+  nuevoComentario() {
+    this.showComent = !this.showComent;
   }
 
   createAlbumComment(newComment: AlbumComment) {
     var idUsuario = this.router.snapshot.params.userId;
-    var idAlbum = this.router.snapshot.params.albumId;
+    var idCancion = this.cancion.id
+
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1;
@@ -128,14 +123,13 @@ export class AlbumCommentComponent implements OnInit {
 
     var hora = hourT + ':' + minutesT;
 
-    var comment = new Coment(newComment.comentario, fecha, hora, idAlbum, idUsuario);
-    console.log(comment)
+    var comment = new CommentCancion(newComment.comentario, fecha, hora, idCancion, idUsuario);
 
-    this.albumService.comentarAlbum(this.token, comment)
+    this.cancionService.comentarCancion(this.token, comment)
       .subscribe(com => {
         this.showSuccess()
-        this.albumCommentForm.reset()
-        this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+        this.cancionCommentForm.reset()
+        this.getComentarios()
       },
         error => {
           if (error.statusText === "UNAUTHORIZED") {
@@ -149,6 +143,5 @@ export class AlbumCommentComponent implements OnInit {
           }
         })
   }
-
 
 }

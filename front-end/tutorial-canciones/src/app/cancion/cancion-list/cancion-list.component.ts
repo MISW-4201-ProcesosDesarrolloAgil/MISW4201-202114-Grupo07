@@ -26,69 +26,71 @@ export class CancionListComponent implements OnInit {
   indiceSeleccionado: number = 0
 
   ngOnInit() {
-    if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
+    if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
-    else{
+    else {
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
       this.getCanciones();
     }
     //Toggle Click Function
-    $("#menu-toggle").click(function(e) {
+    $("#menu-toggle").click(function (e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
   }
 
-  getCanciones():void{
-    this.cancionService.getCanciones()
-    .subscribe(canciones => {
-      this.canciones = canciones
-      this.mostrarCanciones = canciones
-      this.onSelect(this.mostrarCanciones[0], 0)
-    })
+  getCanciones(): void {
+    this.cancionService.getCancionesUsuarios(this.userId)
+      .subscribe(canciones => {
+
+        console.log(canciones)
+        this.canciones = canciones
+        this.mostrarCanciones = canciones
+        this.onSelect(this.mostrarCanciones[0], 0)
+      })
   }
 
-  onSelect(cancion: Cancion, indice: number){
+  onSelect(cancion: Cancion, indice: number) {
     this.indiceSeleccionado = indice
     this.cancionSeleccionada = cancion
     this.cancionService.getAlbumesCancion(cancion.id)
-    .subscribe(albumes => {
-      this.cancionSeleccionada.albumes = albumes
-    },
-    error => {
-      this.showError(`Ha ocurrido un error: ${error.message}`)
-    })
+      .subscribe(albumes => {
+        this.cancionSeleccionada.albumes = albumes
+      },
+        error => {
+          this.showError(`Ha ocurrido un error: ${error.message}`)
+        })
 
   }
 
-  buscarCancion(busqueda: string){
+  buscarCancion(busqueda: string) {
     let cancionesBusqueda: Array<Cancion> = []
-    this.canciones.map( cancion => {
-      if(cancion.titulo.toLocaleLowerCase().includes(busqueda.toLocaleLowerCase())){
+    this.canciones.map(cancion => {
+      if (cancion.titulo.toLocaleLowerCase().includes(busqueda.toLocaleLowerCase())) {
         cancionesBusqueda.push(cancion)
       }
     })
     this.mostrarCanciones = cancionesBusqueda
   }
 
-  eliminarCancion(){
+  eliminarCancion() {
     this.cancionService.eliminarCancion(this.cancionSeleccionada.id)
-    .subscribe(cancion => {
-      this.ngOnInit()
-      this.showSuccess()
-    },
-    error=> {
-      this.showError("Ha ocurrido un error. " + error.message)
-    })
+      .subscribe(cancion => {
+        this.ngOnInit()
+        this.showSuccess()
+      },
+        error => {
+          this.showError("Ha ocurrido un error. " + error.message)
+        })
   }
 
-  irCrearCancion(){
+  irCrearCancion() {
     this.routerPath.navigate([`/canciones/create/${this.userId}/${this.token}`])
   }
 
-  showError(error: string){
+  showError(error: string) {
     this.toastr.error(error, "Error de autenticación")
   }
 
