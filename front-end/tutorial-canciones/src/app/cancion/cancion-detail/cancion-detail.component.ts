@@ -95,7 +95,7 @@ export class CancionDetailComponent implements OnInit {
     this.routerPath.navigate([`/canciones/comment/${this.cancion.id}/${this.userId}/${this.token}`])
   }
 
-  selCancionFavorita() {
+    selCancionFavorita() {
       this.cancionService.selCancionFavorita(this.cancion.id, this.userId)
       .subscribe(cancionService => {
         this.ngOnInit()
@@ -106,12 +106,33 @@ export class CancionDetailComponent implements OnInit {
       })
     }
 
+    delCancionFavorita() {
+      this.cancionService.delCancionFavorita(this.cancion.id, this.userId)
+      .subscribe(cancionService => {
+        this.ngOnInit()
+        this.showdelete()
+      },
+      error=> {
+          this.showErrorde(error.error)
+      })
+    }
+
+
     showErrorcf(error: string){
+      this.toastr.error(error, "Mesaje de error")
+    }
+
+    showErrorde(error: string){
       this.toastr.error(error, "Mesaje de error")
     }
 
     showSuccessdc() {
       this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
+      this.cauCancionFavorita()
+    }
+
+    showdelete() {
+      this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
     }
 
     showSuccesscf() {

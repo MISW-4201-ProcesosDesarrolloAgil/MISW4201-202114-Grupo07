@@ -304,11 +304,37 @@ class VistaCancionesCompartido(Resource):
                 else:
                     return "El usuario ya tiene la canción compartida.", 404
 
+    
 
 class VistaCancionFavorita(Resource):
 
-    ##def get(self, id_usuariolog):
-    ##   return [cancion_favorita_schema.dump(comentario) for comentario in CancionFavorita.query.filter(CancionFavorita.usuario_id == id_usuariolog).all()]
+    def delete(self, id_cancionlog, id_usuariolog):
+        usuario = Usuario.query.filter(Usuario.id == id_usuariolog).first()
+        db.session.commit()
+        if usuario is None:
+            return {"mensaje":"El usuario no existe"}, 400 
+        else:            
+            cancion = Cancion.query.filter(Cancion.id == id_cancionlog).first()
+            db.session.commit()
+            if cancion is None:
+                return {"mensaje":"El canción no existe"}, 400 
+            else:
+                cancionid = cancion.id
+                usuarioid = usuario.id
+
+                cancion = Cancion.query.get_or_404(cancionid)
+                usuario = Usuario.query.get_or_404(usuarioid)
+
+                ##CONSULTAMOS SI ESE USUARIO YA TIENE La cancion COMPRATIDO
+                cancion_compar = CancionFavorita.query.filter( CancionFavorita.cancion_id ==  cancionid,  CancionFavorita.usuario_id == usuarioid).first()
+                db.session.commit()
+
+                if cancion_compar is None:
+                    return "El usuario No tiene la cancion como favorita, no se puede eliminar de favorita", 400
+                else:
+                    db.session.delete(cancion_compar)
+                    db.session.commit()
+                    return '',204 
 
 
     def get(self, id_cancionlog, id_usuariolog):
