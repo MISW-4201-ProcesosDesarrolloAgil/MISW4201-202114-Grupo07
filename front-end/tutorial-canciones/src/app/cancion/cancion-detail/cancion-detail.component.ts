@@ -21,7 +21,10 @@ export class CancionDetailComponent implements OnInit {
 
   userId: number;
   token: string;
+  conreult: CancionFavorita;
+  conreultok: CancionFavorita;
   comentarios: Array<CommentResp>
+
 
   constructor(
     private cancionService: CancionService,
@@ -40,6 +43,7 @@ export class CancionDetailComponent implements OnInit {
       this.getComentarios()
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
+      this.cauCancionFavorita()
     }
 
   }
@@ -75,6 +79,8 @@ export class CancionDetailComponent implements OnInit {
 
   ngOnChanges() {
     this.getComentarios();
+    this.cauCancionFavorita();
+    // consultar servicio favoritos
   }
 
   eliminarCancion() {
@@ -110,10 +116,20 @@ export class CancionDetailComponent implements OnInit {
 
     showSuccesscf() {
       this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
+      this.cauCancionFavorita()
     }
 
   openShare(content: any) {
     this.modalService.open(content);
+  }
+
+  cauCancionFavorita() {
+    this.cancionService.cauCancionFavorita(this.cancion.id, this.userId)
+      .subscribe(cancionService => {
+        this.conreultok = cancionService
+        this.conreult = cancionService
+        console.log(cancionService)
+    })
   }
 
 
