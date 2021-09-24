@@ -330,12 +330,11 @@ class VistaCancionFavorita(Resource):
                 db.session.commit()
 
                 if cancion_compar is None:
-                    cancion_compardel = CancionFavorita.query.get_or_404(CancionFavorita.cancion_id ==  cancionid,  CancionFavorita.usuario_id == usuarioid)
-                    db.session.delete(cancion_compardel)
-                    db.session.commit()
-                    return '',204
+                    return "El usuario No tiene la cancion como favorita, no se puede eliminar de favorita", 400
                 else:
-                    return "El usuario No tiene la cancion como favorita, no se puede eliminar de favorita", 400 
+                    db.session.delete(cancion_compar)
+                    db.session.commit()
+                    return '',204 
 
 
     def get(self, id_cancionlog, id_usuariolog):
