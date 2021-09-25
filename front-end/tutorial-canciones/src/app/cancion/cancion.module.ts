@@ -9,7 +9,7 @@ import { CancionEditComponent } from './cancion-edit/cancion-edit.component';
 import { AppMenuModule } from '../app-header/app-menu.module';
 import { CancionCommentComponent } from './cancion-comment/cancion-comment.component';
 import { CancionShareComponent } from './cancion-share/cancion-share.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
