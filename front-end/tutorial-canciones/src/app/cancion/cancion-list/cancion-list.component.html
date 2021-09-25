@@ -35,14 +35,16 @@
                 </div>
                 <div id="collapseFilters" class="col-12 my-2" [ngbCollapse]="isCollapsed">
                   <div class="col-6" style="padding-right:.25rem;">
-                    <select class="form-select">
-                      <option value="" disabled>Género</option>
+                    <select #genero class="form-select" (change)="filtrarGenero(genero.value)">
+                      <option value="Genero" disabled selected>Género</option>
+                      <option *ngFor="let genero of generos" value={{genero.valor}}>{{genero.llave}}</option>
                     </select>
                   </div>
                   <div class="col-6" style="padding-left:.25rem;">
-                    <select class="form-select">
+                    <!-- <select #interprete class="form-select" (change)="filtrarGenero(interprete)">
                       <option value="" disabled>Intérprete</option>
-                    </select>
+                      <option *ngFor="let interprete of interpretes" value={{interprete}}>{{interprete}}</option>
+                    </select> -->
                   </div>
                 </div>
                 <table class="table mb-0 table-hover" aria-describedby="colecName">
