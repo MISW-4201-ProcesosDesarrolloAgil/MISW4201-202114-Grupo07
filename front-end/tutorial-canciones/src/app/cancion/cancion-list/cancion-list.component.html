@@ -26,7 +26,7 @@
                   <input #busqueda type="search" class="form-control" placeholder="Buscar canciones" aria-label="Search"
                     (keyup)="buscarCancion(busqueda.value)">
                   <div class="text-center col-2">
-                    <button type="button" class="my-1 btn btn-filter btn-circle" (click)="isCollapsed = !isCollapsed"
+                    <button type="button" class="my-1 btn btn-filter btn-circle" (click)="isCollapsed = !isCollapsed; interpretesCan();"
                       [attr.aria-expanded]="!isCollapsed" aria-controls="collapseFilters"><i
                         class="bi bi-filter"></i></button>
                   </div>
@@ -39,9 +39,9 @@
                     </select>
                   </div>
                   <div class="col-6" style="padding-left:.25rem;">
-                    <select #interprete class="form-select" (change)="filtrarInterprete(interprete)">
+                    <select #interprete class="form-select" (change)="filtrarInterprete(interprete.value)">
                       <option value="" disabled selected>Intérprete</option>
-                      <option *ngFor="let cancion of canciones" value={{cancion.interprete}}>{{cancion.interprete}}</option>
+                      <option *ngFor="let cancion of interSelect" value={{cancion}}>{{cancion}}</option>
                     </select>
                   </div>
                 </div>

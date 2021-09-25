@@ -14,6 +14,7 @@ export class CancionListComponent implements OnInit {
 
   public isCollapsed = true
   p: number = 0
+  interpretes:Array<Cancion>
   generos:Array<Genero> = [
     {
       llave: "Academico",
@@ -52,6 +53,7 @@ export class CancionListComponent implements OnInit {
       valor: 9
     }
   ]
+  interSelect:Array<String>= []
 
   constructor(
     private cancionService: CancionService,
@@ -87,8 +89,6 @@ export class CancionListComponent implements OnInit {
   getCanciones(): void {
     this.cancionService.getCancionesUsuarios(this.userId)
       .subscribe(canciones => {
-
-        console.log(canciones)
         this.canciones = canciones
         this.mostrarCanciones = canciones
         this.onSelect(this.mostrarCanciones[0], 0)
@@ -154,7 +154,7 @@ export class CancionListComponent implements OnInit {
   filtrarInterprete(interprete: any) {
     let interpreteFiltro: Array<Cancion> = []
     this.canciones.map(cancion => {
-      if (cancion.interprete.toLocaleLowerCase() == interprete) {
+      if (cancion.interprete.toLocaleLowerCase() == interprete.toLocaleLowerCase()) {
         interpreteFiltro.push(cancion)
       }
     })
@@ -162,6 +162,14 @@ export class CancionListComponent implements OnInit {
       if (a.titulo > b.titulo) return 1
       if (a.titulo < b.titulo) return -1
       return 0
+    })
+  }
+
+  interpretesCan(){
+    this.canciones.map(c => {
+      if (!this.interSelect.includes(c.interprete)) {
+        this.interSelect.push(c.interprete)
+      }
     })
   }
 
