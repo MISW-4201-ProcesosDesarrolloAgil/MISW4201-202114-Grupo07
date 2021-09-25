@@ -207,6 +207,15 @@ class VistaComentarios(Resource):
         db.session.commit()
         return comentario_schema.dump(nuevo_comentario), 200
 
+class VistaComentario(Resource):
+
+    def delete(self, id_comentario):
+        comentario = Comentario.query.get_or_404(id_comentario)
+        db.session.delete(comentario)
+        db.session.commit()
+        return '',204
+
+
 class VistaComentariosAlbum(Resource):
 
     def get(self, id_album):
@@ -376,7 +385,7 @@ class VistaCancionFavorita(Resource):
                 else:
                      return "El usuario ya tiene la misma cancion favorita, no se puede seleccionar como favorita de nuevo", 400 
 
-class VistaCancionFavoritaest(Resource):
+class VistaCancionSiFavorita(Resource):  
 
     def get(self, id_cancionlog, id_usuariolog):
         ##CONSULTAMOS SI ESE USUARIO YA TIENE La cancion COMPRATIDO
@@ -384,6 +393,18 @@ class VistaCancionFavoritaest(Resource):
         db.session.commit()
 
         if cancion_compar is None:     
-            return False
+            return False 
         else:
             return True 
+
+class VistaCancionNoFavorita(Resource):
+
+    def get(self, id_cancionlog, id_usuariolog):
+        ##CONSULTAMOS SI ESE USUARIO YA TIENE La cancion COMPRATIDO
+        cancion_compar = CancionFavorita.query.filter( CancionFavorita.cancion_id ==  id_cancionlog,  CancionFavorita.usuario_id == id_usuariolog).first()
+        db.session.commit()
+
+        if cancion_compar is None:     
+            return True
+        else:
+            return False 

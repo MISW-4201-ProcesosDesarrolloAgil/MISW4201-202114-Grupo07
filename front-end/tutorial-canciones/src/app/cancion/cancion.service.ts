@@ -67,7 +67,7 @@ export class CancionService {
     return this.http.get<CommentResp[]>(`${this.backUrl}/comentarioCancion/${cancionId}`)
   }
 
-  selCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita>{
+  selCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita> {
     return this.http.get<CancionFavorita>(`${this.backUrl}/addcancionFavorita/${cancionId}/${userId}`)
   }
 
@@ -88,12 +88,20 @@ export class CancionService {
 
   }
 
-  cauCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita>{
-    return this.http.get<CancionFavorita>(`${this.backUrl}/estcancionFavorita/${cancionId}/${userId}`)
+  siCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita> {
+    return this.http.get<CancionFavorita>(`${this.backUrl}/sicancionFavorita/${cancionId}/${userId}`)
   }
 
-  delCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita>{
+  noCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita> {
+    return this.http.get<CancionFavorita>(`${this.backUrl}/nocancionFavorita/${cancionId}/${userId}`)
+  }
+
+  delCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita> {
     return this.http.delete<CancionFavorita>(`${this.backUrl}/addcancionFavorita/${cancionId}/${userId}`)
+  }
+
+  eliminarComentario(comentarioId: number): Observable<CommentResp> {
+    return this.http.delete<CommentResp>(`${this.backUrl}/comentario/${comentarioId}`)
   }
 
 }

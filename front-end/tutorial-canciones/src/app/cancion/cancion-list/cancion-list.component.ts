@@ -128,14 +128,14 @@ export class CancionListComponent implements OnInit {
         cancionesBusqueda.push(cancion)
       }
     })
-    this.mostrarCanciones = cancionesBusqueda.sort((a:Cancion, b:Cancion)=>{
+    this.mostrarCanciones = cancionesBusqueda.sort((a: Cancion, b: Cancion) => {
       if (a.titulo > b.titulo) return 1
       if (a.titulo < b.titulo) return -1
       return 0
     })
   }
 
-  filtrarGenero(genero: any){
+  filtrarGenero(genero: any) {
     let generoFiltro: Array<Cancion> = []
     this.canciones.map(cancion => {
       if (cancion.genero.valor == genero) {
@@ -144,21 +144,21 @@ export class CancionListComponent implements OnInit {
 
       }
     })
-    this.mostrarCanciones = generoFiltro.sort((a:Cancion, b:Cancion)=>{
+    this.mostrarCanciones = generoFiltro.sort((a: Cancion, b: Cancion) => {
       if (a.titulo > b.titulo) return 1
       if (a.titulo < b.titulo) return -1
       return 0
     })
   }
 
-  filtrarInterprete(interprete: any){
+  filtrarInterprete(interprete: any) {
     let interpreteFiltro: Array<Cancion> = []
     this.canciones.map(cancion => {
       if (cancion.interprete.toLocaleLowerCase() == interprete) {
         interpreteFiltro.push(cancion)
       }
     })
-    this.mostrarCanciones = interpreteFiltro.sort((a:Cancion, b:Cancion)=>{
+    this.mostrarCanciones = interpreteFiltro.sort((a: Cancion, b: Cancion) => {
       if (a.titulo > b.titulo) return 1
       if (a.titulo < b.titulo) return -1
       return 0

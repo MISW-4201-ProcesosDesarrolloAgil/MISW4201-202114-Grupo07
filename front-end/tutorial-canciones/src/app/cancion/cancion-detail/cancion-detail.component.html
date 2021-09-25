@@ -10,13 +10,11 @@
       <button *ngIf="cancion" type="button" class="btn btn-comment me-1 me-2" (click)="goToCommentCancion()"
         title="Comentar canción"><i class="bi bi-plus"></i><i class="bi bi-chat"></i></button>
 
-      <button *ngIf="conreult; else loggedOut" type="button" class="btn btn-info me-1 me-2"
-        (click)="delCancionFavorita()" title="Cancion selecconada como favorita"><i class="bi bi-spellcheck"></i><i
+      <button *ngIf="conreultok" type="button" class="btn btn-info me-1 me-2" (click)="delCancionFavorita()"
+        title="Cancion selecconada como favorita"><i class="bi bi-spellcheck"></i><i
           class="bi bi-heart-fill"></i></button>
-      <ng-template #loggedOut class="hidden">
-        <button type="button" class="btn btn-info me-1 me-2" (click)="selCancionFavorita()"
-          title="Seleccionar canción como favorita"><i class="bi bi-plus"></i><i class="bi bi-heart"></i></button>
-      </ng-template>
+      <button *ngIf="conreult" type="button" class="btn btn-info me-1 me-2" (click)="selCancionFavorita()"
+        title="Seleccionar canción como favorita"><i class="bi bi-plus"></i><i class="bi bi-heart"></i></button>
 
       <button *ngIf="cancion" type="button" class="btn btn-share me-1" (click)="openShare(content)"
         title="Compartir álbum"><i class="bi bi-share-fill"></i></button>
@@ -87,6 +85,7 @@
             <th scope="col" class="text-center" i18n>Comentario</th>
             <th scope="col" class="text-center" i18n>Usuario</th>
             <th scope="col" class="text-center" i18n>Fecha y Hora</th>
+            <th scope="col" class="text-center" i18n></th>
           </tr>
         </thead>
         <tbody>
@@ -94,6 +93,9 @@
             <td>{{comentario.comentario}}</td>
             <td class="text-center">{{comentario.usuarioo.nombre}}</td>
             <td>{{comentario.fecha}}--{{comentario.hora}}</td>
+            <td><button *ngIf="comentario && comentario.usuarioo.id == userId" type="button" class="btn btn-danger me-1"
+                (click)="eliminarComentario(comentario)" title="Eliminar comentario"><i
+                  class="bi bi-trash-fill"></i></button></td>
           </tr>
         </tbody>
       </table>
