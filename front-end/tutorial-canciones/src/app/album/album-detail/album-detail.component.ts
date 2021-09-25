@@ -7,6 +7,7 @@ import { ToastrService } from "ngx-toastr";
 import { AlbumService } from '../album.service';
 import { Coment } from '../album-comment/coment';
 import { CommentResp } from '../album-comment/commentResp';
+import { CancionService } from 'src/app/cancion/cancion.service';
 @Component({
   selector: 'app-album-detail',
   templateUrl: './album-detail.component.html',
@@ -24,6 +25,8 @@ export class AlbumDetailComponent implements OnInit {
   comentarios: Array<CommentResp>
 
   constructor(
+
+    private cancionService: CancionService,
     private albumService: AlbumService,
     private routerPath: Router,
     private router: ActivatedRoute,
@@ -45,8 +48,28 @@ export class AlbumDetailComponent implements OnInit {
 
   }
 
+  eliminarComentario(comentario: CommentResp) {
+    this.cancionService.eliminarComentario(comentario.id,)
+      .subscribe(resp => {
+        this.ngOnInit()
+        this.showSuccessDelete()
+      },
+        error => {
+          this.showErrorcf(error.error)
+        })
+  }
+  showSuccessDelete() {
+    this.toastr.success(`El comentario fue eliminado`, "Eliminado exitosamente");
+    this.getComentarios()
+
+  }
+
   ngOnChanges() {
     this.getComentarios();
+  }
+
+  showErrorcf(error: string) {
+    this.toastr.error(error, "Mesaje de error")
   }
 
   goToEdit() {
@@ -72,7 +95,7 @@ export class AlbumDetailComponent implements OnInit {
     if (this.album) {
       this.albumService.getAlbumComentarios(this.album.id)
         .subscribe(comen => {
-
+          console.log(comen)
           this.comentarios = comen
 
         },

@@ -88,6 +88,17 @@ export class CancionDetailComponent implements OnInit {
     this.deleteCancion.emit(this.cancion.id)
   }
 
+  eliminarComentario(comentario: CommentResp) {
+    this.cancionService.eliminarComentario(comentario.id,)
+      .subscribe(resp => {
+        this.ngOnInit()
+        this.showSuccessDelete()
+      },
+        error => {
+          this.showErrorcf(error.error)
+        })
+  }
+
   goToEdit() {
     this.routerPath.navigate([`/canciones/edit/${this.cancion.id}/${this.userId}/${this.token}`])
   }
@@ -96,54 +107,62 @@ export class CancionDetailComponent implements OnInit {
     this.routerPath.navigate([`/canciones/comment/${this.cancion.id}/${this.userId}/${this.token}`])
   }
 
-    selCancionFavorita() {
-      this.cancionService.selCancionFavorita(this.cancion.id, this.userId)
+  selCancionFavorita() {
+    this.cancionService.selCancionFavorita(this.cancion.id, this.userId)
       .subscribe(cancionService => {
         this.ngOnInit()
         this.showSuccesscf()
       },
-      error=> {
+        error => {
           this.showErrorcf(error.error)
-      })
-    }
+        })
+  }
 
-    delCancionFavorita() {
-      this.cancionService.delCancionFavorita(this.cancion.id, this.userId)
+  delCancionFavorita() {
+    this.cancionService.delCancionFavorita(this.cancion.id, this.userId)
       .subscribe(cancionService => {
         this.ngOnInit()
         this.showdelete()
       },
-      error=> {
+        error => {
           this.showErrorde(error.error)
-      })
-    }
+        })
+  }
 
 
-    showErrorcf(error: string){
-      this.toastr.error(error, "Mesaje de error")
-    }
+  showErrorcf(error: string) {
+    this.toastr.error(error, "Mesaje de error")
+  }
 
-    showErrorde(error: string){
-      this.toastr.error(error, "Mesaje de error")
-    }
+  showErrorde(error: string) {
+    this.toastr.error(error, "Mesaje de error")
+  }
 
-    showSuccessdc() {
-      this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
-      this.siCancionFavorita()
-      this.noCancionFavorita()
-    }
+  showSuccessdc() {
+    this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
+    this.siCancionFavorita()
+    this.noCancionFavorita()
+  }
 
-    showdelete() {
-      this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
-      this.siCancionFavorita()
-      this.noCancionFavorita()
-    }
 
-    showSuccesscf() {
-      this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
-      this.siCancionFavorita()
-      this.noCancionFavorita()
-    }
+  showSuccessDelete() {
+    this.toastr.success(`El comentario fue eliminado`, "Eliminado exitosamente");
+    this.getComentarios()
+
+  }
+
+
+  showdelete() {
+    this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
+    this.siCancionFavorita()
+    this.noCancionFavorita()
+  }
+
+  showSuccesscf() {
+    this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
+    this.siCancionFavorita()
+    this.noCancionFavorita()
+  }
 
   openShare(content: any) {
     this.modalService.open(content);
@@ -154,7 +173,7 @@ export class CancionDetailComponent implements OnInit {
       .subscribe(cancionService => {
         this.conreultok = cancionService
         console.log(cancionService)
-    })
+      })
   }
 
   noCancionFavorita() {
@@ -162,7 +181,7 @@ export class CancionDetailComponent implements OnInit {
       .subscribe(cancionService => {
         this.conreult = cancionService
         console.log(cancionService)
-    })
+      })
   }
 
 

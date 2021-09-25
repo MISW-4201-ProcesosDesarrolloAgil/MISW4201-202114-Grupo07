@@ -207,6 +207,15 @@ class VistaComentarios(Resource):
         db.session.commit()
         return comentario_schema.dump(nuevo_comentario), 200
 
+class VistaComentario(Resource):
+
+    def delete(self, id_comentario):
+        comentario = Comentario.query.get_or_404(id_comentario)
+        db.session.delete(comentario)
+        db.session.commit()
+        return '',204
+
+
 class VistaComentariosAlbum(Resource):
 
     def get(self, id_album):

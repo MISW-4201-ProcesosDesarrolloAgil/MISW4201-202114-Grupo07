@@ -100,4 +100,8 @@ export class CancionService {
     return this.http.delete<CancionFavorita>(`${this.backUrl}/addcancionFavorita/${cancionId}/${userId}`)
   }
 
+  eliminarComentario(comentarioId: number): Observable<CommentResp> {
+    return this.http.delete<CommentResp>(`${this.backUrl}/comentario/${comentarioId}`)
+  }
+
 }
