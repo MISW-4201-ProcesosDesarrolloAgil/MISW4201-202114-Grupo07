@@ -41,15 +41,15 @@
                     </select>
                   </div>
                   <div class="col-6" style="padding-left:.25rem;">
-                    <!-- <select #interprete class="form-select" (change)="filtrarGenero(interprete)">
+                    <select #interprete class="form-select" (change)="filtrarGenero(interprete)">
                       <option value="" disabled>Intérprete</option>
                       <option *ngFor="let interprete of interpretes" value={{interprete}}>{{interprete}}</option>
-                    </select> -->
+                    </select>
                   </div>
                 </div>
-                <table class="table mb-0 table-hover" aria-describedby="colecName">
+                <table class="table mb-0 table-hover" aria-describedby="colecName" ngTabl>
                   <tbody>
-                    <tr *ngFor="let cancion of mostrarCanciones; index as i" (click)="onSelect(cancion, i)"
+                    <tr *ngFor="let cancion of mostrarCanciones; index as i" (click)="onSelect(cancion, i) "
                       [ngClass]="{'selected': i === indiceSeleccionado}">
                       <td>{{cancion.titulo}}</td>
                       <td>{{cancion.minutos|number:'2.0'}}:{{cancion.segundos|number:'2.0'}}</td>
