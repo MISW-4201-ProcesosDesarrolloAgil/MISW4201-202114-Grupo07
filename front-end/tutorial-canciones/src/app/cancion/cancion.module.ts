@@ -9,10 +9,11 @@ import { CancionEditComponent } from './cancion-edit/cancion-edit.component';
 import { AppMenuModule } from '../app-header/app-menu.module';
 import { CancionCommentComponent } from './cancion-comment/cancion-comment.component';
 import { CancionShareComponent } from './cancion-share/cancion-share.component';
+import { CancionCommentEditComponent } from './cancion-comment-edit/cancion-comment-edit.component';
 
 
 @NgModule({
-  declarations: [CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent, CancionCommentComponent, CancionShareComponent],
+  declarations: [CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent, CancionCommentComponent, CancionShareComponent, CancionCommentEditComponent],
   imports: [
     CommonModule, AppHeaderModule, ReactiveFormsModule, AppMenuModule
   ],

@@ -73,6 +73,7 @@
             <th scope="col" class="text-center" i18n>Comentario</th>
             <th scope="col" class="text-center" i18n>Usuario</th>
             <th scope="col" class="text-center" i18n>Fecha y Hora</th>
+            <th colspan="1"> </th>
           </tr>
         </thead>
         <tbody>
@@ -80,6 +81,8 @@
             <td>{{comentario.comentario}}</td>
             <td class="text-center">{{comentario.usuarioo.nombre}}</td>
             <td>{{comentario.fecha}}--{{comentario.hora}}</td>
+            <td><button *ngIf="album" type="button" class="btn btn-success ms-3 me-2" (click)="goToEditCommentAlbum(comentario.id)" title="Editar comentario de álbum"><i
+              class="bi bi-pencil-square"></i></button></td>
           </tr>
         </tbody>
       </table>

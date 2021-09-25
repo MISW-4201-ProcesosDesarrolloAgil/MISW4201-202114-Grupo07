@@ -5,6 +5,7 @@ import { CommentResp } from 'src/app/album/album-comment/commentResp';
 import { ToastrService } from 'ngx-toastr';
 import { CancionService } from '../cancion.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommentCancion } from '../commentCancion';
 
 @Component({
   selector: 'app-cancion-detail',
@@ -20,6 +21,7 @@ export class CancionDetailComponent implements OnInit {
   userId: number;
   token: string;
   comentarios: Array<CommentResp>
+  comment: CommentCancion;
 
   constructor(
     private cancionService: CancionService,
@@ -85,6 +87,10 @@ export class CancionDetailComponent implements OnInit {
 
   goToCommentCancion() {
     this.routerPath.navigate([`/canciones/comment/${this.cancion.id}/${this.userId}/${this.token}`])
+  }
+
+  goToEditCommentCancion() {
+    this.routerPath.navigate([`/canciones/comment/edit/${this.comment.id}/${this.cancion.id}/${this.userId}/${this.token}`])
   }
 
   openShare(content: any) {
