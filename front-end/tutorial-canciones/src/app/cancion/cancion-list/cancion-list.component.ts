@@ -12,9 +12,9 @@ import * as $ from 'jquery';
 })
 export class CancionListComponent implements OnInit {
 
-  public isCollapsed = true;
-  interpretes: Array<Cancion>
-  generos: Array<Genero> = [
+  public isCollapsed = true
+  p: number = 0
+  generos:Array<Genero> = [
     {
       llave: "Academico",
       valor: 1
@@ -140,6 +140,8 @@ export class CancionListComponent implements OnInit {
     this.canciones.map(cancion => {
       if (cancion.genero.valor == genero) {
         generoFiltro.push(cancion)
+      } else{
+
       }
     })
     this.mostrarCanciones = generoFiltro.sort((a: Cancion, b: Cancion) => {
@@ -152,7 +154,7 @@ export class CancionListComponent implements OnInit {
   filtrarInterprete(interprete: any) {
     let interpreteFiltro: Array<Cancion> = []
     this.canciones.map(cancion => {
-      if (cancion.interprete.toLocaleLowerCase().includes(interprete.toLocaleLowerCase())) {
+      if (cancion.interprete.toLocaleLowerCase() == interprete) {
         interpreteFiltro.push(cancion)
       }
     })

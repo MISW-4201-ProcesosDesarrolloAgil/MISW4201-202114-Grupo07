@@ -5,8 +5,6 @@
   <div id="page-content-wrapper">
     <app-header></app-header>
     <div class="container-fluid">
-
-
       <div class="container my-4">
         <div class="row">
           <div class="col-lg-4 col-sm-12">
@@ -36,25 +34,26 @@
                 <div id="collapseFilters" class="col-12 my-2" [ngbCollapse]="isCollapsed">
                   <div class="col-6" style="padding-right:.25rem;">
                     <select #genero class="form-select" (change)="filtrarGenero(genero.value)">
-                      <option value="Genero" disabled selected>Género</option>
+                      <option value="" disabled selected>Género</option>
                       <option *ngFor="let genero of generos" value={{genero.valor}}>{{genero.llave}}</option>
                     </select>
                   </div>
                   <div class="col-6" style="padding-left:.25rem;">
-                    <select #interprete class="form-select" (change)="filtrarGenero(interprete)">
-                      <option value="" disabled>Intérprete</option>
-                      <option *ngFor="let interprete of interpretes" value={{interprete}}>{{interprete}}</option>
+                    <select #interprete class="form-select" (change)="filtrarInterprete(interprete)">
+                      <option value="" disabled selected>Intérprete</option>
+                      <option *ngFor="let cancion of canciones" value={{cancion.interprete}}>{{cancion.interprete}}</option>
                     </select>
                   </div>
                 </div>
                 <table class="table mb-0 table-hover" aria-describedby="colecName" ngTabl>
                   <tbody>
-                    <tr *ngFor="let cancion of mostrarCanciones; index as i" (click)="onSelect(cancion, i) "
-                      [ngClass]="{'selected': i === indiceSeleccionado}">
+                    <tr *ngFor="let cancion of mostrarCanciones | paginate: {itemsPerPage: 5, currentPage:p}; index as i" (click)="onSelect(cancion, i)"
+                      [ngClass]="{'selected': i === indiceSeleccionado} ">
                       <td>{{cancion.titulo}}</td>
                       <td>{{cancion.minutos|number:'2.0'}}:{{cancion.segundos|number:'2.0'}}</td>
                     </tr>
                   </tbody>
+                  <pagination-controls (pageChange)="p = $event" class="text-center"></pagination-controls>
                 </table>
 
               </div>
@@ -66,10 +65,6 @@
           </div>
         </div>
       </div>
-
-
-
-
       <app-footer></app-footer>
     </div>
   </div>
