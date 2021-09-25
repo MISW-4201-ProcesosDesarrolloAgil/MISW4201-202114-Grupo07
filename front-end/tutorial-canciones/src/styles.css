@@ -11,9 +11,15 @@ body{
 }
 
 .card, .table-light, tbody, td, tfoot, th, thead, tr{
-  border-color: #F2F3F7;
+  border-color: #F2F3F7!important;
 }
-
+.ngx-pagination .current {
+  border-radius: 15px;
+  background: #5a52d1!important;
+}
+.ngx-pagination a:hover, .ngx-pagination button:hover{
+  border-radius: 15px;
+}
 /**Buttons**/
 .btn-primary, .btn-primary:hover, .btn-outline-primary, .btn-check:active+.btn-outline-primary, .btn-check:checked+.btn-outline-primary,
 .btn-outline-primary.active,.btn-primary.disabled, .btn-primary:disabled, .btn-success,.btn-success:hover{
