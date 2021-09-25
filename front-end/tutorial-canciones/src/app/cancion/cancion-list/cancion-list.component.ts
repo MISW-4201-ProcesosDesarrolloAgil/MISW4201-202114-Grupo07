@@ -13,7 +13,7 @@ import * as $ from 'jquery';
 export class CancionListComponent implements OnInit {
 
   public isCollapsed = true;
-
+  interpretes: Array<Cancion>
   generos: Array<Genero> = [
     {
       llave: "Academico",
@@ -128,7 +128,11 @@ export class CancionListComponent implements OnInit {
         cancionesBusqueda.push(cancion)
       }
     })
-    this.mostrarCanciones = cancionesBusqueda.sort()
+    this.mostrarCanciones = cancionesBusqueda.sort((a: Cancion, b: Cancion) => {
+      if (a.titulo > b.titulo) return 1
+      if (a.titulo < b.titulo) return -1
+      return 0
+    })
   }
 
   filtrarGenero(genero: any) {
@@ -138,7 +142,11 @@ export class CancionListComponent implements OnInit {
         generoFiltro.push(cancion)
       }
     })
-    this.mostrarCanciones = generoFiltro.sort()
+    this.mostrarCanciones = generoFiltro.sort((a: Cancion, b: Cancion) => {
+      if (a.titulo > b.titulo) return 1
+      if (a.titulo < b.titulo) return -1
+      return 0
+    })
   }
 
   filtrarInterprete(interprete: any) {
@@ -148,7 +156,11 @@ export class CancionListComponent implements OnInit {
         interpreteFiltro.push(cancion)
       }
     })
-    this.mostrarCanciones = interpreteFiltro.sort()
+    this.mostrarCanciones = interpreteFiltro.sort((a: Cancion, b: Cancion) => {
+      if (a.titulo > b.titulo) return 1
+      if (a.titulo < b.titulo) return -1
+      return 0
+    })
   }
 
   eliminarCancion() {
