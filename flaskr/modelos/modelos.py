@@ -11,17 +11,30 @@ albumes_canciones = db.Table('album_cancion',
     db.Column('album_id', db.Integer, db.ForeignKey('album.id'), primary_key = True),
     db.Column('cancion_id', db.Integer, db.ForeignKey('cancion.id'), primary_key = True))
 
+class Genero(enum.Enum):
+    Academico = 1
+    Alternativo = 2
+    Experimental = 3
+    Folclor = 4
+    Jazz = 5
+    Pop = 6
+    Rock = 7
+    Tropical = 8
+    Urbano = 9  
+    
+
 class Cancion(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     titulo = db.Column(db.String(128))
     minutos = db.Column(db.Integer)
     segundos = db.Column(db.Integer)
     interprete = db.Column(db.String(128))
+    genero = db.Column(db.Enum(Genero))
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
-    # usuarioo = db.relationship("Usuario", back_populates="canciones")
     albumes = db.relationship('Album', secondary = 'album_cancion', back_populates="canciones")
     comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
-    
+    compartidos = db.relationship('CancionCompartido', cascade='all, delete, delete-orphan')
+
     
 
 class Medio(enum.Enum):
@@ -68,6 +81,17 @@ class AlbumCompartido(db.Model):
     album = db.relationship("Album", back_populates="compartidos")
     usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
 
+class CancionCompartido(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    cancion_id = db.Column(db.Integer, db.ForeignKey("cancion.id"))
+    cancion = db.relationship("Cancion", back_populates="compartidos")
+    usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+
+class CancionFavorita(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    cancion_id = db.Column(db.Integer, db.ForeignKey("cancion.id"))
+    usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):
         if value is None:
@@ -75,6 +99,7 @@ class EnumADiccionario(fields.Field):
         return {"llave": value.name, "valor": value.value}
 
 class CancionSchema(SQLAlchemyAutoSchema):
+    genero = EnumADiccionario(attribute=("genero"))
     class Meta:
          model = Cancion
          include_relationships = True
@@ -99,9 +124,7 @@ class ComentarioSchema(SQLAlchemyAutoSchema):
     class Meta:
          model = Comentario
          include_relationships = True
-         load_instance = True
-    
-    
+         load_instance = True    
 
 class AlbumCompartidoSchema(SQLAlchemyAutoSchema):
     album = Nested(AlbumSchema)
@@ -112,5 +135,21 @@ class AlbumCompartidoSchema(SQLAlchemyAutoSchema):
          exclude = ['usuario_id','id','album_id']
          load_instance = True
 
-         
- 
+
+class CancionCompartidoSchema(SQLAlchemyAutoSchema):
+    cancion = Nested(CancionSchema)
+    class Meta:
+         model = CancionCompartido
+         include_relationships = True
+         include_fk = True
+         exclude = ['usuario_id','id','cancion_id']
+         load_instance = True
+
+class CancionFavoritaSchema(SQLAlchemyAutoSchema):
+    cancion = Nested(AlbumSchema)
+    class Meta:
+         model = CancionFavorita
+         include_relationships = True
+         include_fk = True
+         exclude = ['usuario_id','id','cancion_id']
+         load_instance = True

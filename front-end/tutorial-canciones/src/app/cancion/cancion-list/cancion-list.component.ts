@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Cancion } from '../cancion';
+import { Cancion, Genero } from '../cancion';
 import { CancionService } from '../cancion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CancionComp } from './cancionComp';
 import * as $ from 'jquery';
 @Component({
   selector: 'app-cancion-list',
@@ -10,6 +11,47 @@ import * as $ from 'jquery';
   styleUrls: ['./cancion-list.component.css']
 })
 export class CancionListComponent implements OnInit {
+
+  public isCollapsed = true;
+
+  generos: Array<Genero> = [
+    {
+      llave: "Academico",
+      valor: 1
+    },
+    {
+      llave: "Alternativo",
+      valor: 2
+    },
+    {
+      llave: "Experimental",
+      valor: 3
+    },
+    {
+      llave: "Folclor",
+      valor: 4
+    },
+    {
+      llave: "Jazz",
+      valor: 5
+    },
+    {
+      llave: "Pop",
+      valor: 6
+    },
+    {
+      llave: "Rock",
+      valor: 7
+    },
+    {
+      llave: "Tropical",
+      valor: 8
+    },
+    {
+      llave: "Urbano",
+      valor: 9
+    }
+  ]
 
   constructor(
     private cancionService: CancionService,
@@ -24,6 +66,7 @@ export class CancionListComponent implements OnInit {
   mostrarCanciones: Array<Cancion>
   cancionSeleccionada: Cancion
   indiceSeleccionado: number = 0
+  cancionesComp: Array<CancionComp>
 
   ngOnInit() {
     if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
@@ -50,6 +93,19 @@ export class CancionListComponent implements OnInit {
         this.mostrarCanciones = canciones
         this.onSelect(this.mostrarCanciones[0], 0)
       })
+
+    this.cancionService.getCancionCompartidos(this.userId, this.token)
+      .subscribe(canciones => {
+        this.cancionesComp = canciones
+        for (let i = 0; i < this.cancionesComp.length; i++) {
+          this.canciones.push(this.cancionesComp[i].cancion)
+          this.mostrarCanciones.push(this.cancionesComp[i].cancion)
+        }
+
+        if (canciones.length > 0) {
+          this.onSelect(this.mostrarCanciones[0], 0)
+        }
+      })
   }
 
   onSelect(cancion: Cancion, indice: number) {
@@ -72,7 +128,27 @@ export class CancionListComponent implements OnInit {
         cancionesBusqueda.push(cancion)
       }
     })
-    this.mostrarCanciones = cancionesBusqueda
+    this.mostrarCanciones = cancionesBusqueda.sort()
+  }
+
+  filtrarGenero(genero: any) {
+    let generoFiltro: Array<Cancion> = []
+    this.canciones.map(cancion => {
+      if (cancion.genero.valor == genero) {
+        generoFiltro.push(cancion)
+      }
+    })
+    this.mostrarCanciones = generoFiltro.sort()
+  }
+
+  filtrarInterprete(interprete: any) {
+    let interpreteFiltro: Array<Cancion> = []
+    this.canciones.map(cancion => {
+      if (cancion.interprete.toLocaleLowerCase().includes(interprete.toLocaleLowerCase())) {
+        interpreteFiltro.push(cancion)
+      }
+    })
+    this.mostrarCanciones = interpreteFiltro.sort()
   }
 
   eliminarCancion() {

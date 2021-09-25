@@ -8,13 +8,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CancionEditComponent } from './cancion-edit/cancion-edit.component';
 import { AppMenuModule } from '../app-header/app-menu.module';
 import { CancionCommentComponent } from './cancion-comment/cancion-comment.component';
+import { CancionShareComponent } from './cancion-share/cancion-share.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
-  declarations: [CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent, CancionCommentComponent],
+  declarations: [CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent, CancionCommentComponent, CancionShareComponent],
   imports: [
-    CommonModule, AppHeaderModule, ReactiveFormsModule, AppMenuModule
+    CommonModule, AppHeaderModule, ReactiveFormsModule, AppMenuModule, NgbModule
   ],
-  exports: [CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent, CancionCommentComponent]
+  exports: [CancionListComponent, CancionDetailComponent, CancionCreateComponent, CancionEditComponent, CancionCommentComponent, CancionShareComponent]
 })
 export class CancionModule { }

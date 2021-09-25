@@ -63,7 +63,7 @@ export class AlbumCreateComponent implements OnInit {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
-    
+
   }
 
   showError(error: string){
