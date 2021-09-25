@@ -43,7 +43,8 @@ export class CancionDetailComponent implements OnInit {
       this.getComentarios()
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
-      this.cauCancionFavorita()
+      this.siCancionFavorita()
+      this.noCancionFavorita()
     }
 
   }
@@ -79,8 +80,8 @@ export class CancionDetailComponent implements OnInit {
 
   ngOnChanges() {
     this.getComentarios();
-    this.cauCancionFavorita();
-    // consultar servicio favoritos
+    this.siCancionFavorita();
+    this.noCancionFavorita()
   }
 
   eliminarCancion() {
@@ -128,26 +129,37 @@ export class CancionDetailComponent implements OnInit {
 
     showSuccessdc() {
       this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
-      this.cauCancionFavorita()
+      this.siCancionFavorita()
+      this.noCancionFavorita()
     }
 
     showdelete() {
       this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
+      this.siCancionFavorita()
+      this.noCancionFavorita()
     }
 
     showSuccesscf() {
       this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
-      this.cauCancionFavorita()
+      this.siCancionFavorita()
+      this.noCancionFavorita()
     }
 
   openShare(content: any) {
     this.modalService.open(content);
   }
 
-  cauCancionFavorita() {
-    this.cancionService.cauCancionFavorita(this.cancion.id, this.userId)
+  siCancionFavorita() {
+    this.cancionService.siCancionFavorita(this.cancion.id, this.userId)
       .subscribe(cancionService => {
         this.conreultok = cancionService
+        console.log(cancionService)
+    })
+  }
+
+  noCancionFavorita() {
+    this.cancionService.noCancionFavorita(this.cancion.id, this.userId)
+      .subscribe(cancionService => {
         this.conreult = cancionService
         console.log(cancionService)
     })
