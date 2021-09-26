@@ -47,7 +47,7 @@
                 </div>
                 <table class="table mb-0 table-hover" aria-describedby="colecName" ngTabl>
                   <tbody>
-                    <tr *ngFor="let cancion of mostrarCanciones | paginate: {itemsPerPage: 5, currentPage:p}; index as i" (click)="onSelect(cancion, i)"
+                    <tr *ngFor="let cancion of mostrarCanciones | paginate: {itemsPerPage: 10, currentPage:p}; index as i" (click)="onSelect(cancion, i)"
                       [ngClass]="{'selected': i === indiceSeleccionado} ">
                       <td>{{cancion.titulo}}</td>
                       <td>{{cancion.minutos|number:'2.0'}}:{{cancion.segundos|number:'2.0'}}</td>
