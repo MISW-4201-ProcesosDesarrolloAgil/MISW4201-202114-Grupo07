@@ -1,12 +1,13 @@
 export class Cancion {
-  id: number;
-  titulo: string;
-  minutos: number;
-  segundos: number;
-  interprete: string;
-  usuario: number;
-  genero: Genero;
-  albumes: Array<any>
+    id: number;
+    titulo: string;
+    minutos: number;
+    segundos: number;
+    interprete: string;
+    usuario: number;
+    genero: Genero;
+    albumes: Array<any>;
+    favorito: boolean;
 
   constructor(
     id: number,

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cancion } from '../cancion';
 import { CancionFavorita } from '../cancion-favorita';
@@ -18,12 +18,13 @@ export class CancionDetailComponent implements OnInit {
 
   @Input() cancion: Cancion;
   @Output() deleteCancion = new EventEmitter();
-  cancionSeleccionada: Cancion
+  @Output() getCanciones = new EventEmitter();
+  cancionSeleccionada: Cancion;
 
   userId: number;
   token: string;
   conreult: CancionFavorita;
-  conreultok: CancionFavorita;
+  conreultok: boolean;
   comentarios: Array<CommentResp>
   comment: CommentCancion;
 
@@ -33,8 +34,8 @@ export class CancionDetailComponent implements OnInit {
     private router: ActivatedRoute,
     private toastr: ToastrService,
     private routerPath: Router,
-    private modalService: NgbModal,
-  ) { }
+    private modalService: NgbModal
+  ) {   }
 
   ngOnInit() {
 
@@ -55,17 +56,12 @@ export class CancionDetailComponent implements OnInit {
     if (this.cancion) {
       this.cancionService.getCancionComentarios(this.cancion.id)
         .subscribe(comen => {
-
           this.comentarios = comen
-
         },
           error => {
             console.log(error)
-
           })
-
     }
-
   }
 
   showError(error: string) {
@@ -144,30 +140,24 @@ export class CancionDetailComponent implements OnInit {
     this.toastr.error(error, "Mesaje de error")
   }
 
-  showSuccessdc() {
-    this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
-    this.siCancionFavorita()
-    this.noCancionFavorita()
+  showdelete() {
+      this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
+      this.siCancionFavorita()
+      this.noCancionFavorita()
+      this.getCanciones.emit()
   }
 
+  showSuccesscf() {
+      this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
+      this.siCancionFavorita()
+      this.noCancionFavorita()
+      this.getCanciones.emit()
+  }
 
   showSuccessDelete() {
     this.toastr.success(`El comentario fue eliminado`, "Eliminado exitosamente");
     this.getComentarios()
 
-  }
-
-
-  showdelete() {
-    this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
-    this.siCancionFavorita()
-    this.noCancionFavorita()
-  }
-
-  showSuccesscf() {
-    this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
-    this.siCancionFavorita()
-    this.noCancionFavorita()
   }
 
   openShare(content: any) {
@@ -186,8 +176,6 @@ export class CancionDetailComponent implements OnInit {
     this.cancionService.noCancionFavorita(this.cancion.id, this.userId)
       .subscribe(cancionService => {
         this.conreult = cancionService
-        console.log(cancionService)
       })
   }
-
 }

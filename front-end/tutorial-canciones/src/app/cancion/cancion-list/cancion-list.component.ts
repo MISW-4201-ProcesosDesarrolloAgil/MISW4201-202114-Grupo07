@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CancionComp } from './cancionComp';
 import * as $ from 'jquery';
+import { CancionFavorita } from '../cancion-favorita';
 @Component({
   selector: 'app-cancion-list',
   templateUrl: './cancion-list.component.html',
@@ -12,6 +13,7 @@ import * as $ from 'jquery';
 })
 export class CancionListComponent implements OnInit {
 
+  conreultok: boolean;
   public isCollapsed = true
   p: number = 0
   interpretes:Array<Cancion>
@@ -91,8 +93,15 @@ export class CancionListComponent implements OnInit {
       .subscribe(canciones => {
         this.canciones = canciones
         this.mostrarCanciones = canciones
+        for (let i = 0; i < this.canciones.length; i++) {
+          this.cancionService.siCancionFavorita(this.canciones[i].id, this.userId)
+            .subscribe(cancionService => {
+              this.mostrarCanciones[i].favorito=cancionService
+          })
+        }
         this.onSelect(this.mostrarCanciones[0], 0)
-      })
+
+    })
 
     this.cancionService.getCancionCompartidos(this.userId, this.token)
       .subscribe(canciones => {
@@ -119,6 +128,13 @@ export class CancionListComponent implements OnInit {
           this.showError(`Ha ocurrido un error: ${error.message}`)
         })
 
+  }
+
+  siCancionFavorita(indice: number) {
+    this.cancionService.siCancionFavorita(indice, this.userId)
+      .subscribe(cancionService => {
+        this.conreultok = cancionService
+    })
   }
 
   buscarCancion(busqueda: string) {
