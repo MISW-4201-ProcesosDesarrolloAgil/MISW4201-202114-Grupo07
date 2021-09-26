@@ -32,7 +32,7 @@ export class CancionDetailComponent implements OnInit {
     private toastr: ToastrService,
     private routerPath: Router,
     private modalService: NgbModal,
-    private CancionListComponent: CancionListComponent
+    //private CancionListComponent: CancionListComponent
   ) { }
 
   ngOnInit() {
@@ -138,14 +138,14 @@ export class CancionDetailComponent implements OnInit {
       this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
       this.siCancionFavorita()
       this.noCancionFavorita()
-      this.CancionListComponent.getCanciones();
+      //this.CancionListComponent.getCanciones();
   }
 
   showSuccesscf() {
       this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
       this.siCancionFavorita()
       this.noCancionFavorita()
-      this.CancionListComponent.getCanciones();
+      //this.CancionListComponent.getCanciones();
   }
 
   showSuccessDelete() {
