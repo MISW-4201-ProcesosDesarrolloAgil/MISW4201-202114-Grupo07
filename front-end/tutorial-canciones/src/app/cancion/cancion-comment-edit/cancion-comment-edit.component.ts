@@ -22,6 +22,7 @@ export class CancionCommentEditComponent implements OnInit {
   userId: number
   token: string
   showComent: boolean
+  cancionCommentId: number
 
   constructor(private cancionService: CancionService,
     private formBuilder: FormBuilder,
@@ -36,8 +37,10 @@ export class CancionCommentEditComponent implements OnInit {
     else {
       this.getCancion()
       this.getComentarios()
+      this.getComentario()
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
+      this.cancionCommentId = this.router.snapshot.params.commentId
       this.cancionCommentForm = this.formBuilder.group({
         comentario: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(512)]],
       })
@@ -69,19 +72,17 @@ export class CancionCommentEditComponent implements OnInit {
     this.cancionService.getCancion(this.router.snapshot.params.cancionId)
       .subscribe(com => {
         this.cancion = com;
-      },
-        error => {
-          if (error.statusText === "UNAUTHORIZED") {
-            this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
-          }
-          else if (error.statusText === "UNPROCESSABLE ENTITY") {
-            this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
-          }
-          else {
-            this.showError("Ha ocurrido un error. " + error.message)
-          }
-        })
+      })
   }
+
+  getComentario() {
+    this.cancionService.getComentario(this.token, this.router.snapshot.params.commentId)
+      .subscribe(com => {
+        this.cancionCommentForm.get('comentario')?.setValue(com.comentario)
+      }
+      )
+  }
+
 
   getComentarios(): void {
     if (this.cancion) {
@@ -100,14 +101,12 @@ export class CancionCommentEditComponent implements OnInit {
   }
 
   cancelCreate() {
-    this.cancionCommentForm.reset()
     this.routerPath.navigate([`/canciones/${this.userId}/${this.token}`])
   }
 
   editarCancionComment(newComment: AlbumComment) {
     var idUsuario = this.router.snapshot.params.userId;
-    var idCancion = this.router.snapshot.params.cancionId
-
+    var idAlbum = this.router.snapshot.params.albumId;
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1;
@@ -143,12 +142,12 @@ export class CancionCommentEditComponent implements OnInit {
 
     var hora = hourT + ':' + minutesT;
 
-    var comment = new CommentCancion(newComment.comentario, fecha, hora, idCancion, idUsuario);
+    var comment = new CommentCancion(newComment.comentario, fecha, hora, idAlbum, idUsuario);
 
-    this.cancionService.comentarCancion(this.token, comment)
+    this.cancionService.editarComentario(this.token, this.cancionCommentId, comment)
       .subscribe(com => {
-        this.cancionCommentForm.reset()
         this.showSuccess()
+        this.cancionCommentForm.reset()
         this.cancelCreate()
       },
         error => {

@@ -32,7 +32,7 @@ export class AlbumCommentComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.router.snapshot.params.albumId);
+
     if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
@@ -53,6 +53,7 @@ export class AlbumCommentComponent implements OnInit {
     });
 
   }
+
 
   showError(error: string) {
     this.toastr.error(error, "Error")

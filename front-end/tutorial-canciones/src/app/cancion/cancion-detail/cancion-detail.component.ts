@@ -8,6 +8,7 @@ import { CancionService } from '../cancion.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommentCancion } from '../commentCancion';
 
+
 @Component({
   selector: 'app-cancion-detail',
   templateUrl: './cancion-detail.component.html',
@@ -35,7 +36,7 @@ export class CancionDetailComponent implements OnInit {
     private toastr: ToastrService,
     private routerPath: Router,
     private modalService: NgbModal
-  ) {   }
+  ) { }
 
   ngOnInit() {
 
@@ -105,7 +106,7 @@ export class CancionDetailComponent implements OnInit {
     this.routerPath.navigate([`/canciones/comment/${this.cancion.id}/${this.userId}/${this.token}`])
   }
 
-  goToEditCommentCancion(comentario:number) {
+  goToEditCommentCancion(comentario: number) {
     this.routerPath.navigate([`/commentCancion/edit/${comentario}/${this.cancion.id}/${this.userId}/${this.token}`])
   }
 
@@ -141,17 +142,17 @@ export class CancionDetailComponent implements OnInit {
   }
 
   showdelete() {
-      this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
-      this.siCancionFavorita()
-      this.noCancionFavorita()
-      this.getCanciones.emit()
+    this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
+    this.siCancionFavorita()
+    this.noCancionFavorita()
+    this.getCanciones.emit()
   }
 
   showSuccesscf() {
-      this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
-      this.siCancionFavorita()
-      this.noCancionFavorita()
-      this.getCanciones.emit()
+    this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
+    this.siCancionFavorita()
+    this.noCancionFavorita()
+    this.getCanciones.emit()
   }
 
   showSuccessDelete() {
