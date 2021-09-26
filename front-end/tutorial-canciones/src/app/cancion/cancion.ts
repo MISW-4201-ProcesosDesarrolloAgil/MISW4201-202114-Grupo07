@@ -6,7 +6,8 @@ export class Cancion {
     interprete: string;
     usuario: number;
     genero: Genero;
-    albumes: Array<any>
+    albumes: Array<any>;
+    favorito: boolean;
 
     constructor(
         id: number,

@@ -6,6 +6,7 @@ import { CommentResp } from 'src/app/album/album-comment/commentResp';
 import { ToastrService } from 'ngx-toastr';
 import { CancionService } from '../cancion.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CancionListComponent } from '../cancion-list/cancion-list.component';
 
 @Component({
   selector: 'app-cancion-detail',
@@ -22,9 +23,8 @@ export class CancionDetailComponent implements OnInit {
   userId: number;
   token: string;
   conreult: CancionFavorita;
-  conreultok: CancionFavorita;
+  conreultok: boolean;
   comentarios: Array<CommentResp>
-
 
   constructor(
     private cancionService: CancionService,
@@ -32,6 +32,7 @@ export class CancionDetailComponent implements OnInit {
     private toastr: ToastrService,
     private routerPath: Router,
     private modalService: NgbModal,
+    private CancionListComponent: CancionListComponent
   ) { }
 
   ngOnInit() {
@@ -53,17 +54,12 @@ export class CancionDetailComponent implements OnInit {
     if (this.cancion) {
       this.cancionService.getCancionComentarios(this.cancion.id)
         .subscribe(comen => {
-
           this.comentarios = comen
-
         },
           error => {
             console.log(error)
-
           })
-
     }
-
   }
 
   showError(error: string) {
@@ -127,22 +123,18 @@ export class CancionDetailComponent implements OnInit {
       this.toastr.error(error, "Mesaje de error")
     }
 
-    showSuccessdc() {
-      this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
-      this.siCancionFavorita()
-      this.noCancionFavorita()
-    }
-
     showdelete() {
       this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
       this.siCancionFavorita()
       this.noCancionFavorita()
+      this.CancionListComponent.getCanciones();
     }
 
     showSuccesscf() {
       this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
       this.siCancionFavorita()
       this.noCancionFavorita()
+      this.CancionListComponent.getCanciones();
     }
 
   openShare(content: any) {
@@ -153,7 +145,6 @@ export class CancionDetailComponent implements OnInit {
     this.cancionService.siCancionFavorita(this.cancion.id, this.userId)
       .subscribe(cancionService => {
         this.conreultok = cancionService
-        console.log(cancionService)
     })
   }
 
@@ -161,7 +152,6 @@ export class CancionDetailComponent implements OnInit {
     this.cancionService.noCancionFavorita(this.cancion.id, this.userId)
       .subscribe(cancionService => {
         this.conreult = cancionService
-        console.log(cancionService)
     })
   }
 

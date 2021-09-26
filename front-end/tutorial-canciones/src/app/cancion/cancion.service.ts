@@ -88,8 +88,8 @@ export class CancionService {
 
   }
 
-  siCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita>{
-    return this.http.get<CancionFavorita>(`${this.backUrl}/sicancionFavorita/${cancionId}/${userId}`)
+  siCancionFavorita(cancionId: number, userId: number): Observable<boolean>{
+    return this.http.get<boolean>(`${this.backUrl}/sicancionFavorita/${cancionId}/${userId}`)
   }
 
   noCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita>{

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Cancion, Genero } from '../cancion';
 import { CancionService } from '../cancion.service';
+import { CancionFavorita } from '../cancion-favorita';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CancionComp } from './cancionComp';
 import * as $ from 'jquery';
+
 @Component({
   selector: 'app-cancion-list',
   templateUrl: './cancion-list.component.html',
@@ -12,6 +14,7 @@ import * as $ from 'jquery';
 })
 export class CancionListComponent implements OnInit {
 
+  conreultok: boolean;
   public isCollapsed = true;
 
   generos:Array<Genero> = [
@@ -68,6 +71,12 @@ export class CancionListComponent implements OnInit {
   indiceSeleccionado: number = 0
   cancionesComp: Array<CancionComp>
 
+    selectedFeatures: any = [];
+    titulo: string;
+    minutos: number;
+    segundos: number;
+    icono: string;
+
   ngOnInit() {
     if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
@@ -84,6 +93,7 @@ export class CancionListComponent implements OnInit {
     });
   }
 
+
   getCanciones(): void {
     this.cancionService.getCancionesUsuarios(this.userId)
       .subscribe(canciones => {
@@ -91,7 +101,24 @@ export class CancionListComponent implements OnInit {
         console.log(canciones)
         this.canciones = canciones
         this.mostrarCanciones = canciones
+        for (let i = 0; i < this.canciones.length; i++) {
+          this.cancionService.siCancionFavorita(this.canciones[i].id, this.userId)
+            .subscribe(cancionService => {
+              this.mostrarCanciones[i].favorito=cancionService
+          })
+          const id = canciones[i].id;
+          const titulo = canciones[i].titulo;
+          const minutos = canciones[i].minutos;
+          const segundos = canciones[i].segundos;
+          this.selectedFeatures = this.canciones.map(({id, titulo, minutos, segundos, usuario}) => {
+            return {
+              columns: [this.canciones[i].id, titulo, minutos, segundos, this.conreultok]
+            };
+
+          });
+        }
         this.onSelect(this.mostrarCanciones[0], 0)
+
       })
 
     this.cancionService.getCancionCompartidos(this.userId, this.token)
@@ -100,6 +127,7 @@ export class CancionListComponent implements OnInit {
         for (let i = 0; i < this.cancionesComp.length; i++) {
           this.canciones.push(this.cancionesComp[i].cancion)
           this.mostrarCanciones.push(this.cancionesComp[i].cancion)
+
         }
 
         if (canciones.length > 0) {
@@ -119,6 +147,13 @@ export class CancionListComponent implements OnInit {
           this.showError(`Ha ocurrido un error: ${error.message}`)
         })
 
+  }
+
+  siCancionFavorita(indice: number) {
+    this.cancionService.siCancionFavorita(indice, this.userId)
+      .subscribe(cancionService => {
+        this.conreultok = cancionService
+    })
   }
 
   buscarCancion(busqueda: string) {
@@ -162,6 +197,8 @@ export class CancionListComponent implements OnInit {
         })
   }
 
+
+
   irCrearCancion() {
     this.routerPath.navigate([`/canciones/create/${this.userId}/${this.token}`])
   }
@@ -173,5 +210,7 @@ export class CancionListComponent implements OnInit {
   showSuccess() {
     this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
   }
+
+
 
 }
