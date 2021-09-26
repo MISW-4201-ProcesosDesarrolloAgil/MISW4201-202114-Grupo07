@@ -16,8 +16,8 @@ import { CommentCancion } from '../commentCancion';
 })
 export class CancionCommentComponent implements OnInit {
 
-  @Input() cancion: Cancion;
-
+  @Input()
+  cancion: Cancion;
   comentarios: Array<CommentResp>
   cancionCommentForm: FormGroup
   userId: number
@@ -36,6 +36,7 @@ export class CancionCommentComponent implements OnInit {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
     else {
+      this.getCancion()
       this.getComentarios()
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
@@ -64,6 +65,24 @@ export class CancionCommentComponent implements OnInit {
 
   ngOnChanges() {
     this.getComentarios();
+  }
+
+  getCancion() {
+    this.cancionService.getCancion(this.router.snapshot.params.cancionId)
+      .subscribe(com => {
+        this.cancion = com;
+      },
+        error => {
+          if (error.statusText === "UNAUTHORIZED") {
+            this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+          }
+          else if (error.statusText === "UNPROCESSABLE ENTITY") {
+            this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+          }
+          else {
+            this.showError("Ha ocurrido un error. " + error.message)
+          }
+        })
   }
 
   getComentarios(): void {
@@ -139,7 +158,7 @@ export class CancionCommentComponent implements OnInit {
       .subscribe(com => {
         this.cancionCommentForm.reset()
         this.showSuccess()
-        this.getComentarios()
+        this.cancelCreate()
       },
         error => {
           if (error.statusText === "UNAUTHORIZED") {

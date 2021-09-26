@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cancion } from '../cancion';
+import { CancionFavorita } from '../cancion-favorita';
 import { CommentResp } from 'src/app/album/album-comment/commentResp';
 import { ToastrService } from 'ngx-toastr';
 import { CancionService } from '../cancion.service';
@@ -17,11 +18,15 @@ export class CancionDetailComponent implements OnInit {
 
   @Input() cancion: Cancion;
   @Output() deleteCancion = new EventEmitter();
+  cancionSeleccionada: Cancion
 
   userId: number;
   token: string;
+  conreult: CancionFavorita;
+  conreultok: CancionFavorita;
   comentarios: Array<CommentResp>
   comment: CommentCancion;
+
 
   constructor(
     private cancionService: CancionService,
@@ -40,6 +45,8 @@ export class CancionDetailComponent implements OnInit {
       this.getComentarios()
       this.userId = parseInt(this.router.snapshot.params.userId)
       this.token = this.router.snapshot.params.userToken
+      this.siCancionFavorita()
+      this.noCancionFavorita()
     }
 
   }
@@ -75,10 +82,23 @@ export class CancionDetailComponent implements OnInit {
 
   ngOnChanges() {
     this.getComentarios();
+    this.siCancionFavorita();
+    this.noCancionFavorita()
   }
 
   eliminarCancion() {
     this.deleteCancion.emit(this.cancion.id)
+  }
+
+  eliminarComentario(comentario: CommentResp) {
+    this.cancionService.eliminarComentario(comentario.id,)
+      .subscribe(resp => {
+        this.ngOnInit()
+        this.showSuccessDelete()
+      },
+        error => {
+          this.showErrorcf(error.error)
+        })
   }
 
   goToEdit() {
@@ -89,13 +109,85 @@ export class CancionDetailComponent implements OnInit {
     this.routerPath.navigate([`/canciones/comment/${this.cancion.id}/${this.userId}/${this.token}`])
   }
 
-  goToEditCommentCancion() {
-    this.routerPath.navigate([`/canciones/comment/edit/${this.comment.id}/${this.cancion.id}/${this.userId}/${this.token}`])
+  goToEditCommentCancion(comentario:number) {
+    this.routerPath.navigate([`/commentCancion/edit/${comentario}/${this.cancion.id}/${this.userId}/${this.token}`])
+  }
+
+  selCancionFavorita() {
+    this.cancionService.selCancionFavorita(this.cancion.id, this.userId)
+      .subscribe(cancionService => {
+        this.ngOnInit()
+        this.showSuccesscf()
+      },
+        error => {
+          this.showErrorcf(error.error)
+        })
+  }
+
+  delCancionFavorita() {
+    this.cancionService.delCancionFavorita(this.cancion.id, this.userId)
+      .subscribe(cancionService => {
+        this.ngOnInit()
+        this.showdelete()
+      },
+        error => {
+          this.showErrorde(error.error)
+        })
+  }
+
+
+  showErrorcf(error: string) {
+    this.toastr.error(error, "Mesaje de error")
+  }
+
+  showErrorde(error: string) {
+    this.toastr.error(error, "Mesaje de error")
+  }
+
+  showSuccessdc() {
+    this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
+    this.siCancionFavorita()
+    this.noCancionFavorita()
+  }
+
+
+  showSuccessDelete() {
+    this.toastr.success(`El comentario fue eliminado`, "Eliminado exitosamente");
+    this.getComentarios()
+
+  }
+
+
+  showdelete() {
+    this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
+    this.siCancionFavorita()
+    this.noCancionFavorita()
+  }
+
+  showSuccesscf() {
+    this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
+    this.siCancionFavorita()
+    this.noCancionFavorita()
   }
 
   openShare(content: any) {
     this.modalService.open(content);
   }
 
+  siCancionFavorita() {
+    this.cancionService.siCancionFavorita(this.cancion.id, this.userId)
+      .subscribe(cancionService => {
+        this.conreultok = cancionService
+        console.log(cancionService)
+      })
+  }
+
+  noCancionFavorita() {
+    this.cancionService.noCancionFavorita(this.cancion.id, this.userId)
+      .subscribe(cancionService => {
+        this.conreult = cancionService
+        console.log(cancionService)
+      })
+  }
 
 }

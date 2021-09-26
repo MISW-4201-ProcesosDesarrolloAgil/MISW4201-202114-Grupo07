@@ -72,7 +72,7 @@ const routes: Routes = [
     component: CancionCommentComponent
   },
   {
-    path: 'canciones/comment/edit/:commentId/:cancionId/:userId/:userToken',
+    path: 'commentCancion/edit/:commentId/:cancionId/:userId/:userToken',
     component: CancionCommentEditComponent
   },
   {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cancion } from './cancion';
+import { CancionFavorita } from './cancion-favorita';
 import { Album } from '../album/album';
 import { Coment } from '../album/album-comment/coment';
 import { CommentResp } from '../album/album-comment/commentResp';
@@ -66,6 +67,10 @@ export class CancionService {
     return this.http.get<CommentResp[]>(`${this.backUrl}/comentarioCancion/${cancionId}`)
   }
 
+  selCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita> {
+    return this.http.get<CancionFavorita>(`${this.backUrl}/addcancionFavorita/${cancionId}/${userId}`)
+  }
+
   compartirCancion(idusuario: number, token: string, coment: CancionCompartir): Observable<CancionCompartir> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
@@ -80,6 +85,23 @@ export class CancionService {
       'Authorization': `Bearer ${token}`
     })
     return this.http.get<CancionComp[]>(`${this.backUrl}/compartirCancion/${usuario}`, { headers: headers })
+
+  }
+
+  siCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita> {
+    return this.http.get<CancionFavorita>(`${this.backUrl}/sicancionFavorita/${cancionId}/${userId}`)
+  }
+
+  noCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita> {
+    return this.http.get<CancionFavorita>(`${this.backUrl}/nocancionFavorita/${cancionId}/${userId}`)
+  }
+
+  delCancionFavorita(cancionId: number, userId: number): Observable<CancionFavorita> {
+    return this.http.delete<CancionFavorita>(`${this.backUrl}/addcancionFavorita/${cancionId}/${userId}`)
+  }
+
+  eliminarComentario(comentarioId: number): Observable<CommentResp> {
+    return this.http.delete<CommentResp>(`${this.backUrl}/comentario/${comentarioId}`)
   }
 
 }

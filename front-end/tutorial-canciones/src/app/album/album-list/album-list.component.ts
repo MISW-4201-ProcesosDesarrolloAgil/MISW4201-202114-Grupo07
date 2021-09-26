@@ -14,6 +14,8 @@ import * as $ from 'jquery';
 })
 export class AlbumListComponent implements OnInit {
 
+  p: number = 0
+
   constructor(
     private albumService: AlbumService,
     private router: ActivatedRoute,
@@ -128,7 +130,11 @@ export class AlbumListComponent implements OnInit {
         albumesBusqueda.push(albu)
       }
     })
-    this.mostrarAlbumes = albumesBusqueda
+    this.mostrarAlbumes = albumesBusqueda.sort((a: Album, b: Album) => {
+      if (a.titulo > b.titulo) return 1
+      if (a.titulo < b.titulo) return -1
+      return 0
+    })
   }
 
   irCrearAlbum() {
