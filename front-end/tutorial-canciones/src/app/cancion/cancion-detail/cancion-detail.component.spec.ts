@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { CancionDetailComponent } from './cancion-detail.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'
@@ -19,7 +20,7 @@ describe('CancionDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, ReactiveFormsModule,
-        FormsModule, ToastrModule.forRoot(), RouterTestingModule],
+        FormsModule, ToastrModule.forRoot(), RouterTestingModule, BrowserAnimationsModule],
       declarations: [CancionDetailComponent]
     })
       .compileComponents();

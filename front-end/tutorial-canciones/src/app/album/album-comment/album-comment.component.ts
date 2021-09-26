@@ -32,7 +32,7 @@ export class AlbumCommentComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.router.snapshot.params.albumId);
+
     if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
@@ -46,13 +46,14 @@ export class AlbumCommentComponent implements OnInit {
     }
 
 
-     //Toggle Click Function
-     $("#menu-toggle").click(function(e) {
+    //Toggle Click Function
+    $("#menu-toggle").click(function (e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
 
   }
+
 
   showError(error: string) {
     this.toastr.error(error, "Error")
@@ -73,21 +74,21 @@ export class AlbumCommentComponent implements OnInit {
 
   getAlbum() {
     this.albumService.getAlbum(this.router.snapshot.params.albumId)
-    .subscribe(com => {
-      this.album = com;
+      .subscribe(com => {
+        this.album = com;
 
-    },
-      error => {
-        if (error.statusText === "UNAUTHORIZED") {
-          this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
-        }
-        else if (error.statusText === "UNPROCESSABLE ENTITY") {
-          this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
-        }
-        else {
-          this.showError("Ha ocurrido un error. " + error.message)
-        }
-      })
+      },
+        error => {
+          if (error.statusText === "UNAUTHORIZED") {
+            this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+          }
+          else if (error.statusText === "UNPROCESSABLE ENTITY") {
+            this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+          }
+          else {
+            this.showError("Ha ocurrido un error. " + error.message)
+          }
+        })
   }
 
   createAlbumComment(newComment: AlbumComment) {

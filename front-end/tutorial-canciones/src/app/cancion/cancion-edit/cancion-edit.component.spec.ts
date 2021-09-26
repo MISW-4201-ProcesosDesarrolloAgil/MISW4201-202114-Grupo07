@@ -39,7 +39,8 @@ describe('CancionEditComponent', () => {
       titulo: null,
       minutos: null,
       segundos: null,
-      interprete: null
+      interprete: null,
+      genero: null
     });
     fixture.detectChanges();
     debug = fixture.debugElement;

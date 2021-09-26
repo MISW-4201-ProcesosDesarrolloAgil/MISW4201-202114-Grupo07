@@ -78,7 +78,27 @@
               </div>
             </div>
           </div>
-
+          <div class="my-2 form-group">
+            <div class=" row">
+              <div class="col-2 text-start">
+                <label for="genero" i18n>Género</label>
+              </div>
+          <div class="col-10">
+            <select class="form-select" formControlName="genero">
+              <option value="" disabled>Selecciona el género</option>
+              <option *ngFor="let genero of generos" value={{genero.llave}}>{{genero.llave}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-8">
+            <div class="my-3 alert alert-danger"
+              *ngIf="cancionForm.get('genero')?.hasError('required') && cancionForm.get('genero')?.touched" i18n>
+              Debe seleccionar el género de la canción
+            </div>
+          </div>
+        </div>
+      </div>
           <div class="my-2 form-group">
             <div class="row">
               <div class="col-2 text-start">

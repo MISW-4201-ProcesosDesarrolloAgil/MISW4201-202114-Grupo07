@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms'
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 describe('AlbumListComponent', () => {
   let component: AlbumListComponent;
@@ -18,7 +19,7 @@ describe('AlbumListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, ReactiveFormsModule,
-        FormsModule, ToastrModule.forRoot(), RouterTestingModule],
+        FormsModule, ToastrModule.forRoot(), RouterTestingModule, NgxPaginationModule],
       declarations: [AlbumListComponent]
     })
       .compileComponents();
