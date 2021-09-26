@@ -67,6 +67,27 @@ export class AlbumService {
     return this.http.post<Coment>(`${this.backUrl}/comentarios`, coment, { headers: headers })
   }
 
+  editarComentarioAlbum(token: string, coment: Coment): Observable<Coment> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.post<Coment>(`${this.backUrl}/comentarios`, coment, { headers: headers })
+  }
+
+  // crearAlbum(idUsuario: number, token: string, album: Album): Observable<Album> {
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `Bearer ${token}`
+  //   })
+  //   return this.http.post<Album>(`${this.backUrl}/usuario/${idUsuario}/albumes`, album, { headers: headers })
+  // }
+
+  // editarAlbum(idUsuario: number, token: string, albumId: number, album: Album): Observable<Album> {
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `Bearer ${token}`
+  //   })
+  //   return this.http.put<Album>(`${this.backUrl}/album/${albumId}`, album, { headers: headers })
+  // }
+
   getAlbumComentarios(albumId: number): Observable<CommentResp[]> {
     return this.http.get<CommentResp[]>(`${this.backUrl}/comentarioAlbum/${albumId}`)
   }

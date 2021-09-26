@@ -23,6 +23,7 @@ export class AlbumDetailComponent implements OnInit {
   userId: number;
   token: string;
   comentarios: Array<CommentResp>
+  coment: Coment;
 
   constructor(
 
@@ -83,6 +84,11 @@ export class AlbumDetailComponent implements OnInit {
   goToCommentAlbum() {
     this.routerPath.navigate([`/albumes/comment/${this.album.id}/${this.userId}/${this.token}`])
   }
+
+  goToEditCommentAlbum(comentario:number) {
+    this.routerPath.navigate([`/comment/edit/${comentario}/${this.album.id}/${this.userId}/${this.token}`])
+  }
+
 
   eliminarAlbum() {
     this.deleteAlbum.emit(this.album.id)

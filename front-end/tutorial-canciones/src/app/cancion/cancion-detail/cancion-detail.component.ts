@@ -6,6 +6,7 @@ import { CommentResp } from 'src/app/album/album-comment/commentResp';
 import { ToastrService } from 'ngx-toastr';
 import { CancionService } from '../cancion.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommentCancion } from '../commentCancion';
 
 @Component({
   selector: 'app-cancion-detail',
@@ -25,6 +26,8 @@ export class CancionDetailComponent implements OnInit {
   conreult: CancionFavorita;
   conreultok: boolean;
   comentarios: Array<CommentResp>
+  comment: CommentCancion;
+
 
   constructor(
     private cancionService: CancionService,
@@ -102,6 +105,10 @@ export class CancionDetailComponent implements OnInit {
     this.routerPath.navigate([`/canciones/comment/${this.cancion.id}/${this.userId}/${this.token}`])
   }
 
+  goToEditCommentCancion(comentario:number) {
+    this.routerPath.navigate([`/commentCancion/edit/${comentario}/${this.cancion.id}/${this.userId}/${this.token}`])
+  }
+
   selCancionFavorita() {
     this.cancionService.selCancionFavorita(this.cancion.id, this.userId)
       .subscribe(cancionService => {
@@ -161,6 +168,7 @@ export class CancionDetailComponent implements OnInit {
     this.cancionService.siCancionFavorita(this.cancion.id, this.userId)
       .subscribe(cancionService => {
         this.conreultok = cancionService
+        console.log(cancionService)
       })
   }
 

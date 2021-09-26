@@ -7,16 +7,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommentResp } from 'src/app/album/album-comment/commentResp';
 import { Cancion } from 'src/app/album/album';
 import { AlbumComment } from 'src/app/album/album-comment/album-comment';
-import { CommentCancion } from '../commentCancion';
+import { CommentCancion } from '../commentCancion'
 
 @Component({
-  selector: 'app-cancion-comment',
-  templateUrl: './cancion-comment.component.html',
-  styleUrls: ['./cancion-comment.component.css']
+  selector: 'app-cancion-comment-edit',
+  templateUrl: './cancion-comment-edit.component.html',
+  styleUrls: ['./cancion-comment-edit.component.css']
 })
-export class CancionCommentComponent implements OnInit {
+export class CancionCommentEditComponent implements OnInit {
 
-  @Input()
   cancion: Cancion;
   comentarios: Array<CommentResp>
   cancionCommentForm: FormGroup
@@ -31,7 +30,6 @@ export class CancionCommentComponent implements OnInit {
     private routerPath: Router) { }
 
   ngOnInit() {
-
     if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
@@ -89,20 +87,13 @@ export class CancionCommentComponent implements OnInit {
     if (this.cancion) {
       this.cancionService.getCancionComentarios(this.cancion.id)
         .subscribe(comen => {
-
           this.comentarios = comen
-
         },
           error => {
             console.log(error)
-
           })
-
     }
-
   }
-
-
 
   nuevoComentario() {
     this.showComent = !this.showComent;
@@ -113,7 +104,7 @@ export class CancionCommentComponent implements OnInit {
     this.routerPath.navigate([`/canciones/${this.userId}/${this.token}`])
   }
 
-  createCancionComment(newComment: AlbumComment) {
+  editarCancionComment(newComment: AlbumComment) {
     var idUsuario = this.router.snapshot.params.userId;
     var idCancion = this.router.snapshot.params.cancionId
 
@@ -172,5 +163,4 @@ export class CancionCommentComponent implements OnInit {
           }
         })
   }
-
 }

@@ -12,6 +12,8 @@ import { UsuarioSignupComponent } from './usuario/usuario-signup/usuario-signup.
 import { AcercaDeComponent } from './inicio/acerca-de/acerca-de.component';
 import { AlbumCommentComponent } from './album/album-comment/album-comment.component';
 import { CancionCommentComponent } from './cancion/cancion-comment/cancion-comment.component';
+import { AlbumCommentEditComponent } from './album/album-comment-edit/album-comment-edit.component';
+import { CancionCommentEditComponent } from './cancion/cancion-comment-edit/cancion-comment-edit.component';
 
 const routes: Routes = [
   {
@@ -50,6 +52,10 @@ const routes: Routes = [
     component: AlbumCommentComponent
   },
   {
+    path: 'comment/edit/:commentId/:albumId/:userId/:userToken',
+    component: AlbumCommentEditComponent
+  },
+  {
     path: 'canciones/:userId/:userToken',
     component: CancionListComponent
   },
@@ -66,7 +72,10 @@ const routes: Routes = [
     component: CancionCommentComponent
   },
   {
-
+    path: 'commentCancion/edit/:commentId/:cancionId/:userId/:userToken',
+    component: CancionCommentEditComponent
+  },
+  {
     path: 'acercade/:userId/:userToken',
     component: AcercaDeComponent
   }

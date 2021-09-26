@@ -11,9 +11,10 @@ import { AppMenuModule } from '../app-header/app-menu.module';
 import { AlbumJoinCancionComponent } from './album-join-cancion/album-join-cancion.component';
 import { AlbumCommentComponent } from './album-comment/album-comment.component';
 import { AlbumShareComponent } from './album-share/album-share.component';
+import { AlbumCommentEditComponent } from './album-comment-edit/album-comment-edit.component';
 
 @NgModule({
-  declarations: [AlbumListComponent, AlbumDetailComponent, AlbumCreateComponent, AlbumEditComponent, AlbumJoinCancionComponent, AlbumCommentComponent, AlbumShareComponent],
+  declarations: [AlbumListComponent, AlbumDetailComponent, AlbumCreateComponent, AlbumEditComponent, AlbumJoinCancionComponent, AlbumCommentComponent, AlbumShareComponent, AlbumCommentEditComponent],
 
   imports: [
     CommonModule, ReactiveFormsModule, AppHeaderModule, AppMenuModule, NgxPaginationModule
