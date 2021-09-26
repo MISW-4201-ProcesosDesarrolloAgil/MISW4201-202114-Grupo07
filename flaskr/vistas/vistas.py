@@ -58,13 +58,6 @@ class VistaCancion(Resource):
         db.session.delete(cancion)
         db.session.commit()
         return '',204
-        
-class VistaFiltro(Resource):
-    def get(self):
-        return [cancion_schema.dump(g) for g in Cancion.query.filter(Cancion.genero).all()]
-        #return Cancion.query.filter(Cancion.genero.all())
-    # def filter_interprete(self):
-    #     return Cancion.query.filter(Cancion.interprete.all())        
 
 class VistaAlbumesCanciones(Resource):
     def get(self, id_cancion):
@@ -207,6 +200,15 @@ class VistaComentarios(Resource):
         db.session.commit()
         return comentario_schema.dump(nuevo_comentario), 200
 
+class VistaComentario(Resource):
+
+    def delete(self, id_comentario):
+        comentario = Comentario.query.get_or_404(id_comentario)
+        db.session.delete(comentario)
+        db.session.commit()
+        return '',204
+
+
 class VistaComentariosAlbum(Resource):
 
     def get(self, id_album):
@@ -325,7 +327,7 @@ class VistaCancionFavorita(Resource):
             cancion = Cancion.query.filter(Cancion.id == id_cancionlog).first()
             db.session.commit()
             if cancion is None:
-                return {"mensaje":"El canción no existe"}, 400 
+                return {"mensaje":"La canción no existe"}, 400 
             else:
                 cancionid = cancion.id
                 usuarioid = usuario.id
@@ -398,4 +400,8 @@ class VistaCancionNoFavorita(Resource):
         if cancion_compar is None:     
             return True
         else:
-            return False 
+            return False
+
+class VistaCancionesFavoritas(Resource):
+    def get(self):
+         return [cancion_favorita_schema.dump(fa) for fa in CancionFavorita.query.all()]

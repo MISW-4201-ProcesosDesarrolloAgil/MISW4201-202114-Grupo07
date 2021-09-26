@@ -34,6 +34,7 @@ class Cancion(db.Model):
     albumes = db.relationship('Album', secondary = 'album_cancion', back_populates="canciones")
     comentarios = db.relationship('Comentario', cascade='all, delete, delete-orphan')
     compartidos = db.relationship('CancionCompartido', cascade='all, delete, delete-orphan')
+    favorita = db.relationship('CancionFavorita')
 
     
 
@@ -91,6 +92,7 @@ class CancionFavorita(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     cancion_id = db.Column(db.Integer, db.ForeignKey("cancion.id"))
     usuario_id  = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+    canciones = db.relationship('Cancion', back_populates='favorita')
 
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):
@@ -146,7 +148,7 @@ class CancionCompartidoSchema(SQLAlchemyAutoSchema):
          load_instance = True
 
 class CancionFavoritaSchema(SQLAlchemyAutoSchema):
-    cancion = Nested(AlbumSchema)
+    canciones = Nested(CancionSchema)
     class Meta:
          model = CancionFavorita
          include_relationships = True

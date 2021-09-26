@@ -15,8 +15,9 @@ import * as $ from 'jquery';
 export class CancionListComponent implements OnInit {
 
   conreultok: boolean;
-  public isCollapsed = true;
-
+  p: number = 0
+  interpretes:Array<Cancion>
+  
   generos:Array<Genero> = [
     {
       llave: "Academico",
@@ -55,6 +56,7 @@ export class CancionListComponent implements OnInit {
       valor: 9
     }
   ]
+  interSelect:Array<String>= []
 
   constructor(
     private cancionService: CancionService,
@@ -97,8 +99,6 @@ export class CancionListComponent implements OnInit {
   getCanciones(): void {
     this.cancionService.getCancionesUsuarios(this.userId)
       .subscribe(canciones => {
-
-        console.log(canciones)
         this.canciones = canciones
         this.mostrarCanciones = canciones
         for (let i = 0; i < this.canciones.length; i++) {
@@ -163,27 +163,49 @@ export class CancionListComponent implements OnInit {
         cancionesBusqueda.push(cancion)
       }
     })
-    this.mostrarCanciones = cancionesBusqueda.sort()
+    this.mostrarCanciones = cancionesBusqueda.sort((a: Cancion, b: Cancion) => {
+      if (a.titulo > b.titulo) return 1
+      if (a.titulo < b.titulo) return -1
+      return 0
+    })
   }
 
-  filtrarGenero(genero: any){
+  filtrarGenero(genero: any) {
     let generoFiltro: Array<Cancion> = []
     this.canciones.map(cancion => {
       if (cancion.genero.valor == genero) {
         generoFiltro.push(cancion)
+      } else{
+
       }
     })
-    this.mostrarCanciones = generoFiltro.sort()
+    this.mostrarCanciones = generoFiltro.sort((a: Cancion, b: Cancion) => {
+      if (a.titulo > b.titulo) return 1
+      if (a.titulo < b.titulo) return -1
+      return 0
+    })
   }
 
-  filtrarInterprete(interprete: any){
+  filtrarInterprete(interprete: any) {
     let interpreteFiltro: Array<Cancion> = []
     this.canciones.map(cancion => {
-      if (cancion.interprete.toLocaleLowerCase().includes(interprete.toLocaleLowerCase())) {
+      if (cancion.interprete.toLocaleLowerCase() == interprete.toLocaleLowerCase()) {
         interpreteFiltro.push(cancion)
       }
     })
-    this.mostrarCanciones = interpreteFiltro.sort()
+    this.mostrarCanciones = interpreteFiltro.sort((a: Cancion, b: Cancion) => {
+      if (a.titulo > b.titulo) return 1
+      if (a.titulo < b.titulo) return -1
+      return 0
+    })
+  }
+
+  interpretesCan(){
+    this.canciones.map(c => {
+      if (!this.interSelect.includes(c.interprete)) {
+        this.interSelect.push(c.interprete)
+      }
+    })
   }
 
   eliminarCancion() {

@@ -1,8 +1,7 @@
-from flaskr.vistas.vistas import VistaFiltro
 from flaskr import create_app
 from flask_restful import Api
 from .modelos import db
-from .vistas import VistaCanciones, VistaCancion, VistaSignIn, VistaAlbum, VistaAlbumsUsuario, VistaCancionesAlbum, VistaLogIn, VistaAlbumesCanciones, VistaComentarios, VistaComentariosAlbum,  VistaUsuario, VistaUsuarios, VistaAlbumsCompartido, VistaCancionesUsuario,VistaComentariosCancion,VistaCancionFavorita, VistaCancionesCompartido, VistaFiltro, VistaCancionSiFavorita, VistaCancionNoFavorita
+from .vistas import VistaCanciones, VistaCancion, VistaSignIn, VistaAlbum, VistaAlbumsUsuario, VistaCancionesAlbum, VistaLogIn, VistaAlbumesCanciones, VistaComentarios, VistaComentariosAlbum,  VistaUsuario, VistaUsuarios, VistaAlbumsCompartido, VistaCancionesUsuario,VistaComentariosCancion,VistaCancionFavorita, VistaCancionesCompartido, VistaCancionSiFavorita, VistaCancionNoFavorita, VistaComentario, VistaCancionesFavoritas
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS, cross_origin
 
@@ -32,11 +31,16 @@ api.add_resource(VistaComentariosCancion, '/comentarioCancion/<int:id_cancion>')
 api.add_resource(VistaUsuarios, '/usuarios')
 api.add_resource(VistaAlbumsCompartido, '/compartirAlbum/<int:id_usuariolog>') 
 
-api.add_resource(VistaFiltro, '/canciones/generos')
 api.add_resource(VistaCancionesUsuario, '/usuarios/<int:id_usuario>/canciones')
 
 api.add_resource(VistaCancionFavorita, '/addcancionFavorita/<int:id_cancionlog>/<int:id_usuariolog>') 
 api.add_resource(VistaCancionSiFavorita, '/sicancionFavorita/<int:id_cancionlog>/<int:id_usuariolog>')
 api.add_resource(VistaCancionNoFavorita, '/nocancionFavorita/<int:id_cancionlog>/<int:id_usuariolog>')
- 
+
+api.add_resource(VistaCancionesFavoritas, '/favoritas')
+
+api.add_resource(VistaCancionesCompartido, '/compartirCancion/<int:id_usuariolog>') 
+
+api.add_resource(VistaComentario, '/comentario/<int:id_comentario>') 
+
 jwt = JWTManager(app) 

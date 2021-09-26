@@ -32,12 +32,13 @@
 
                 <table class="table mb-0 table-hover" aria-describedby="colecName">
                   <tbody>
-                    <tr *ngFor="let album of mostrarAlbumes; index as i" (click)="onSelect(album, i)"
+                    <tr *ngFor="let album of mostrarAlbumes | paginate: {itemsPerPage: 5, currentPage:p}; index as i" (click)="onSelect(album, i)"
                       [ngClass]="{'selected': i === indiceSeleccionado}">
                       <td>{{album.titulo}}</td>
                       <td>{{album.anio}}</td>
                     </tr>
                   </tbody>
+                  <pagination-controls (pageChange)="p = $event" class="text-center"></pagination-controls>
                 </table>
 
               </div>

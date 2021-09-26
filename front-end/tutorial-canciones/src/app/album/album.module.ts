@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { AlbumListComponent } from './album-list/album-list.component';
 import { AlbumDetailComponent } from './album-detail/album-detail.component';
 import { AlbumCreateComponent } from './album-create/album-create.component';
@@ -15,7 +16,7 @@ import { AlbumShareComponent } from './album-share/album-share.component';
   declarations: [AlbumListComponent, AlbumDetailComponent, AlbumCreateComponent, AlbumEditComponent, AlbumJoinCancionComponent, AlbumCommentComponent, AlbumShareComponent],
 
   imports: [
-    CommonModule, ReactiveFormsModule, AppHeaderModule, AppMenuModule
+    CommonModule, ReactiveFormsModule, AppHeaderModule, AppMenuModule, NgxPaginationModule
   ],
 
   exports:[AlbumListComponent, AlbumDetailComponent, AlbumCreateComponent, AlbumEditComponent, AlbumJoinCancionComponent, AlbumShareComponent, AlbumCommentComponent]

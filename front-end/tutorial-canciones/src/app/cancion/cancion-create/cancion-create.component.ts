@@ -15,7 +15,7 @@ export class CancionCreateComponent implements OnInit {
   userId: number
   token: string
   cancionForm: FormGroup
-  generos:Array<Genero> = [
+  generos: Array<Genero> = [
     {
       llave: "Academico",
       valor: 1
@@ -92,7 +92,7 @@ export class CancionCreateComponent implements OnInit {
     this.cancionService.crearCancion(newCancion)
       .subscribe(cancion => {
         this.showSuccess(cancion)
-        this.cancionForm.reset()
+        //this.cancionForm.reset()
         this.routerPath.navigate([`/canciones/${this.userId}/${this.token}`])
       },
         error => {

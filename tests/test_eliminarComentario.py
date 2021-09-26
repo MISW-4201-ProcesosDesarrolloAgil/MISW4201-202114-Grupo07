@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 
-class Test_compartirCancion(unittest.TestCase):
+class Test_eliminarComentario(unittest.TestCase):
 
     def setUp(self):
         app.config['TESTING'] = True
@@ -22,26 +22,20 @@ class Test_compartirCancion(unittest.TestCase):
         db.create_all()
         
 
-    def test_consulta_sincompartir(self):
-       u1= Usuario(nombre='test@gmail.com', contrasena ='12345')
+    def test_consulta_delete(self):
+       u1= Usuario(nombre='test2@gmail.com', contrasena ='12345')
+       c= Cancion(titulo='Prueba', minutos=2, segundos=3, interprete='Test Interprete')
+       co = Comentario(comentario='Este es un comentario' , fecha='2020/09/22' , hora='21:35' )
+       u1.canciones.append(c)
+       u1.comentarios.append(co)
        db.session.add(u1)
        db.session.commit()
-       rec = self.client.get('/compartirCancion/1')
-       response = rec.get_json()
+       self.client.delete('/comentario/1')
+       rec2 = self.client.get('/comentarios')
+       response = rec2.get_json()
        self.assertEqual(len(response), 0)
 
-    def test_postConsulta(self):
-       u1= Usuario(nombre='test@gmail.com', contrasena ='12345')
-       u2= Usuario(nombre='test2@gmail.com', contrasena ='12345')
-       c= Cancion(titulo='Prueba', minutos=2, segundos=3, interprete='Test Interprete')
-       u1.canciones.append(c)
-       db.session.add(u1)
-       db.session.add(u2)
-       db.session.commit()
-       self.client.post('/compartirCancion/1',json={'usuario_id': u2.nombre, 'cancion_id': c.id})
-       rec = self.client.get('/compartirCancion/2')
-       response = rec.get_json()
-       self.assertEqual(len(response), 1)    
+    
 
     
 
