@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cancion } from '../cancion';
 import { CancionFavorita } from '../cancion-favorita';
@@ -6,7 +6,6 @@ import { CommentResp } from 'src/app/album/album-comment/commentResp';
 import { ToastrService } from 'ngx-toastr';
 import { CancionService } from '../cancion.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CancionListComponent } from '../cancion-list/cancion-list.component';
 
 @Component({
   selector: 'app-cancion-detail',
@@ -18,7 +17,8 @@ export class CancionDetailComponent implements OnInit {
 
   @Input() cancion: Cancion;
   @Output() deleteCancion = new EventEmitter();
-  cancionSeleccionada: Cancion
+  @Output() getCanciones = new EventEmitter();
+  cancionSeleccionada: Cancion;
 
   userId: number;
   token: string;
@@ -31,9 +31,8 @@ export class CancionDetailComponent implements OnInit {
     private router: ActivatedRoute,
     private toastr: ToastrService,
     private routerPath: Router,
-    private modalService: NgbModal,
-    //private CancionListComponent: CancionListComponent
-  ) { }
+    private modalService: NgbModal
+  ) {   }
 
   ngOnInit() {
 
@@ -138,14 +137,14 @@ export class CancionDetailComponent implements OnInit {
       this.toastr.success(`La canción fue removida de favorito`, "Removida de favorito exitosamente");
       this.siCancionFavorita()
       this.noCancionFavorita()
-      //this.CancionListComponent.getCanciones();
+      this.getCanciones.emit()
   }
 
   showSuccesscf() {
       this.toastr.success(`La canción fue seleccionada como favorita`, "Seleccionada exitosamente");
       this.siCancionFavorita()
       this.noCancionFavorita()
-      //this.CancionListComponent.getCanciones();
+      this.getCanciones.emit()
   }
 
   showSuccessDelete() {
