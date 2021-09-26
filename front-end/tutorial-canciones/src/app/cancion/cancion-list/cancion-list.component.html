@@ -51,6 +51,7 @@
                       [ngClass]="{'selected': i === indiceSeleccionado} ">
                       <td>{{cancion.titulo}}</td>
                       <td>{{cancion.minutos|number:'2.0'}}:{{cancion.segundos|number:'2.0'}}</td>
+                      <td><i class="bi bi-heart-fill text-warning"  *ngIf="cancion.favorito"></i>
                     </tr>
                   </tbody>
                   <pagination-controls (pageChange)="p = $event" class="text-center"></pagination-controls>
