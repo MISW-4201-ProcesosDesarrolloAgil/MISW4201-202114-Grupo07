@@ -155,6 +155,7 @@ export class CancionListComponent implements OnInit {
   }
 
   filtrarGenero(genero: any) {
+    console.log(genero)
     let generoFiltro: Array<Cancion> = []
     this.canciones.map(cancion => {
       if (cancion.genero.valor == genero) {
@@ -164,12 +165,12 @@ export class CancionListComponent implements OnInit {
       }
     })
     this.mostrarCanciones = generoFiltro.sort((a: Cancion, b: Cancion) => {
-      if (a.titulo > b.titulo || a.favorito === b.favorito) return 1
+      if (a.titulo > b.titulo) return 1
       if (a.titulo < b.titulo) return -1
       return 0
     })
-    // this.mostrarCanciones = generoFiltro.sort((x: Cancion, y: Cancion) => {
-    //   return (x.favorito === y.favorito && x.titulo > y.titulo)? 0 : x? 1 : -1;
+    // this.mostrarCanciones = generoFiltro.sort((x: Cancion, y: Cancion)=>{
+    //   return (x.favorito ===y.favorito)? 0 : x? -1 : 1;
     // })
   }
 
@@ -185,7 +186,7 @@ export class CancionListComponent implements OnInit {
       if (a.titulo < b.titulo) return -1
       return 0
     })
-    this.mostrarCanciones = interpreteFiltro.sort(function(x: Cancion, y: Cancion) {
+    this.mostrarCanciones = interpreteFiltro.sort((x: Cancion, y: Cancion) =>{
       return (x.favorito === y.favorito)? 0 : x? -1 : 1;
     })
   }
