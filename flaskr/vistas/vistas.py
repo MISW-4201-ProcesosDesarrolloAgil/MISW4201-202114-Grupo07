@@ -177,7 +177,6 @@ class VistaComentarios(Resource):
 
 
     def post(self):
-        print(request.json)
         comentario = request.json['comentario']
         fecha = request.json['fecha']
         hora = request.json['hora']
@@ -202,12 +201,26 @@ class VistaComentarios(Resource):
 
 class VistaComentario(Resource):
 
+    def get(self, id_comentario):
+        comentarioAnt = Comentario.query.get_or_404(id_comentario)
+        return comentario_schema.dump(comentarioAnt), 200
+
     def delete(self, id_comentario):
         comentario = Comentario.query.get_or_404(id_comentario)
         db.session.delete(comentario)
         db.session.commit()
         return '',204
 
+    def put(self, id_comentario):
+        comentarioAnt = Comentario.query.get_or_404(id_comentario)
+        comentario = request.json['comentario']
+        fecha = request.json['fecha']
+        hora = request.json['hora']
+        comentarioAnt.comentario = comentario
+        comentarioAnt.fecha = fecha
+        comentarioAnt.hora = hora
+        db.session.commit()
+        return comentario_schema.dump(comentarioAnt), 200
 
 class VistaComentariosAlbum(Resource):
 

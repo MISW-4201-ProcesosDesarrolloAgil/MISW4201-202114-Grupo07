@@ -88,7 +88,7 @@ export class CancionService {
 
   }
 
-  siCancionFavorita(cancionId: number, userId: number): Observable<boolean>{
+  siCancionFavorita(cancionId: number, userId: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.backUrl}/sicancionFavorita/${cancionId}/${userId}`)
   }
 
@@ -102,6 +102,20 @@ export class CancionService {
 
   eliminarComentario(comentarioId: number): Observable<CommentResp> {
     return this.http.delete<CommentResp>(`${this.backUrl}/comentario/${comentarioId}`)
+  }
+
+  editarComentario(token: string, comentarioId: number, coment: CommentCancion): Observable<CommentCancion> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.put<CommentCancion>(`${this.backUrl}/comentario/${comentarioId}`, coment, { headers: headers })
+  }
+
+  getComentario(token: string, comentarioId: number): Observable<CommentCancion> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.get<CommentCancion>(`${this.backUrl}/comentario/${comentarioId}`)
   }
 
 }

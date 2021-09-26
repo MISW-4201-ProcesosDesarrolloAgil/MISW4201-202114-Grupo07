@@ -6,9 +6,12 @@ import { Album } from '../album';
 import { AlbumComment } from '../album-comment/album-comment';
 import { Coment } from '../album-comment/coment';
 import { AlbumService } from '../album.service';
+import { CancionService } from 'src/app/cancion/cancion.service';
 
 import * as $ from 'jquery';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { CommentCancion } from 'src/app/cancion/commentCancion';
+import { contains } from 'jquery';
 
 @Component({
   selector: 'app-album-comment-edit',
@@ -22,8 +25,10 @@ export class AlbumCommentEditComponent implements OnInit {
   userId: number
   token: string
   albumCommentForm: FormGroup
+  comentarioComent: string
 
   constructor(
+    private cancionService: CancionService,
     private albumService: AlbumService,
     private formBuilder: FormBuilder,
     private router: ActivatedRoute,
@@ -33,20 +38,18 @@ export class AlbumCommentEditComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.router.snapshot.params.albumId);
     if (!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " ") {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
     else {
-      this.albumService.getAlbum(parseInt(this.router.snapshot.params.albumCommentId))
-      .subscribe(album => {
-        this.albumCommentId = album.id
+      this.getAlbum()
+      this.getComentario()
       this.albumCommentForm = this.formBuilder.group({
         comentario: ["", [Validators.required, Validators.minLength(1), Validators.maxLength(512)]],
-        })
       })
       this.userId = parseInt(this.router.snapshot.params.userId)
-      this.token = this.router.snapshot.params.userToke
+      this.token = this.router.snapshot.params.userToken
+      this.albumCommentId = this.router.snapshot.params.commentId
     }
 
     //Toggle Click Function
@@ -56,6 +59,8 @@ export class AlbumCommentEditComponent implements OnInit {
     });
 
   }
+
+
 
 
   showError(error: string) {
@@ -73,6 +78,15 @@ export class AlbumCommentEditComponent implements OnInit {
   cancelCreate() {
     this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
   }
+
+  getComentario() {
+    this.cancionService.getComentario(this.token, this.router.snapshot.params.commentId)
+      .subscribe(com => {
+        this.albumCommentForm.get('comentario')?.setValue(com.comentario)
+      }
+      )
+  }
+
 
   getAlbum() {
     this.albumService.getAlbum(this.router.snapshot.params.albumId)
@@ -131,10 +145,10 @@ export class AlbumCommentEditComponent implements OnInit {
 
     var hora = hourT + ':' + minutesT;
 
-    var comment = new Coment(newComment.comentario, fecha, hora, idAlbum, idUsuario);
+    var comment = new CommentCancion(newComment.comentario, fecha, hora, idAlbum, idUsuario);
     console.log(comment)
 
-    this.albumService.comentarAlbum(this.token, comment)
+    this.cancionService.editarComentario(this.token, this.albumCommentId, comment)
       .subscribe(com => {
         this.showSuccess()
         this.albumCommentForm.reset()
@@ -152,4 +166,5 @@ export class AlbumCommentEditComponent implements OnInit {
           }
         })
   }
+
 }

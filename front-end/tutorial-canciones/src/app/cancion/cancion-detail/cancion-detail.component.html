@@ -93,10 +93,12 @@
             <td>{{comentario.comentario}}</td>
             <td class="text-center">{{comentario.usuarioo.nombre}}</td>
             <td>{{comentario.fecha}}--{{comentario.hora}}</td>
-            <td><button *ngIf="cancion" type="button" class="btn btn-success ms-3 me-2" (click)="goToEditCommentCancion(comentario.id)"
-              title="Editar comentario canción"><i class="bi bi-pencil-square"></i></button><button *ngIf="comentario && comentario.usuarioo.id == userId" type="button" class="btn btn-danger me-1"
-              (click)="eliminarComentario(comentario)" title="Eliminar comentario"><i
-                class="bi bi-trash-fill"></i></button></td>
+            <td><button *ngIf="comentario && comentario.usuarioo.id == userId" type="button"
+                class="btn btn-success ms-3 me-2" (click)="goToEditCommentCancion(comentario.id)"
+                title="Editar comentario canción"><i class="bi bi-pencil-square"></i></button><button
+                *ngIf="comentario && comentario.usuarioo.id == userId" type="button" class="btn btn-danger me-1"
+                (click)="eliminarComentario(comentario)" title="Eliminar comentario"><i
+                  class="bi bi-trash-fill"></i></button></td>
           </tr>
         </tbody>
       </table>
